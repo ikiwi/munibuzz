@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6074FF9180A4C6400396E55 /* RoutesViewController.m */; };
+		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
+		A6665667180A445B00387844 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6665666180A445B00387844 /* StopsViewController.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
 		A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED991808918A00482EC5 /* CoreGraphics.framework */; };
 		A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
@@ -34,6 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A6074FF8180A4C6400396E55 /* RoutesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesViewController.h; sourceTree = "<group>"; };
+		A6074FF9180A4C6400396E55 /* RoutesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesViewController.m; sourceTree = "<group>"; };
+		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
+		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
+		A6665665180A445B00387844 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
+		A6665666180A445B00387844 /* StopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsViewController.m; sourceTree = "<group>"; };
 		A698ED941808918A00482EC5 /* munibuzz2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = munibuzz2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A698ED971808918A00482EC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A698ED991808918A00482EC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -117,6 +126,12 @@
 				A698EDA91808918A00482EC5 /* Main.storyboard */,
 				A698EDAC1808918A00482EC5 /* ViewController.h */,
 				A698EDAD1808918A00482EC5 /* ViewController.m */,
+				A666565C180A370500387844 /* Stops.h */,
+				A666565D180A370500387844 /* Stops.m */,
+				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
+				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
+				A6665665180A445B00387844 /* StopsViewController.h */,
+				A6665666180A445B00387844 /* StopsViewController.m */,
 				A698EDAF1808918A00482EC5 /* Images.xcassets */,
 				A698ED9E1808918A00482EC5 /* Supporting Files */,
 			);
@@ -250,7 +265,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
+				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
+				A666565E180A370500387844 /* Stops.m in Sources */,
+				A6665667180A445B00387844 /* StopsViewController.m in Sources */,
 				A698EDA41808918A00482EC5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -460,6 +478,7 @@
 				A698EDC81808918A00482EC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A698EDC91808918A00482EC5 /* Build configuration list for PBXNativeTarget "munibuzz2Tests" */ = {
 			isa = XCConfigurationList;
@@ -468,6 +487,7 @@
 				A698EDCB1808918A00482EC5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
