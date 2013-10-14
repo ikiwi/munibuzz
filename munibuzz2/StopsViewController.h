@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RoutesViewController.h"
 
 @interface StopsViewController : UIViewController  <UISearchBarDelegate, UISearchDisplayDelegate>
 @property (strong,nonatomic) NSArray *stopsArray;

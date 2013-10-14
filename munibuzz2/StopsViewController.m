@@ -124,9 +124,13 @@
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
     gvar = stop.name;
-    RoutesViewController *routesController = [[RoutesViewController alloc] init];
-    routesController.startLabel.text = gvar;
-    [self.navigationController pushViewController:routesController animated:YES];
+    
+    RoutesViewController *rc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
+    
+    [UIView transitionFromView:self.view toView:rc.view duration:0.25f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
+        [self removeFromParentViewController];
+        [self.parentViewController addChildViewController:rc];
+    }];
 }
 
 @end

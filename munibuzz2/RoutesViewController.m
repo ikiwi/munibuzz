@@ -22,7 +22,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.title = @"Routes";
     }
     return self;
 }
@@ -30,8 +30,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _startLabel.text = gvar;
+    _startLabel.text  = gvar;
+    
 }
+
 
 - (void)didReceiveMemoryWarning
 {

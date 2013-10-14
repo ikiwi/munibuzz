@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StopsViewController.h"
 
 @interface RoutesViewController : UIViewController
 @property (strong, nonatomic) IBOutlet UILabel *startLabel;
