@@ -19,6 +19,7 @@
 @synthesize stopsArray;
 @synthesize filteredStopsArray;
 @synthesize stopsSearchBar;
+@synthesize operation;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,14 +124,21 @@
     } else {
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
-    gvar = stop.name;
+    if (self.operation == @"Start") {
+        startLabel = stop.name;
+    } else if (self.operation == @"Destination") {
+        descLabel = stop.name;
+    }
     
     RoutesViewController *rc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
     
-    [UIView transitionFromView:self.view toView:rc.view duration:0.25f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
+/*    [UIView transitionFromView:self.view toView:rc.view duration:0.25f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
         [self removeFromParentViewController];
         [self.parentViewController addChildViewController:rc];
     }];
+ */
+    [self.navigationController pushViewController:rc animated:YES];
+
 }
 
 @end

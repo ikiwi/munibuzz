@@ -12,5 +12,6 @@
 @interface StopsViewController : UIViewController  <UISearchBarDelegate, UISearchDisplayDelegate>
 @property (strong,nonatomic) NSArray *stopsArray;
 @property (strong,nonatomic) NSMutableArray *filteredStopsArray;
+@property NSString *operation;
 @property IBOutlet UISearchBar *stopsSearchBar;
 @end

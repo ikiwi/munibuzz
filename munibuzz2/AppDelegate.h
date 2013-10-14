@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-NSString * gvar;
+NSString * startLabel;
+NSString * descLabel;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

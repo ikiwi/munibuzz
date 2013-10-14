@@ -13,7 +13,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    gvar = @"location";
+    startLabel = @"location";
+    descLabel = @"location";
     return YES;
 }
 							

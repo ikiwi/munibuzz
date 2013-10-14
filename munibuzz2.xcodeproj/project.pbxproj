@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6074FF9180A4C6400396E55 /* RoutesViewController.m */; };
+		A6430C82180C856E00C0A699 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C81180C856E00C0A699 /* Trip.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
 		A6665667180A445B00387844 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6665666180A445B00387844 /* StopsViewController.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
@@ -39,6 +40,8 @@
 /* Begin PBXFileReference section */
 		A6074FF8180A4C6400396E55 /* RoutesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesViewController.h; sourceTree = "<group>"; };
 		A6074FF9180A4C6400396E55 /* RoutesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesViewController.m; sourceTree = "<group>"; };
+		A6430C80180C856E00C0A699 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
+		A6430C81180C856E00C0A699 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
 		A6665665180A445B00387844 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
@@ -128,6 +131,8 @@
 				A698EDAD1808918A00482EC5 /* ViewController.m */,
 				A666565C180A370500387844 /* Stops.h */,
 				A666565D180A370500387844 /* Stops.m */,
+				A6430C80180C856E00C0A699 /* Trip.h */,
+				A6430C81180C856E00C0A699 /* Trip.m */,
 				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
 				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
 				A6665665180A445B00387844 /* StopsViewController.h */,
@@ -266,6 +271,7 @@
 			files = (
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
 				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,
+				A6430C82180C856E00C0A699 /* Trip.m in Sources */,
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
 				A666565E180A370500387844 /* Stops.m in Sources */,
 				A6665667180A445B00387844 /* StopsViewController.m in Sources */,

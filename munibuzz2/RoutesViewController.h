@@ -10,6 +10,5 @@
 #import "StopsViewController.h"
 
 @interface RoutesViewController : UIViewController
-@property (strong, nonatomic) IBOutlet UILabel *startLabel;
-@property (strong, nonatomic) IBOutlet UILabel *stopLabel;
+@property (strong,nonatomic) NSArray *tripArray;
 @end
