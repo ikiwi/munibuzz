@@ -13,4 +13,9 @@
 @property (strong,nonatomic) NSArray *tripArray;
 @property (strong,nonatomic) UITableViewCell *startCell;
 @property (strong,nonatomic) UITableViewCell *destCell;
+@property (strong,nonatomic) UITableViewCell *routeCell;
+@property (strong,nonatomic) UITableViewCell *remindCell;
+@property (strong,nonatomic) UITableViewCell *repeatCell;
+@property (strong,nonatomic) UITableViewCell *includeReturnCell;
+@property (strong,nonatomic) UITableViewCell *useDefaultCell;
 @end

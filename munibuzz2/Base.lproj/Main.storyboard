@@ -115,23 +115,23 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Buzz" id="gXp-kj-47C">
-                        <barButtonItem key="leftBarButtonItem" style="done" id="n7z-ND-DVD">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="8i4-Q7-u1p">
-                                <rect key="frame" x="16" y="5" width="71" height="33"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8zX-Od-Gst">
+                                <rect key="frame" x="137" y="528" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Routes">
+                                <state key="normal" title="+">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="zkh-9z-z9z" kind="push" id="LZi-Sy-sup"/>
+                                    <segue destination="zkh-9z-z9z" kind="push" id="GXP-ok-XaE"/>
                                 </connections>
                             </button>
-                        </barButtonItem>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Buzz" id="gXp-kj-47C">
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="edit" id="n7z-ND-DVD"/>
                         <barButtonItem key="rightBarButtonItem" id="bLE-iE-B72">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jdv-yU-mbf">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>
@@ -146,6 +146,7 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="redButton1" destination="voc-jp-eYk" id="S1h-hl-rNf"/>
                         <outlet property="redButton2" destination="uqm-DZ-Z9j" id="LAk-3J-dBz"/>

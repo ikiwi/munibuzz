@@ -55,8 +55,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"checking");
-    if (!([startLabel isEqualToString:@"location"] && [destLabel isEqualToString:@"location"])) {
+    if (!([startLabel isEqualToString:@"location"] || [destLabel isEqualToString:@"location"])) {
         UIApplication* app = [UIApplication sharedApplication];
         NSArray*    oldNotifications = [app scheduledLocalNotifications];
     
