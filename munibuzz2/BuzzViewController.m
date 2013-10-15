@@ -8,6 +8,7 @@
 
 #import "BuzzViewController.h"
 #import "buzzData.h"
+#import "AppDelegate.h"
 
 @interface BuzzViewController ()
 
@@ -49,6 +50,31 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"checking");
+    if (!([startLabel isEqualToString:@"location"] && [destLabel isEqualToString:@"location"])) {
+        UIApplication* app = [UIApplication sharedApplication];
+        NSArray*    oldNotifications = [app scheduledLocalNotifications];
+    
+        // Clear out the old notification before scheduling a new one.
+        if ([oldNotifications count] > 0)
+            [app cancelAllLocalNotifications];
+
+        UILocalNotification *alarm = [[UILocalNotification alloc] init];
+        if (alarm) {
+            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:0];
+            alarm.alertBody = @"Your muni is arriving.";
+            alarm.applicationIconBadgeNumber = 1;
+            alarm.soundName = UILocalNotificationDefaultSoundName;
+            alarm.alertAction = @"View Details";
+        
+            [app scheduleLocalNotification:alarm];
+        }
+    }
 }
 
 @end
