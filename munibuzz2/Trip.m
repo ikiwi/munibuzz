@@ -9,16 +9,15 @@
 #import "Trip.h"
 
 @implementation Trip
+
 @synthesize name;
 @synthesize desc;
-@synthesize cell;
 
-+ (id)tripId:(NSString *)name desc:(NSString *)desc cell:(UITableViewCell *)cell
++ (id)tripId:(NSString *)name desc:(NSString *)desc
 {
     Trip *newTrip = [[self alloc] init];
     newTrip.name = name;
     newTrip.desc = desc;
-    newTrip.cell = cell;
     return newTrip;
 }
 

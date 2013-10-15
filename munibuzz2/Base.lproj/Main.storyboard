@@ -86,10 +86,10 @@
             </objects>
             <point key="canvasLocation" x="276" y="1157"/>
         </scene>
-        <!--View Controller - Buzz-->
+        <!--Buzz View Controller - Buzz-->
         <scene sceneID="z2Z-dA-0vB">
             <objects>
-                <viewController id="4cS-oi-zmh" sceneMemberID="viewController">
+                <viewController id="4cS-oi-zmh" customClass="BuzzViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="N5i-gD-W5h"/>
                         <viewControllerLayoutGuide type="bottom" id="DL5-yR-TqB"/>
@@ -97,6 +97,43 @@
                     <view key="view" contentMode="scaleToFill" id="cXk-gA-w5R">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="voc-jp-eYk" userLabel="redButton1">
+                                <rect key="frame" x="0.0" y="122" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uqm-DZ-Z9j" userLabel="redButton2">
+                                <rect key="frame" x="64" y="122" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r2H-5l-VQw" userLabel="redButton3">
+                                <rect key="frame" x="128" y="122" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FSM-VW-ALe" userLabel="redbutton4">
+                                <rect key="frame" x="192" y="122" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CJ1-34-Y5l" userLabel="redButton5">
+                                <rect key="frame" x="256" y="122" width="64" height="64"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Buzz" id="gXp-kj-47C">
@@ -127,6 +164,13 @@
                             </button>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="redButton1" destination="voc-jp-eYk" id="S1h-hl-rNf"/>
+                        <outlet property="redButton2" destination="uqm-DZ-Z9j" id="LAk-3J-dBz"/>
+                        <outlet property="redButton3" destination="r2H-5l-VQw" id="r1G-YR-ueY"/>
+                        <outlet property="redButton4" destination="CJ1-34-Y5l" id="JXg-uc-SgG"/>
+                        <outlet property="redButton5" destination="FSM-VW-ALe" id="S4R-wM-2MR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6ui-yj-Tvg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

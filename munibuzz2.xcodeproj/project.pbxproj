@@ -10,6 +10,8 @@
 		A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6074FF9180A4C6400396E55 /* RoutesViewController.m */; };
 		A6430C82180C856E00C0A699 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C81180C856E00C0A699 /* Trip.m */; };
 		A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C84180CCAC500C0A699 /* SettingsViewController.m */; };
+		A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9545180CD7ED0010336B /* BuzzViewController.m */; };
+		A64C9549180CE4860010336B /* buzzData.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9548180CE4860010336B /* buzzData.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
 		A6665667180A445B00387844 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6665666180A445B00387844 /* StopsViewController.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
@@ -45,6 +47,10 @@
 		A6430C81180C856E00C0A699 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		A6430C83180CCAC500C0A699 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		A6430C84180CCAC500C0A699 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		A64C9544180CD7ED0010336B /* BuzzViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuzzViewController.h; sourceTree = "<group>"; };
+		A64C9545180CD7ED0010336B /* BuzzViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuzzViewController.m; sourceTree = "<group>"; };
+		A64C9547180CE4860010336B /* buzzData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buzzData.h; sourceTree = "<group>"; };
+		A64C9548180CE4860010336B /* buzzData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buzzData.m; sourceTree = "<group>"; };
 		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
 		A6665665180A445B00387844 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
@@ -129,13 +135,17 @@
 			children = (
 				A698EDA61808918A00482EC5 /* AppDelegate.h */,
 				A698EDA71808918A00482EC5 /* AppDelegate.m */,
-				A698EDA91808918A00482EC5 /* Main.storyboard */,
 				A698EDAC1808918A00482EC5 /* ViewController.h */,
 				A698EDAD1808918A00482EC5 /* ViewController.m */,
+				A698EDA91808918A00482EC5 /* Main.storyboard */,
 				A666565C180A370500387844 /* Stops.h */,
 				A666565D180A370500387844 /* Stops.m */,
 				A6430C80180C856E00C0A699 /* Trip.h */,
 				A6430C81180C856E00C0A699 /* Trip.m */,
+				A64C9547180CE4860010336B /* buzzData.h */,
+				A64C9548180CE4860010336B /* buzzData.m */,
+				A64C9544180CD7ED0010336B /* BuzzViewController.h */,
+				A64C9545180CD7ED0010336B /* BuzzViewController.m */,
 				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
 				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
 				A6430C83180CCAC500C0A699 /* SettingsViewController.h */,
@@ -275,10 +285,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
+				A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */,
 				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,
 				A6430C82180C856E00C0A699 /* Trip.m in Sources */,
 				A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */,
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
+				A64C9549180CE4860010336B /* buzzData.m in Sources */,
 				A666565E180A370500387844 /* Stops.m in Sources */,
 				A6665667180A445B00387844 /* StopsViewController.m in Sources */,
 				A698EDA41808918A00482EC5 /* main.m in Sources */,

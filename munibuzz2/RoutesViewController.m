@@ -33,8 +33,8 @@
 {
     [super viewDidLoad];
     tripArray = [NSArray arrayWithObjects:
-                 [Trip tripId:@"Start" desc:startLabel cell:nil],
-                 [Trip tripId:@"Destination" desc:destLabel cell:nil], nil];
+                 [Trip tripId:@"Start" desc:startLabel],
+                 [Trip tripId:@"Destination" desc:destLabel], nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,7 +54,6 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
-    trip.cell = cell;
 
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -62,8 +61,6 @@
     
     cell.textLabel.text = trip.name;
     cell.detailTextLabel.text = trip.desc;
-    
-    // set the accessory view:
     cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
     
     if ([trip.name  isEqual: @"Start"]) {
@@ -82,7 +79,6 @@
     svc.operation = trip.name;
     
     [self.navigationController pushViewController:svc animated:YES];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated

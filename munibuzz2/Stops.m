@@ -9,6 +9,7 @@
 #import "Stops.h"
 
 @implementation Stops
+
 @synthesize num;
 @synthesize name;
 
