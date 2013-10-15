@@ -13,7 +13,6 @@
 		A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9545180CD7ED0010336B /* BuzzViewController.m */; };
 		A64C9549180CE4860010336B /* buzzData.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9548180CE4860010336B /* buzzData.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
-		A6665667180A445B00387844 /* StopsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6665666180A445B00387844 /* StopsViewController.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
 		A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED991808918A00482EC5 /* CoreGraphics.framework */; };
 		A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
@@ -28,6 +27,7 @@
 		A698EDB91808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
+		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,8 +53,6 @@
 		A64C9548180CE4860010336B /* buzzData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buzzData.m; sourceTree = "<group>"; };
 		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
-		A6665665180A445B00387844 /* StopsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsViewController.h; sourceTree = "<group>"; };
-		A6665666180A445B00387844 /* StopsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsViewController.m; sourceTree = "<group>"; };
 		A698ED941808918A00482EC5 /* munibuzz2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = munibuzz2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A698ED971808918A00482EC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A698ED991808918A00482EC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -74,6 +72,8 @@
 		A698EDBE1808918A00482EC5 /* munibuzz2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "munibuzz2Tests-Info.plist"; sourceTree = "<group>"; };
 		A698EDC01808918A00482EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
+		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
+		A6F4848E180D0CEC00523012 /* StopsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,8 +150,8 @@
 				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
 				A6430C83180CCAC500C0A699 /* SettingsViewController.h */,
 				A6430C84180CCAC500C0A699 /* SettingsViewController.m */,
-				A6665665180A445B00387844 /* StopsViewController.h */,
-				A6665666180A445B00387844 /* StopsViewController.m */,
+				A6F4848D180D0CEC00523012 /* StopsTableViewController.h */,
+				A6F4848E180D0CEC00523012 /* StopsTableViewController.m */,
 				A698EDAF1808918A00482EC5 /* Images.xcassets */,
 				A698ED9E1808918A00482EC5 /* Supporting Files */,
 			);
@@ -291,8 +291,8 @@
 				A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */,
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
 				A64C9549180CE4860010336B /* buzzData.m in Sources */,
+				A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */,
 				A666565E180A370500387844 /* Stops.m in Sources */,
-				A6665667180A445B00387844 /* StopsViewController.m in Sources */,
 				A698EDA41808918A00482EC5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

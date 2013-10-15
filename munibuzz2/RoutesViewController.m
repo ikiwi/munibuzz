@@ -7,7 +7,7 @@
 //
 
 #import "RoutesViewController.h"
-#import "StopsViewController.h"
+#import "StopsTableViewController.h"
 #import "AppDelegate.h"
 #import "Trip.h"
 
@@ -74,7 +74,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    StopsViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsViewController"];
+    StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
     Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
     svc.operation = trip.name;
     

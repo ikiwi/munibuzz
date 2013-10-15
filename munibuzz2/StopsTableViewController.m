@@ -8,6 +8,8 @@
 
 #import "StopsTableViewController.h"
 #import "Stops.h"
+#import "RoutesViewController.h"
+#import "AppDelegate.h"
 
 @interface StopsTableViewController ()
 
@@ -17,6 +19,7 @@
 @synthesize stopsArray;
 @synthesize filteredStopsArray;
 @synthesize stopsSearchBar;
+@synthesize operation;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -114,5 +117,21 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
+{
+    Stops *stop;
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        stop = [filteredStopsArray objectAtIndex:indexPath.row];
+    } else {
+        stop = [stopsArray objectAtIndex:indexPath.row];
+    }
+    if ([self.operation  isEqual: @"Start"]) {
+        startLabel = stop.name;
+    } else if ([self.operation  isEqual: @"Destination"]) {
+        destLabel = stop.name;
+    }
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 @end

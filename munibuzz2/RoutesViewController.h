@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StopsViewController.h"
+#import "StopsTableViewController.h"
 
 @interface RoutesViewController : UIViewController
 @property (strong,nonatomic) NSArray *tripArray;
