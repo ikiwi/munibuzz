@@ -162,10 +162,15 @@
             </objects>
             <point key="canvasLocation" x="1219" y="1157"/>
         </scene>
-        <!--View Controller - Settings-->
+        <!--settingsController-->
         <scene sceneID="DBm-Sg-Eoj">
             <objects>
-                <viewController id="jWf-Ps-pg5" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="settingsController" id="jWf-Ps-pg5" userLabel="settingsController" customClass="SettingsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lNZ-zy-zEe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="sMg-19-FSY"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BsP-jQ-Hvx" userLabel="First Responder" sceneMemberID="firstResponder"/>
