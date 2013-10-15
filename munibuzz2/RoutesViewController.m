@@ -17,6 +17,8 @@
 
 @implementation RoutesViewController
 @synthesize tripArray;
+@synthesize startCell;
+@synthesize destCell;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,8 +33,8 @@
 {
     [super viewDidLoad];
     tripArray = [NSArray arrayWithObjects:
-                 [Trip tripId:@"Start" desc:startLabel],
-                 [Trip tripId:@"Destination" desc:descLabel], nil];
+                 [Trip tripId:@"Start" desc:startLabel cell:nil],
+                 [Trip tripId:@"Destination" desc:destLabel cell:nil], nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,6 +54,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
+    trip.cell = cell;
 
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -63,6 +66,12 @@
     // set the accessory view:
     cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
     
+    if ([trip.name  isEqual: @"Start"]) {
+        startCell = cell;
+    } else if ([trip.name  isEqual: @"Destination"]) {
+        destCell = cell;
+    }
+    
     return cell;
 }
 
@@ -72,12 +81,14 @@
     Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
     svc.operation = trip.name;
     
-/*    [UIView transitionFromView:self.view toView:svc.view duration:0.25f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
-        [self removeFromParentViewController];
-        [self.parentViewController addChildViewController:svc];
-    }];
-*/
     [self.navigationController pushViewController:svc animated:YES];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    startCell.detailTextLabel.text = startLabel;
+    destCell.detailTextLabel.text = destLabel;
 }
 
 @end

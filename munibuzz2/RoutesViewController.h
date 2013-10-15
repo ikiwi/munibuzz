@@ -11,4 +11,6 @@
 
 @interface RoutesViewController : UIViewController
 @property (strong,nonatomic) NSArray *tripArray;
+@property (strong,nonatomic) UITableViewCell *startCell;
+@property (strong,nonatomic) UITableViewCell *destCell;
 @end

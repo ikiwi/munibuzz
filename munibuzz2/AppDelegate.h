@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 NSString * startLabel;
-NSString * descLabel;
+NSString * destLabel;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

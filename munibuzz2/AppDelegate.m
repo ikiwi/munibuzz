@@ -14,7 +14,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     startLabel = @"location";
-    descLabel = @"location";
+    destLabel = @"location";
     return YES;
 }
 							

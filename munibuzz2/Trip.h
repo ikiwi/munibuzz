@@ -12,10 +12,12 @@
 {
     NSString *name;
     NSString *desc;
+    UITableViewCell *cell;
 }
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *desc;
+@property (nonatomic, copy) UITableViewCell *cell;
 
-+ (id)tripId:(NSString*)name desc:(NSString*)desc;
++ (id)tripId:(NSString*)name desc:(NSString*)desc cell:(UITableViewCell*)cell;
 @end

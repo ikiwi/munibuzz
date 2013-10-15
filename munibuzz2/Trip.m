@@ -11,12 +11,14 @@
 @implementation Trip
 @synthesize name;
 @synthesize desc;
+@synthesize cell;
 
-+ (id)tripId:(NSString *)name desc:(NSString *)desc
++ (id)tripId:(NSString *)name desc:(NSString *)desc cell:(UITableViewCell *)cell
 {
     Trip *newTrip = [[self alloc] init];
     newTrip.name = name;
     newTrip.desc = desc;
+    newTrip.cell = cell;
     return newTrip;
 }
 

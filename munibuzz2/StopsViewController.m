@@ -124,21 +124,13 @@
     } else {
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
-    if (self.operation == @"Start") {
+    if ([self.operation  isEqual: @"Start"]) {
         startLabel = stop.name;
-    } else if (self.operation == @"Destination") {
-        descLabel = stop.name;
+    } else if ([self.operation  isEqual: @"Destination"]) {
+        destLabel = stop.name;
     }
     
-    RoutesViewController *rc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
-    
-/*    [UIView transitionFromView:self.view toView:rc.view duration:0.25f options:UIViewAnimationOptionTransitionCrossDissolve completion:^(BOOL finished) {
-        [self removeFromParentViewController];
-        [self.parentViewController addChildViewController:rc];
-    }];
- */
-    [self.navigationController pushViewController:rc animated:YES];
-
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end
