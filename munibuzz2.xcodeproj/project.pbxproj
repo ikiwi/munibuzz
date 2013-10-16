@@ -27,6 +27,7 @@
 		A698EDB91808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
+		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
 		A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48491180D331E00523012 /* ReminderTableViewController.m */; };
 		A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48494180D332900523012 /* RepeatTableViewController.m */; };
@@ -74,6 +75,8 @@
 		A698EDBE1808918A00482EC5 /* munibuzz2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "munibuzz2Tests-Info.plist"; sourceTree = "<group>"; };
 		A698EDC01808918A00482EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
+		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
+		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
 		A6F4848E180D0CEC00523012 /* StopsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsTableViewController.m; sourceTree = "<group>"; };
 		A6F48490180D331E00523012 /* ReminderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderTableViewController.h; sourceTree = "<group>"; };
@@ -146,6 +149,8 @@
 				A698EDA91808918A00482EC5 /* Main.storyboard */,
 				A666565C180A370500387844 /* Stops.h */,
 				A666565D180A370500387844 /* Stops.m */,
+				A6A50888180E2A0700D6DA5C /* Data.h */,
+				A6A50889180E2A0700D6DA5C /* Data.m */,
 				A6430C80180C856E00C0A699 /* Trip.h */,
 				A6430C81180C856E00C0A699 /* Trip.m */,
 				A64C9547180CE4860010336B /* buzzData.h */,
@@ -294,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6A5088A180E2A0700D6DA5C /* Data.m in Sources */,
 				A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */,
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
 				A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */,

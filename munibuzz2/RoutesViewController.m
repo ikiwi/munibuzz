@@ -12,6 +12,7 @@
 #import "ReminderTableViewController.h"
 #import "AppDelegate.h"
 #import "Trip.h"
+#import "BuzzViewController.h"
 
 @interface RoutesViewController ()
 
@@ -47,6 +48,19 @@
                  [Trip tripId:@"Use default" desc:@""],
                  [Trip tripId:@"Remind me" desc:@"None"],
                  [Trip tripId:@"Repeat reminder" desc:@"Never"], nil];
+    if ([useDefault isEqual:@"NO"]) {
+        useDefaultSwitch = FALSE;
+    } else {
+        useDefaultSwitch = TRUE;
+        useDefault = @"YES";
+    }
+    if ([includeReturn isEqual:@"YES"]) {
+        includeReturnSwitch = TRUE;
+    } else {
+        includeReturnSwitch = FALSE;
+        includeReturn = @"NO";
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,11 +100,13 @@
     } else if ([trip.name isEqual: @"Use default"]) {
         UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(0,0,0,0)];
         cell.accessoryView =  switchView;
+        useDefaultSwitch == YES? switchView.On = YES : NO;
         useDefaultCell = cell;
         [switchView addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
     } else if ([trip.name isEqual: @"Include return journey"]) {
         UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(0,0,0,0)];
         cell.accessoryView = switchView;
+        includeReturnSwitch == YES ? switchView.On = YES : NO;
         includeReturnCell = cell;
         [switchView addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
     } else if ([trip.name isEqual: @"Remind me"]) {
@@ -109,9 +125,17 @@
     if (sender == useDefaultCell.accessoryView) {
         [sender setOn:!useDefaultSwitch animated:YES];
         useDefaultSwitch = !useDefaultSwitch;
+        if ([useDefault isEqual:@"YES"])
+            useDefault = @"NO";
+        else
+            useDefault = @"YES";
     } else if (sender == includeReturnCell.accessoryView) {
         [sender setOn:!includeReturnSwitch animated:YES];
         includeReturnSwitch = !includeReturnSwitch;
+        if ([includeReturn isEqual:@"YES"])
+            includeReturn = @"NO";
+        else
+            includeReturn = @"YES";
     }
 }
 

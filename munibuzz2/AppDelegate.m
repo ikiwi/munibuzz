@@ -8,13 +8,20 @@
 
 #import "AppDelegate.h"
 #import "NavController.h"
+#import "Data.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    startLabel = @"location";
-    destLabel = @"location";
+    
+    [NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive]];
+    
+    if (![startLabel length])
+        startLabel = @"location";
+    if (![destLabel length])
+        destLabel = @"location";
+    
     return YES;
 }
 
@@ -40,6 +47,18 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    Data *data = [[Data alloc] init];
+    data.startLabel = startLabel;
+    data.destLabel = destLabel;
+    data.routeLabel = routeLabel;
+    useDefaultSwitch == TRUE ? data.useDefault = @"YES" : @"NO";
+    includeReturnSwitch == TRUE ? data.includeReturn = @"YES" : @"NO";
+    data.repeatLabel = repeatLabel;
+    data.repeat_default_label = repeat_default_label;
+    data.remindLabel = remindLabel;
+    data.remind_default_label = remind_default_label;
+    
+    [NSKeyedArchiver archiveRootObject:data toFile:[Data getPathToArchive]];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -55,6 +74,19 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+     
+    Data *data = [[Data alloc] init];
+    data.startLabel = startLabel;
+    data.destLabel = destLabel;
+    data.routeLabel = routeLabel;
+    useDefaultSwitch == TRUE ? data.useDefault = @"YES" : @"NO";
+    includeReturnSwitch == TRUE ? data.includeReturn = @"YES" : @"NO";
+    data.repeatLabel = repeatLabel;
+    data.repeat_default_label = repeat_default_label;
+    data.remindLabel = remindLabel;
+    data.remind_default_label = remind_default_label;
+    
+    [NSKeyedArchiver archiveRootObject:data toFile:[Data getPathToArchive]];
 }
 
 @end

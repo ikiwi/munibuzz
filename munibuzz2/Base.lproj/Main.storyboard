@@ -131,7 +131,11 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Buzz" id="gXp-kj-47C">
-                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="edit" id="n7z-ND-DVD"/>
+                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="edit" id="n7z-ND-DVD">
+                            <connections>
+                                <segue destination="zkh-9z-z9z" kind="push" id="h41-AD-C5k"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" id="bLE-iE-B72">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jdv-yU-mbf">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>
@@ -214,4 +218,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="h41-AD-C5k"/>
+    </inferredMetricsTieBreakers>
 </document>

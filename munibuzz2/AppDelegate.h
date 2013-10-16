@@ -11,12 +11,14 @@
 NSString * startLabel;
 NSString * destLabel;
 NSString * routeLabel;
-BOOL useDefaultSwitch;
-BOOL includeReturnSwitch;
+NSString * useDefault;
+NSString * includeReturn;
 NSString * repeatLabel;
 NSString * repeat_default_label;
 NSString * remindLabel;
 NSString * remind_default_label;
+BOOL useDefaultSwitch;
+BOOL includeReturnSwitch;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

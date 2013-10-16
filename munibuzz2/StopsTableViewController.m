@@ -127,7 +127,7 @@
     }
     if ([self.operation  isEqual: @"Start"]) {
         startLabel = stop.name;
-    } else if ([self.operation  isEqual: @"Destination"]) {
+    } else if ([self.operation  isEqual: @"End"]) {
         destLabel = stop.name;
     }
     

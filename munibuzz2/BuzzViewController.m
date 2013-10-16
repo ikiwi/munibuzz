@@ -65,7 +65,7 @@
 
         UILocalNotification *alarm = [[UILocalNotification alloc] init];
         if (alarm) {
-            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:0];
+            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:10];
             alarm.alertBody = @"Your muni is arriving.";
             alarm.applicationIconBadgeNumber = 1;
             alarm.soundName = UILocalNotificationDefaultSoundName;
