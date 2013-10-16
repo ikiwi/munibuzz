@@ -40,26 +40,30 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    data = [Data getData];
+
     tripArray = [NSArray arrayWithObjects:
-                 [Trip tripId:@"Start" desc:startLabel],
-                 [Trip tripId:@"End" desc:destLabel],
-                 [Trip tripId:@"Route" desc:routeLabel],
+                 [Trip tripId:@"Start" desc:data.startLabel],
+                 [Trip tripId:@"End" desc:data.destLabel],
+                 [Trip tripId:@"Route" desc:data.routeLabel],
                  [Trip tripId:@"Include return journey" desc:@""],
                  [Trip tripId:@"Use default" desc:@""],
                  [Trip tripId:@"Remind me" desc:@"None"],
                  [Trip tripId:@"Repeat reminder" desc:@"Never"], nil];
-    if ([useDefault isEqual:@"NO"]) {
+    if ([data.useDefault isEqual:@"NO"]) {
         useDefaultSwitch = FALSE;
     } else {
         useDefaultSwitch = TRUE;
-        useDefault = @"YES";
+        [data.useDefault setString:@"YES"];
     }
-    if ([includeReturn isEqual:@"YES"]) {
+    if ([data.includeReturn isEqual:@"YES"]) {
         includeReturnSwitch = TRUE;
     } else {
         includeReturnSwitch = FALSE;
-        includeReturn = @"NO";
+        [data.includeReturn setString:@"NO"];
     }
+
+    [Data saveData:data];
     
 }
 
@@ -125,18 +129,20 @@
     if (sender == useDefaultCell.accessoryView) {
         [sender setOn:!useDefaultSwitch animated:YES];
         useDefaultSwitch = !useDefaultSwitch;
-        if ([useDefault isEqual:@"YES"])
-            useDefault = @"NO";
+        if ([data.useDefault isEqual:@"YES"])
+            [data.useDefault setString:@"NO"];
         else
-            useDefault = @"YES";
+            [data.useDefault setString:@"YES"];
     } else if (sender == includeReturnCell.accessoryView) {
         [sender setOn:!includeReturnSwitch animated:YES];
         includeReturnSwitch = !includeReturnSwitch;
-        if ([includeReturn isEqual:@"YES"])
-            includeReturn = @"NO";
+        if ([data.includeReturn isEqual:@"YES"])
+            [data.includeReturn setString:@"NO"];
         else
-            includeReturn = @"YES";
+            [data.includeReturn setString:@"YES"];
     }
+
+    [Data saveData:data];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -156,15 +162,19 @@
         RepeatTableViewController *repeat = [[RepeatTableViewController alloc] init];
         [self.navigationController pushViewController:repeat animated:YES];
     }
+
+    [Data saveData:data];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    startCell.detailTextLabel.text = startLabel;
-    destCell.detailTextLabel.text = destLabel;
-    routeCell.detailTextLabel.text = routeLabel;
-    remindCell.detailTextLabel.text = remindLabel;
-    repeatCell.detailTextLabel.text = repeatLabel;
+    startCell.detailTextLabel.text = data.startLabel;
+    destCell.detailTextLabel.text = data.destLabel;
+    routeCell.detailTextLabel.text = data.routeLabel;
+    remindCell.detailTextLabel.text = data.remindLabel;
+    repeatCell.detailTextLabel.text = data.repeatLabel;
+
+    [Data saveData:data];
 }
 
 @end

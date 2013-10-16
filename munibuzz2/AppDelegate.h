@@ -7,16 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-NSString * startLabel;
-NSString * destLabel;
-NSString * routeLabel;
-NSString * useDefault;
-NSString * includeReturn;
-NSString * repeatLabel;
-NSString * repeat_default_label;
-NSString * remindLabel;
-NSString * remind_default_label;
+#import "Data.h"
+@class Data;
+Data* data;
 BOOL useDefaultSwitch;
 BOOL includeReturnSwitch;
 

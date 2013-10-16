@@ -9,6 +9,7 @@
 #import "BuzzViewController.h"
 #import "buzzData.h"
 #import "AppDelegate.h"
+#import "Data.h"
 
 @interface BuzzViewController ()
 
@@ -44,6 +45,7 @@
 
     buzz = [buzzArray objectAtIndex:0];
     [buzz.buzzButton setTitle:@"12" forState:UIControlStateNormal];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -52,10 +54,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)enteringForeground {
+    data = [Data getData];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (!([startLabel isEqualToString:@"location"] || [destLabel isEqualToString:@"location"])) {
+    data = [Data getData];
+
+    if (!([data.startLabel isEqualToString:@"location"] || [data.destLabel isEqualToString:@"location"])) {
         UIApplication* app = [UIApplication sharedApplication];
         NSArray*    oldNotifications = [app scheduledLocalNotifications];
     
@@ -65,7 +72,7 @@
 
         UILocalNotification *alarm = [[UILocalNotification alloc] init];
         if (alarm) {
-            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:10];
+            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:60];
             alarm.alertBody = @"Your muni is arriving.";
             alarm.applicationIconBadgeNumber = 1;
             alarm.soundName = UILocalNotificationDefaultSoundName;
@@ -74,6 +81,7 @@
             [app scheduleLocalNotification:alarm];
         }
     }
+
 }
 
 @end

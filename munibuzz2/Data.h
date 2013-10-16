@@ -9,17 +9,19 @@
 #import <Foundation/Foundation.h>
 
 @interface Data : NSObject <NSCoding>
-@property (strong, nonatomic) NSString *startLabel;
-@property (strong, nonatomic) NSString *destLabel;
-@property (strong, nonatomic) NSString *routeLabel;
-@property (strong, nonatomic) NSString *useDefault;
-@property (strong, nonatomic) NSString *includeReturn;
-@property (strong, nonatomic) NSString *repeatLabel;
-@property (strong, nonatomic) NSString *repeat_default_label;
-@property (strong, nonatomic) NSString *remindLabel;
-@property (strong, nonatomic) NSString *remind_default_label;
+@property (strong, nonatomic) NSMutableString *startLabel;
+@property (strong, nonatomic) NSMutableString *destLabel;
+@property (strong, nonatomic) NSMutableString *routeLabel;
+@property (strong, nonatomic) NSMutableString *useDefault;
+@property (strong, nonatomic) NSMutableString *includeReturn;
+@property (strong, nonatomic) NSMutableString *repeatLabel;
+@property (strong, nonatomic) NSMutableString *repeat_default_label;
+@property (strong, nonatomic) NSMutableString *remindLabel;
+@property (strong, nonatomic) NSMutableString *remind_default_label;
 
 -(Data*)initWithCoder:(NSCoder *)aDecoder;
 -(void)encodeWithCoder:(NSCoder *)anEncoder;
 + (NSString *)getPathToArchive;
++(void)saveData:(Data *)aData;
++(Data *)getData;
 @end

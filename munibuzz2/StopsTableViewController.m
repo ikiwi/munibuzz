@@ -126,9 +126,9 @@
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
     if ([self.operation  isEqual: @"Start"]) {
-        startLabel = stop.name;
+        [data.startLabel setString:stop.name];
     } else if ([self.operation  isEqual: @"End"]) {
-        destLabel = stop.name;
+        [data.destLabel setString:stop.name];
     }
     
     [self.navigationController popViewControllerAnimated:YES];
