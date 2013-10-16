@@ -42,14 +42,18 @@
     [super viewDidLoad];
     data = [Data getData];
 
-    tripArray = [NSArray arrayWithObjects:
+    NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"End" desc:data.destLabel],
-                 [Trip tripId:@"Route" desc:data.routeLabel],
+                 [Trip tripId:@"Route" desc:data.routeLabel], nil];
+    NSArray *subArray2 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Include return journey" desc:@""],
                  [Trip tripId:@"Use default" desc:@""],
                  [Trip tripId:@"Remind me" desc:@"None"],
                  [Trip tripId:@"Repeat reminder" desc:@"Never"], nil];
+    
+    tripArray = [NSArray arrayWithObjects:subArray1,subArray2,nil];
+
     if ([data.useDefault isEqual:@"NO"]) {
         useDefaultSwitch = FALSE;
     } else {
@@ -62,9 +66,8 @@
         includeReturnSwitch = FALSE;
         [data.includeReturn setString:@"NO"];
     }
-
-    [Data saveData:data];
     
+    [Data saveData:data];    
 }
 
 - (void)didReceiveMemoryWarning
@@ -73,17 +76,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return [tripArray count];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     // If you're serving data from an array, return the length of the array:
-    return [tripArray count];
+    return [[tripArray objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
+    Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
@@ -147,11 +155,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
+    Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     if ([trip.name  isEqual: @"Start"] || [trip.name  isEqual: @"End"]) {
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
-        Trip *trip = [self.tripArray objectAtIndex:indexPath.row];
+        Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
     
         [self.navigationController pushViewController:svc animated:YES];
