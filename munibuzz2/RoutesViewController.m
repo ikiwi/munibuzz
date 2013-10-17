@@ -193,7 +193,9 @@
 
 - (IBAction)savingRoute:(id)sender {
     [Data saveData:data filename:filename];
-    totalTrip++;
+    if (isEdit == FALSE) {
+        totalTrip++;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

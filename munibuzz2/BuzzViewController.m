@@ -65,7 +65,7 @@ customButton *gloButton;
 }
 
 - (IBAction)checkMax:(id)sender {
-    if (totalTrip < 30) {
+    if (totalTrip < 20) {
         self.canRefresh = FALSE;
         RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
         [self.navigationController pushViewController:rvc animated:YES];
