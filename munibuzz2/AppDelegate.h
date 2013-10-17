@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Data.h"
-@class Data;
-Data* data;
+NSMutableArray* dataArray;
+NSInteger totalTrip;
 BOOL useDefaultSwitch;
 BOOL includeReturnSwitch;
 

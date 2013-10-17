@@ -11,21 +11,60 @@
 
 @implementation Data
 
-+(void)saveData:(Data *)aData
++(void)saveData:(Data *)aData filename:(NSString *)filename
 {
-    [NSKeyedArchiver archiveRootObject:aData toFile:[Data getPathToArchive]];
+    [NSKeyedArchiver archiveRootObject:aData toFile:[Data getPathToArchive:filename]];
 }
 
-+(Data *)getData
++(void)saveAll:(NSArray *)aArray
 {
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive]];
+    Data *tmp;
+    
+    for (NSInteger idx = 0; idx < totalTrip; idx++)
+    {
+        tmp = [aArray objectAtIndex:idx];
+        [Data saveData:tmp filename:[NSString stringWithFormat:@"data%ld.model",idx]];
+    }
+}
+
++(void)removeData:(NSInteger)slot
+{
+    NSString *sf;
+    NSString *df = [NSString stringWithFormat:@"data%ld.model",slot];
+    Data *src;
+    Data *dst = [Data getData:df];
+    for (NSInteger idx = slot+1; idx < totalTrip; idx++) {
+        sf = [NSString stringWithFormat:@"data%ld.model",idx];
+        src = [Data getData:sf];
+        [Data saveData:src filename:df];
+        df = sf;
+        dst = src;
+    }
+    totalTrip--;
+}
++(Data *)getData:(NSString *)filename
+{
+    return [NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive:filename]];
+}
+
++(NSMutableArray *)getAll
+{
+    Data *tmp;
+    NSMutableArray *tmpArray;
+    
+    for (NSInteger idx = 0; idx < totalTrip; idx++)
+    {
+        tmp = [Data getData:[NSString stringWithFormat:@"data%ld.model",idx]];
+        [tmpArray addObject:tmp];
+    }
+    
+    return tmpArray;
 }
 
 -(id)init
 {
     self = [super init];
     if (self) {
-        NSLog(@"initializing data");
         self.startLabel = [NSMutableString stringWithString:@"location"];
         self.destLabel = [NSMutableString stringWithString:@"location"];
         self.routeLabel = [NSMutableString stringWithString:@""];
@@ -67,12 +106,12 @@
     [anEncoder encodeObject:self.remind_default_label forKey:@"remind_default_label"];
 }
 
-+ (NSString *)getPathToArchive
++ (NSString *)getPathToArchive:(NSString *)filename
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory,
                                                          NSUserDomainMask,
                                                          YES);
     NSString *docsDir = [paths objectAtIndex:0];
-    return [docsDir stringByAppendingString:@"data.model"];
+    return [docsDir stringByAppendingString:filename];
 }
 @end

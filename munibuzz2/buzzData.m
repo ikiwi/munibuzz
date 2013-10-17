@@ -14,15 +14,13 @@
 @synthesize buzzMinute;
 @synthesize minute;
 
-+ (id)buzzId:(UIButton*)buzzButton
++ (id)buzzId:(customButton*)buzzButton
   buzzMinute:(NSString*)buzzMinute
 {
     buzzData *newBuzz = [[self alloc] init];
     
     newBuzz.buzzMinute = buzzMinute;
     newBuzz.buzzButton = buzzButton;
-    newBuzz.buzzButton.backgroundColor = [UIColor redColor];
-    newBuzz.buzzButton.tintColor = [UIColor whiteColor];
     [newBuzz.buzzButton setTitle:buzzMinute forState:UIControlStateNormal];
 
     return newBuzz;

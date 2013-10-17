@@ -7,18 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "customButton.h"
 
 @interface buzzData : NSObject
 {
-    UIButton *buzzButton;
+    customButton *buzzButton;
     NSString *buzzMinute;
 }
 
-@property (nonatomic, strong) UIButton *buzzButton;
+@property (nonatomic, strong) customButton *buzzButton;
 @property (nonatomic, strong) NSString *buzzMinute;
 @property (nonatomic, copy) NSString *minute;
 
-+ (id)buzzId:(UIButton*)buzzButton
++ (id)buzzId:(customButton*)buzzButton
   buzzMinute:(NSString*)buzzMinute;
 
 @end

@@ -18,10 +18,13 @@
 @property (strong, nonatomic) NSMutableString *repeat_default_label;
 @property (strong, nonatomic) NSMutableString *remindLabel;
 @property (strong, nonatomic) NSMutableString *remind_default_label;
+@property (strong, nonatomic) NSMutableString *filename;
 
 -(Data*)initWithCoder:(NSCoder *)aDecoder;
 -(void)encodeWithCoder:(NSCoder *)anEncoder;
-+ (NSString *)getPathToArchive;
-+(void)saveData:(Data *)aData;
-+(Data *)getData;
++ (NSString *)getPathToArchive:(NSString *)filename;
++(void)saveData:(Data *)aData filename:(NSString *)filename;
++(void)saveAll:(NSArray *)aArray;
++(Data *)getData:(NSString *)filename;
++(NSMutableArray *)getAll;
 @end

@@ -8,11 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+BOOL isEdit;
+NSInteger currentTrip;
+NSMutableArray *buzzList;
+
 @interface BuzzViewController : UIViewController
-@property (strong, nonatomic) NSArray *buzzArray;
-@property (strong, nonatomic) IBOutlet UIButton *redButton1;
-@property (strong, nonatomic) IBOutlet UIButton *redButton2;
-@property (strong, nonatomic) IBOutlet UIButton *redButton3;
-@property (strong, nonatomic) IBOutlet UIButton *redButton4;
-@property (strong, nonatomic) IBOutlet UIButton *redButton5;
+
+@property (strong, nonatomic) NSMutableArray *buzzArray;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editBuzz;
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (strong, nonatomic) IBOutlet UITableView *buzzTableView;
+@property BOOL canRefresh;
+-(IBAction)editTrip:(id)sender;
+-(void)addRow:(UITableViewCell*)sender;
+
 @end

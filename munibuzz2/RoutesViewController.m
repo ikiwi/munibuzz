@@ -40,7 +40,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    data = [Data getData];
+    
+    if (isEdit == TRUE) {
+        filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
+        data = [Data getData:filename];
+    } else {
+        currentTrip = totalTrip;
+        filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
+        data = [[Data alloc] init];
+    }
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
@@ -67,7 +75,7 @@
         [data.includeReturn setString:@"NO"];
     }
     
-    [Data saveData:data];    
+//    [Data saveData:data filename:filename];
 }
 
 - (void)didReceiveMemoryWarning
@@ -150,7 +158,7 @@
             [data.includeReturn setString:@"YES"];
     }
 
-    [Data saveData:data];
+//    [Data saveData:data filename:filename];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -171,7 +179,7 @@
         [self.navigationController pushViewController:repeat animated:YES];
     }
 
-    [Data saveData:data];
+//    [Data saveData:data filename:filename];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -181,8 +189,12 @@
     routeCell.detailTextLabel.text = data.routeLabel;
     remindCell.detailTextLabel.text = data.remindLabel;
     repeatCell.detailTextLabel.text = data.repeatLabel;
+}
 
-    [Data saveData:data];
+- (IBAction)savingRoute:(id)sender {
+    [Data saveData:data filename:filename];
+    totalTrip++;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

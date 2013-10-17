@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "StopsTableViewController.h"
+#import "Data.h"
+
+Data *data;
+NSString *filename;
 
 @interface RoutesViewController : UIViewController
 @property (strong,nonatomic) NSArray *tripArray;

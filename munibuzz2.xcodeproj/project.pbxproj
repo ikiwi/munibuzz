@@ -11,7 +11,6 @@
 		A6430C82180C856E00C0A699 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C81180C856E00C0A699 /* Trip.m */; };
 		A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C84180CCAC500C0A699 /* SettingsViewController.m */; };
 		A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9545180CD7ED0010336B /* BuzzViewController.m */; };
-		A64C9549180CE4860010336B /* buzzData.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9548180CE4860010336B /* buzzData.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
 		A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED991808918A00482EC5 /* CoreGraphics.framework */; };
@@ -28,6 +27,7 @@
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
+		A6DCD581180F2EE5002677D1 /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DCD580180F2EE5002677D1 /* customButton.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
 		A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48491180D331E00523012 /* ReminderTableViewController.m */; };
 		A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48494180D332900523012 /* RepeatTableViewController.m */; };
@@ -52,8 +52,6 @@
 		A6430C84180CCAC500C0A699 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		A64C9544180CD7ED0010336B /* BuzzViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BuzzViewController.h; sourceTree = "<group>"; };
 		A64C9545180CD7ED0010336B /* BuzzViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuzzViewController.m; sourceTree = "<group>"; };
-		A64C9547180CE4860010336B /* buzzData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = buzzData.h; sourceTree = "<group>"; };
-		A64C9548180CE4860010336B /* buzzData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = buzzData.m; sourceTree = "<group>"; };
 		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
 		A698ED941808918A00482EC5 /* munibuzz2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = munibuzz2.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +75,8 @@
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
 		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		A6DCD57F180F2EE5002677D1 /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
+		A6DCD580180F2EE5002677D1 /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
 		A6F4848E180D0CEC00523012 /* StopsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsTableViewController.m; sourceTree = "<group>"; };
 		A6F48490180D331E00523012 /* ReminderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderTableViewController.h; sourceTree = "<group>"; };
@@ -153,8 +153,8 @@
 				A6A50889180E2A0700D6DA5C /* Data.m */,
 				A6430C80180C856E00C0A699 /* Trip.h */,
 				A6430C81180C856E00C0A699 /* Trip.m */,
-				A64C9547180CE4860010336B /* buzzData.h */,
-				A64C9548180CE4860010336B /* buzzData.m */,
+				A6DCD57F180F2EE5002677D1 /* customButton.h */,
+				A6DCD580180F2EE5002677D1 /* customButton.m */,
 				A64C9544180CD7ED0010336B /* BuzzViewController.h */,
 				A64C9545180CD7ED0010336B /* BuzzViewController.m */,
 				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
@@ -303,12 +303,12 @@
 				A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */,
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
 				A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */,
+				A6DCD581180F2EE5002677D1 /* customButton.m in Sources */,
 				A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */,
 				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,
 				A6430C82180C856E00C0A699 /* Trip.m in Sources */,
 				A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */,
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
-				A64C9549180CE4860010336B /* buzzData.m in Sources */,
 				A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */,
 				A666565E180A370500387844 /* Stops.m in Sources */,
 				A698EDA41808918A00482EC5 /* main.m in Sources */,

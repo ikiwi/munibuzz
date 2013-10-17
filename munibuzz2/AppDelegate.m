@@ -14,13 +14,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    data = [Data getData];
-    if (![data.useDefault length]) {
-        //call init if data hasn't been initialized already
-        data = [[Data alloc] init];
-    }
+//    dataArray = [NSMutableArray new];
+    totalTrip = 0;
+    NSString *fname = [NSString stringWithFormat:@"data%ld.model", totalTrip];
+    Data *tmpData = [Data getData:fname];
     
-    [Data saveData:data];
+    while ([tmpData.useDefault length])
+    {
+        [dataArray addObject:tmpData];
+        totalTrip++;
+        fname = [NSString stringWithFormat:@"data%ld.model", totalTrip];
+        tmpData = [Data getData:fname];
+    }
+
     return YES;
 }
 
@@ -44,8 +50,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    /*
     if (useDefaultSwitch == TRUE) {
         [data.useDefault setString:@"YES"];
     } else {
@@ -56,26 +61,23 @@
     } else {
         [data.includeReturn setString:@"NO"];
     }
-    
-    [Data saveData:data];
+    */
+
+    [Data saveAll:dataArray];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    NSLog(@"getting in applicationWillEnterForeground");
-    data = [Data getData];
+    dataArray = [Data getAll];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-
+    /*
     if (useDefaultSwitch == TRUE) {
         [data.useDefault setString:@"YES"];
     } else {
@@ -86,8 +88,9 @@
     } else {
         [data.includeReturn setString:@"NO"];
     }
+    */
     
-    [Data saveData:data];
+    [Data saveAll:dataArray];
 }
 
 @end

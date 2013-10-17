@@ -82,7 +82,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -104,7 +103,6 @@
     }
     
     Stops *stop = nil;
-    // Check to see whether the normal table or search results table is being displayed and set the Candy object from the appropriate array
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         stop = [filteredStopsArray objectAtIndex:indexPath.row];
     } else {
@@ -125,11 +123,13 @@
     } else {
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
+    
     if ([self.operation  isEqual: @"Start"]) {
         [data.startLabel setString:stop.name];
     } else if ([self.operation  isEqual: @"End"]) {
         [data.destLabel setString:stop.name];
     }
+    [Data saveData:data filename:filename];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
