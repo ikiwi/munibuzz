@@ -289,7 +289,6 @@
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Buzz" id="gXp-kj-47C">
-                        <barButtonItem key="leftBarButtonItem" title="editButton" style="done" id="n7z-ND-DVD"/>
                         <barButtonItem key="rightBarButtonItem" id="bLE-iE-B72">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Jdv-yU-mbf">
                                 <rect key="frame" x="233" y="5" width="71" height="33"/>

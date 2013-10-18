@@ -40,23 +40,32 @@
         df = sf;
         dst = src;
     }
+    src.startLabel = src.destLabel;
+    [Data saveData:src filename:sf];
     totalTrip--;
 }
 +(Data *)getData:(NSString *)filename
 {
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive:filename]];
+    Data *retrievedData = (Data*)[NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive:filename]];
+    if (retrievedData.startLabel == retrievedData.destLabel)
+        return nil;
+    else return retrievedData;
 }
 
 +(NSMutableArray *)getAll
 {
     Data *tmp;
     NSMutableArray *tmpArray;
+    NSInteger idx;
     
-    for (NSInteger idx = 0; idx < totalTrip; idx++)
+    for (idx = 0; idx < totalTrip; idx++)
     {
+        NSLog(@"getting stuff from data%ld", idx);
         tmp = [Data getData:[NSString stringWithFormat:@"data%ld.model",idx]];
+        if (tmp == nil) break;
         [tmpArray addObject:tmp];
     }
+    totalTrip = idx;
     
     return tmpArray;
 }

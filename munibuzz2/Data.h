@@ -26,5 +26,6 @@
 +(void)saveData:(Data *)aData filename:(NSString *)filename;
 +(void)saveAll:(NSArray *)aArray;
 +(Data *)getData:(NSString *)filename;
++(void)removeData:(NSInteger)slot;
 +(NSMutableArray *)getAll;
 @end

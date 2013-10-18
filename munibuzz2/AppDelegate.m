@@ -14,18 +14,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-//    dataArray = [NSMutableArray new];
-    totalTrip = 0;
-    NSString *fname = [NSString stringWithFormat:@"data%ld.model", totalTrip];
-    Data *tmpData = [Data getData:fname];
-    
-    while ([tmpData.useDefault length])
-    {
-        [dataArray addObject:tmpData];
-        totalTrip++;
-        fname = [NSString stringWithFormat:@"data%ld.model", totalTrip];
-        tmpData = [Data getData:fname];
-    }
+    totalTrip = 20;
+    dataArray = [Data getAll];
 
     return YES;
 }

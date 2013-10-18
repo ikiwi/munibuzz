@@ -22,7 +22,6 @@ NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
 @implementation BuzzViewController
 @synthesize buzzArray;
-@synthesize editBuzz;
 @synthesize scrollView;
 @synthesize buzzTableView;
 @synthesize canRefresh;
@@ -43,9 +42,10 @@ NSInteger DESTLABELTAG = 6;
     [super viewDidLoad];
 
     canRefresh = FALSE;
-    self.buzzArray = [NSMutableArray new];
+//    self.buzzArray = [NSMutableArray new];
     buzzList = [NSMutableArray new];
-    [self.editBuzz setAction:@selector(editTrip:)];
+    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
+    [self.navigationItem setLeftBarButtonItem:editButton];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [scrollView addSubview:buzzTableView];
@@ -79,8 +79,24 @@ NSInteger DESTLABELTAG = 6;
      }
 }
 
-- (IBAction)editTrip:(id)sender
+- (void)addOrDeleteRows:(id)sender
 {
+    if(self.editing)
+    {
+        [super setEditing:NO animated:NO];
+        [buzzTableView setEditing:NO animated:NO];
+        [buzzTableView reloadData];
+        [self.navigationItem.leftBarButtonItem setTitle:@"Edit"];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+    }
+    else
+    {
+        [super setEditing:YES animated:YES];
+        [buzzTableView setEditing:YES animated:YES];
+        [buzzTableView reloadData];
+        [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
+        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -131,7 +147,8 @@ NSInteger DESTLABELTAG = 6;
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return totalTrip;
 }
 
@@ -182,14 +199,18 @@ NSInteger DESTLABELTAG = 6;
     [self.navigationController pushViewController:rvc animated:YES];
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.buzzArray removeObjectAtIndex:indexPath.row];
-        [buzzTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [Data removeData:indexPath.row];
+        [buzzTableView reloadData];
+//        [buzzTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
