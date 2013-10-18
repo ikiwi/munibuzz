@@ -69,7 +69,7 @@ NSInteger DESTLABELTAG = 6;
 }
 
 - (IBAction)checkMax:(id)sender {
-    if (totalTrip < 20) {
+    if (totalTrip < MAXTRIPS) {
         self.canRefresh = FALSE;
         RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
         [self.navigationController pushViewController:rvc animated:YES];

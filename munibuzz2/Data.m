@@ -40,6 +40,7 @@
         df = sf;
         dst = src;
     }
+    //resetting startlabel & destlabel to indicate obsolete data
     src.startLabel = src.destLabel;
     [Data saveData:src filename:sf];
     totalTrip--;

@@ -10,11 +10,13 @@
 #import "NavController.h"
 #import "Data.h"
 
+NSInteger MAXTRIPS=20;
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    totalTrip = 20;
+    totalTrip = MAXTRIPS;
     dataArray = [Data getAll];
 
     return YES;

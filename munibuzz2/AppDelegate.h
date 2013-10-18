@@ -10,6 +10,7 @@
 #import "Data.h"
 NSMutableArray* dataArray;
 NSInteger totalTrip;
+NSInteger MAXTRIPS;
 BOOL useDefaultSwitch;
 BOOL includeReturnSwitch;
 
