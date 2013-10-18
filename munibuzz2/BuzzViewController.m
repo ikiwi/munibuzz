@@ -114,7 +114,8 @@ NSInteger DESTLABELTAG = 6;
 
     isEdit = FALSE;
 
-    if (!([data.startLabel isEqualToString:@"location"] || [data.destLabel isEqualToString:@"location"])) {
+    if (FALSE) {
+        /* TO BE IMPLEMENTED */
         UIApplication* app = [UIApplication sharedApplication];
         NSArray*    oldNotifications = [app scheduledLocalNotifications];
     

@@ -53,9 +53,9 @@
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"End" desc:data.destLabel],
-                 [Trip tripId:@"Route" desc:data.routeLabel], nil];
+                 [Trip tripId:@"Route" desc:data.routeLabel],
+                 [Trip tripId:@"Include return journey" desc:@""], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
-                 [Trip tripId:@"Include return journey" desc:@""],
                  [Trip tripId:@"Use default" desc:@""],
                  [Trip tripId:@"Remind me" desc:@"None"],
                  [Trip tripId:@"Repeat reminder" desc:@"Never"], nil];

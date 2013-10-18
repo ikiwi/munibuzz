@@ -41,16 +41,20 @@
         dst = src;
     }
     //resetting startlabel & destlabel to indicate obsolete data
-    src.startLabel = src.destLabel;
+    [src.startLabel setString:@"location"];
+    [src.destLabel setString:@"location"];
     [Data saveData:src filename:sf];
     totalTrip--;
 }
+
 +(Data *)getData:(NSString *)filename
 {
     Data *retrievedData = (Data*)[NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive:filename]];
-    if (retrievedData.startLabel == retrievedData.destLabel)
+    if ([retrievedData.startLabel isEqualToString:@"location"] &&
+        [retrievedData.destLabel isEqualToString:@"location"]) {
         return nil;
-    else return retrievedData;
+    }
+    return retrievedData;
 }
 
 +(NSMutableArray *)getAll
@@ -61,7 +65,6 @@
     
     for (idx = 0; idx < totalTrip; idx++)
     {
-        NSLog(@"getting stuff from data%ld", idx);
         tmp = [Data getData:[NSString stringWithFormat:@"data%ld.model",idx]];
         if (tmp == nil) break;
         [tmpArray addObject:tmp];
