@@ -18,6 +18,8 @@ NSMutableArray *buzzList;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *editBuzz;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UITableView *buzzTableView;
+@property (weak, nonatomic) IBOutlet UILabel *slabel;
+@property (weak, nonatomic) IBOutlet UILabel *dlabel;
 @property BOOL canRefresh;
 -(IBAction)editTrip:(id)sender;
 -(void)addRow:(UITableViewCell*)sender;

@@ -12,6 +12,7 @@
 		A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C84180CCAC500C0A699 /* SettingsViewController.m */; };
 		A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9545180CD7ED0010336B /* BuzzViewController.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
+		A687FE8F1810E88900398423 /* customCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A687FE8E1810E88900398423 /* customCell.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
 		A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED991808918A00482EC5 /* CoreGraphics.framework */; };
 		A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
@@ -54,6 +55,8 @@
 		A64C9545180CD7ED0010336B /* BuzzViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BuzzViewController.m; sourceTree = "<group>"; };
 		A666565C180A370500387844 /* Stops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stops.h; sourceTree = "<group>"; };
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
+		A687FE8D1810E88900398423 /* customCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customCell.h; sourceTree = "<group>"; };
+		A687FE8E1810E88900398423 /* customCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customCell.m; sourceTree = "<group>"; };
 		A698ED941808918A00482EC5 /* munibuzz2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = munibuzz2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A698ED971808918A00482EC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A698ED991808918A00482EC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -157,6 +160,8 @@
 				A6DCD580180F2EE5002677D1 /* customButton.m */,
 				A64C9544180CD7ED0010336B /* BuzzViewController.h */,
 				A64C9545180CD7ED0010336B /* BuzzViewController.m */,
+				A687FE8D1810E88900398423 /* customCell.h */,
+				A687FE8E1810E88900398423 /* customCell.m */,
 				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
 				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
 				A6F48493180D332900523012 /* RepeatTableViewController.h */,
@@ -311,6 +316,7 @@
 				A698EDA81808918A00482EC5 /* AppDelegate.m in Sources */,
 				A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */,
 				A666565E180A370500387844 /* Stops.m in Sources */,
+				A687FE8F1810E88900398423 /* customCell.m in Sources */,
 				A698EDA41808918A00482EC5 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

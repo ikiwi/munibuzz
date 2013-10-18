@@ -12,18 +12,22 @@
 #import "customButton.h"
 #import "AppDelegate.h"
 #import "Data.h"
+#import "customCell.h"
 
 @interface BuzzViewController ()
 
 @end
 
-customButton *gloButton;
+NSInteger STARTLABELTAG = 5;
+NSInteger DESTLABELTAG = 6;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize editBuzz;
 @synthesize scrollView;
 @synthesize buzzTableView;
 @synthesize canRefresh;
+@synthesize slabel;
+@synthesize dlabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -94,7 +98,6 @@ customButton *gloButton;
 
     isEdit = FALSE;
 
-    Data *data = [dataArray objectAtIndex:0];
     if (!([data.startLabel isEqualToString:@"location"] || [data.destLabel isEqualToString:@"location"])) {
         UIApplication* app = [UIApplication sharedApplication];
         NSArray*    oldNotifications = [app scheduledLocalNotifications];
@@ -114,8 +117,11 @@ customButton *gloButton;
             [app scheduleLocalNotification:alarm];
         }
     }
-    if (canRefresh == TRUE)
-        [self refresh];
+    if (canRefresh) {
+        [buzzTableView beginUpdates];
+        [buzzTableView reloadRowsAtIndexPaths:[buzzTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
+        [buzzTableView endUpdates];
+     }
     [buzzTableView reloadData];
 }
 
@@ -132,28 +138,35 @@ customButton *gloButton;
 {
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
+        
+        customCell *cell = [buzzList objectAtIndex:ii];
         for (NSInteger jj = 0; jj < 5; jj++)
         {
-            UITableViewCell *cell = [buzzList objectAtIndex:ii];
-            customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
-            [button setTitle:@"update" forState:UIControlStateNormal];
+            [(customButton*)[[cell.contentView subviews] objectAtIndex:jj]
+             setTitle:@"-" forState:UIControlStateNormal];
         }
+        cell.startLabel.text = data.startLabel;
+        cell.destLabel.text = data.destLabel;
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"Cell";
+- (customCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *CellIdentifier = @"buzzCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    customCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[customCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
-
     NSInteger xx = 0;
     customButton *button;
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
+    cell.startLabel.text = data.startLabel;
+    cell.destLabel.text = data.destLabel;
+    [cell insertSubview:cell.startLabel atIndex:STARTLABELTAG];
+    [cell insertSubview:cell.destLabel atIndex:DESTLABELTAG];
+
     for (NSInteger idx = 0; idx < 5; idx++)
     {
         button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
@@ -163,8 +176,9 @@ customButton *gloButton;
         xx += 64;
     }
     [buzzList setObject:cell atIndexedSubscript:indexPath.row];
-    if (indexPath.row == totalTrip-1)
+    if (indexPath.row == totalTrip-1) {
         self.canRefresh = TRUE;
+    }
 
     return cell;
 }
@@ -184,6 +198,7 @@ customButton *gloButton;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.buzzArray removeObjectAtIndex:indexPath.row];
+        [buzzTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
