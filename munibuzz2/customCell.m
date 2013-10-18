@@ -7,6 +7,7 @@
 //
 
 #import "customCell.h"
+#import "customButton.h"
 
 @implementation customCell
 @synthesize startLabel;
@@ -22,6 +23,16 @@
         self.startLabel.backgroundColor = [UIColor whiteColor];
         self.destLabel.textColor = [UIColor redColor];
         self.destLabel.backgroundColor = [UIColor whiteColor];
+        NSInteger xx = 0;
+        for (NSInteger idx = 0; idx < 5; idx++)
+        {
+            customButton *button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
+            button.minute = idx;
+            button.titleLabel.text = [NSString stringWithFormat:@"%ld", idx];
+//            [button setTitle:@"" forState:UIControlStateNormal];
+            [self.contentView insertSubview:button atIndex:idx];
+            xx += 64;
+        }
     }
     return self;
 }

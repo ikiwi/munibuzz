@@ -121,6 +121,7 @@ NSInteger DESTLABELTAG = 6;
         [buzzTableView beginUpdates];
         [buzzTableView reloadRowsAtIndexPaths:[buzzTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
         [buzzTableView endUpdates];
+        [self refresh];
      }
     [buzzTableView reloadData];
 }
@@ -159,22 +160,12 @@ NSInteger DESTLABELTAG = 6;
         cell = [[customCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
     
-    NSInteger xx = 0;
-    customButton *button;
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
     [cell insertSubview:cell.startLabel atIndex:STARTLABELTAG];
     [cell insertSubview:cell.destLabel atIndex:DESTLABELTAG];
 
-    for (NSInteger idx = 0; idx < 5; idx++)
-    {
-        button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
-        button.minute = indexPath.row;
-        [button setTitle:[NSString stringWithFormat:@"a-%ld",indexPath.row] forState:UIControlStateNormal];
-        [cell.contentView insertSubview:button atIndex:idx];
-        xx += 64;
-    }
     [buzzList setObject:cell atIndexedSubscript:indexPath.row];
     if (indexPath.row == totalTrip-1) {
         self.canRefresh = TRUE;
