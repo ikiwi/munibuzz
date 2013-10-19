@@ -50,6 +50,41 @@ NSInteger DESTLABELTAG = 6;
     
     [scrollView addSubview:buzzTableView];
     [self.view addSubview:scrollView];
+
+    NSURL *url = [[NSURL alloc] initWithString:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=F&s=5639"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    
+    NSHTTPURLResponse *response = nil;
+    NSError *error = nil;
+    // this will perform a synchronous GET operation passing the values you specified in the header (typically you want asynchrounous, but for simplicity of answering the question it works)
+    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+    
+    NSMutableArray *pred = [[NSMutableArray alloc] init];
+    NSScanner *theScanner = [NSScanner scannerWithString:responseString];
+    NSString *predictionString = @"prediction";
+    NSInteger firstPred = 0;
+    NSString *direction = @"F__OBNOE";
+    NSInteger idx = 0;
+    NSString *tmp;
+    [theScanner scanUpToString:predictionString intoString:NULL];
+    [theScanner scanString:predictionString intoString:NULL];
+    [theScanner scanUpToString:predictionString intoString:NULL];
+    [theScanner scanString:predictionString intoString:NULL];
+    [theScanner scanUpToString:@"minutes" intoString:NULL];
+    while ([theScanner isAtEnd] == NO) {
+        [theScanner scanString:@"minutes=\"" intoString:NULL];
+        [theScanner scanInteger:&firstPred];
+        [pred setObject:pred atIndexedSubscript:idx];
+        [theScanner scanUpToString:@"dirTag=\"" intoString:NULL];
+        [theScanner scanString:@"dirTag=\"" intoString:NULL];
+        [theScanner scanUpToString:@"\"" intoString:&tmp];
+        if ([tmp isEqualToString:direction]) {
+            idx++;
+            NSLog(@"got new time: %ld", firstPred);
+        }
+        [theScanner scanUpToString:@"minutes" intoString:NULL];
+    }
 }
 
 -(void)addRow:(UITableViewCell*)sender
