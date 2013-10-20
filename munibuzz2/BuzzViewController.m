@@ -160,13 +160,13 @@ NSInteger DESTLABELTAG = 6;
 {
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
-        data = [dataArray objectAtIndex:ii];
-        NSArray *newTIme = [self refreshTime];
+        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
+        NSArray *newTime = [self refreshTime];
         customCell *cell = [buzzList objectAtIndex:ii];
         for (NSInteger jj = 0; jj < 5; jj++)
         {
             [(customButton*)[[cell.contentView subviews] objectAtIndex:jj]
-             setTitle:@"-" forState:UIControlStateNormal];
+             setTitle:[NSString stringWithFormat:@"%@",[newTime objectAtIndex:jj]] forState:UIControlStateNormal];
         }
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;
@@ -175,8 +175,7 @@ NSInteger DESTLABELTAG = 6;
 
 - (NSArray*)refreshTime
 {
-    NSLog(@"%@ %@", data.routeId, data.startStopTag);
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopId]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
     NSHTTPURLResponse *response = nil;
@@ -188,9 +187,9 @@ NSInteger DESTLABELTAG = 6;
     NSMutableArray *pred = [[NSMutableArray alloc] init];
     NSScanner *theScanner = [NSScanner scannerWithString:responseString];
     NSInteger firstPred = 0;
-    NSString *direction = @"F__OBNOE";
     NSInteger idx = 0;
     NSString *tmp;
+    NSMutableArray *result = [[NSMutableArray alloc] init];
     [theScanner scanUpToString:predictionString intoString:NULL];
     [theScanner scanString:predictionString intoString:NULL];
     [theScanner scanUpToString:predictionString intoString:NULL];
@@ -203,13 +202,17 @@ NSInteger DESTLABELTAG = 6;
         [theScanner scanUpToString:@"dirTag=\"" intoString:NULL];
         [theScanner scanString:@"dirTag=\"" intoString:NULL];
         [theScanner scanUpToString:@"\"" intoString:&tmp];
-        if ([tmp isEqualToString:direction]) {
+        if ([tmp length] > 0) {
             idx++;
-            NSLog(@"got new time: %ld", firstPred);
+            [result addObject:[NSString stringWithFormat:@"%ld", firstPred]];
         }
         [theScanner scanUpToString:@"minutes" intoString:NULL];
     }
-    return NULL;
+    while ([result count] < 5) {
+        //if there no more predictions, pad the rest of the array
+        [result addObject:@"-"];
+    }
+    return result;
 }
 
 - (customCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -229,6 +232,7 @@ NSInteger DESTLABELTAG = 6;
     [buzzList setObject:cell atIndexedSubscript:indexPath.row];
     if (indexPath.row == totalTrip-1) {
         self.canRefresh = TRUE;
+        [self refresh];
     }
 
     return cell;

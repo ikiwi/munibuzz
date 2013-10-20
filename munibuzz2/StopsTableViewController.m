@@ -127,12 +127,21 @@
     
     if ([self.operation  isEqual: @"Start"]) {
         [data.startLabel setString:stop.title];
+        if (![data.destLabel isEqualToString:@"location"]) {
+            //destination has already been selected, so now use the dTag and route from
+            // the start stop, and get the stop tag and stop id.
+            [self.filteredStopsArray removeAllObjects];
+            
+            filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",data.startLabel]]];
+            [data.startStopTag setString:[[filteredStopsArray objectAtIndex:0] sTag]];
+            [data.startStopId setString:[[filteredStopsArray objectAtIndex:0] sId]];
+        }
     } else if ([self.operation  isEqual: @"End"]) {
         [data.destLabel setString:stop.title];
         if (![data.startLabel isEqualToString:@"location"]) {
             //start has been selected, now what we have to do is to use the dTag and route from
             // the destination stop, go through the origin array for the start location, and get
-            // the stopTag and sId with matching dTag and route.
+            // the stop tag and stop id with matching direction tag and start title.
             [self.filteredStopsArray removeAllObjects];
 
             filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.dTag contains[c] %@",stop.dTag]]];
