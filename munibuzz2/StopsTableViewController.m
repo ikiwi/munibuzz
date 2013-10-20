@@ -34,22 +34,22 @@
     [super viewDidLoad];
     
     stopsArray = [NSArray arrayWithObjects:
-                  [Stops stopsId:@"4883" name:@"Geneva Ave & Madrid St"],
-                  [Stops stopsId:@"4891" name:@"Geneva Ave & Naples St"],
-                  [Stops stopsId:@"4888" name:@"Geneva Ave & Munich St"],
-                  [Stops stopsId:@"4796" name:@"1650 Geneva Ave"],
-                  [Stops stopsId:@"4799" name:@"1701 Geneva Ave"],
-                  [Stops stopsId:@"7304" name:@"Geneva Ave & Carter"],
-                  [Stops stopsId:@"6343" name:@"Santos St & Geneva Ave"],
-                  [Stops stopsId:@"6345" name:@"Santos St & Velasco Ave"],
-                  [Stops stopsId:@"6340" name:@"Santos St & Brookdale Ave"],
-                  [Stops stopsId:@"6578" name:@"Sunnydale Ave & Santos St"],
-                  [Stops stopsId:@"4937" name:@"Hahn St & Sunnydale Ave"],
-                  [Stops stopsId:@"6853" name:@"Visitacion Ave & Sawyer St"],
-                  [Stops stopsId:@"6846" name:@"Visitacion Ave & Britton St"],
-                  [Stops stopsId:@"6855" name:@"Visitacion Ave & Schwerin St"],
-                  [Stops stopsId:@"6848" name:@"Visitacion Ave & Cora St"],
-                  [Stops stopsId:@"6851" name:@"Visitacion Ave & Rutland St"], nil];
+                  [Stops stopsId:@"4883" title:@"Geneva Ave & Madrid St" sId:@"14883" dTag:@"08X__IB"],
+                  [Stops stopsId:@"4891" title:@"Geneva Ave & Naples St" sId:@"14891" dTag:@"08X__IB"],
+                  [Stops stopsId:@"4888" title:@"Geneva Ave & Munich St" sId:@"14888" dTag:@"08X__IB"],
+                  [Stops stopsId:@"4796" title:@"1650 Geneva Ave" sId:@"14796" dTag:@"08X__IB"],
+                  [Stops stopsId:@"4799" title:@"1701 Geneva Ave" sId:@"17304" dTag:@"08X__IB"],
+                  [Stops stopsId:@"7304" title:@"Geneva Ave & Carter" sId:@"16343" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6343" title:@"Santos St & Geneva Ave" sId:@"16343" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6345" title:@"Santos St & Velasco Ave" sId:@"16345" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6340" title:@"Santos St & Brookdale Ave" sId:@"16340" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6578" title:@"Sunnydale Ave & Santos St" sId:@"16578" dTag:@"08X__IB"],
+                  [Stops stopsId:@"4937" title:@"Hahn St & Sunnydale Ave" sId:@"14937" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6853" title:@"Visitacion Ave & Sawyer St" sId:@"16853" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6846" title:@"Visitacion Ave & Britton St" sId:@"16846" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6855" title:@"Visitacion Ave & Schwerin St" sId:@"16855" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6848" title:@"Visitacion Ave & Cora St" sId:@"16848" dTag:@"08X__IB"],
+                  [Stops stopsId:@"6851" title:@"Visitacion Ave & Rutland St" sId:@"16851" dTag:@"08X__IB"], nil];
     
     self.filteredStopsArray = [NSMutableArray arrayWithCapacity:[stopsArray count]];
     
@@ -59,7 +59,7 @@
 - (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
     [self.filteredStopsArray removeAllObjects];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",searchText];
     filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:predicate]];
 }
 
@@ -109,12 +109,13 @@
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
     
-    cell.textLabel.text = stop.name;
+    cell.textLabel.text = stop.title;
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }
 
+/* this function saves the user selected stop info which will be displayed in routes view */
 - (void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
 {
     Stops *stop;
@@ -125,9 +126,20 @@
     }
     
     if ([self.operation  isEqual: @"Start"]) {
-        [data.startLabel setString:stop.name];
+        [data.startLabel setString:stop.title];
     } else if ([self.operation  isEqual: @"End"]) {
-        [data.destLabel setString:stop.name];
+        [data.destLabel setString:stop.title];
+        if (![data.startLabel isEqualToString:@"location"]) {
+            //start has been selected, now what we have to do is to use the dTag and route from
+            // the destination stop, go through the origin array for the start location, and get
+            // the stopTag and sId with matching dTag and route.
+            [self.filteredStopsArray removeAllObjects];
+
+            filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.dTag contains[c] %@",stop.dTag]]];
+            filteredStopsArray = [NSMutableArray arrayWithArray:[filteredStopsArray filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",data.startLabel]]];
+            [data.startStopTag setString:[[filteredStopsArray objectAtIndex:0] sTag]];
+            [data.startStopId setString:[[filteredStopsArray objectAtIndex:0] sId]];
+        }
     }
     [Data saveData:data filename:filename];
     

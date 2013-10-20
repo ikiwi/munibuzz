@@ -10,14 +10,18 @@
 
 @implementation Stops
 
-@synthesize num;
-@synthesize name;
+@synthesize sTag;
+@synthesize dTag;
+@synthesize title;
+@synthesize sId;
 
-+ (id)stopsId:(NSString *)num name:(NSString *)name
++ (id)stopsId:(NSString *)sTag title:(NSString *)title sId:(NSString *)sId dTag:(NSString *)dTag
 {
     Stops *newStop = [[self alloc] init];
-    newStop.num = num;
-    newStop.name = name;
+    newStop.sTag = sTag;
+    newStop.title = title;
+    newStop.sId = sId;
+    newStop.dTag = dTag;
     return newStop;
 }
 

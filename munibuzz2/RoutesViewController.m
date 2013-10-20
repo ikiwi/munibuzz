@@ -5,6 +5,20 @@
 //  Created by Kalai Wei on 10/12/13.
 //  Copyright (c) 2013 Kalai Wei. All rights reserved.
 //
+/*
+1. load all the route files in its corresponding routeDataArray
+2. search each routeDataArray file for the stop title
+3. save inbound and outbound stop tags and stop ids, in routesArray
+routeTag,
+{stopTag, stopId, directionTag}
+{stopTag, stopId, directionTag}
+4. if the stop title is found in a route file,
+for start label, add all the stops into stop search array
+for destination label, filter stops to only include stops after start title
+5. repeat 1, 2, 3 for each route, and save it into the routesArray
+6. once destination is selected, save the route id,
+search for the stopId for the matching routeTag and directionTag
+*/
 
 #import "RoutesViewController.h"
 #import "StopsTableViewController.h"
@@ -49,6 +63,8 @@
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
         data = [[Data alloc] init];
     }
+    [data.routeId setString:@"8X"];
+    [data.routeLabel setString:@"8X-BayshoreExpress"];
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],

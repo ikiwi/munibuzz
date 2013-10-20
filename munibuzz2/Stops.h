@@ -10,13 +10,17 @@
 
 @interface Stops : NSObject
 {
-    NSString *num;
-    NSString *name;
+    NSString *sTag;
+    NSString *dTag;
+    NSString *title;
+    NSString *sId;
 }
 
-@property (nonatomic, copy) NSString *num;
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *sTag;
+@property (nonatomic, copy) NSString *dTag;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *sId;
 
-+ (id)stopsId:(NSString*)num name:(NSString*)name;
++ (id)stopsId:(NSString*)sTag title:(NSString*)title sId:(NSString*)sId dTag:(NSString*)dTag;
 
 @end

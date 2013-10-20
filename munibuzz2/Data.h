@@ -10,8 +10,11 @@
 
 @interface Data : NSObject <NSCoding>
 @property (strong, nonatomic) NSMutableString *startLabel;
+@property (strong, nonatomic) NSMutableString *startStopTag;
+@property (strong, nonatomic) NSMutableString *startStopId;
 @property (strong, nonatomic) NSMutableString *destLabel;
 @property (strong, nonatomic) NSMutableString *routeLabel;
+@property (strong, nonatomic) NSMutableString *routeId;
 @property (strong, nonatomic) NSMutableString *useDefault;
 @property (strong, nonatomic) NSMutableString *includeReturn;
 @property (strong, nonatomic) NSMutableString *repeatLabel;

@@ -12,7 +12,7 @@
 
 Data *data;
 NSString *filename;
-
+NSArray *routesArray;
 @interface RoutesViewController : UIViewController
 @property (strong,nonatomic) NSArray *tripArray;
 @property (strong,nonatomic) UITableViewCell *startCell;

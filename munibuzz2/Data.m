@@ -79,8 +79,11 @@
     self = [super init];
     if (self) {
         self.startLabel = [NSMutableString stringWithString:@"location"];
+        self.startStopTag = [NSMutableString stringWithString:@"0"];
+        self.startStopId = [NSMutableString stringWithString:@"0"];
         self.destLabel = [NSMutableString stringWithString:@"location"];
         self.routeLabel = [NSMutableString stringWithString:@""];
+        self.routeId = [NSMutableString stringWithString:@"0"];
         self.useDefault = [NSMutableString stringWithString:@"YES"];
         self.includeReturn = [NSMutableString stringWithString:@"NO"];
         self.repeatLabel = [NSMutableString stringWithString:@""];
@@ -95,8 +98,11 @@
     self = [super init];
     if (self) {
         self.startLabel = [aDecoder decodeObjectForKey:@"startLabel"];
+        self.startStopTag = [aDecoder decodeObjectForKey:@"startStopTag"];
+        self.startStopId = [aDecoder decodeObjectForKey:@"startStopId"];
         self.destLabel = [aDecoder decodeObjectForKey:@"destLabel"];
         self.routeLabel = [aDecoder decodeObjectForKey:@"routeLabel"];
+        self.routeId = [aDecoder decodeObjectForKey:@"routeId"];
         self.useDefault = [aDecoder decodeObjectForKey:@"useDefault"];
         self.includeReturn = [aDecoder decodeObjectForKey:@"includeReturn"];
         self.repeatLabel = [aDecoder decodeObjectForKey:@"repeatLabel"];
@@ -109,8 +115,11 @@
 
 -(void)encodeWithCoder:(NSCoder *)anEncoder {
     [anEncoder encodeObject:self.startLabel forKey:@"startLabel"];
+    [anEncoder encodeObject:self.startStopTag forKey:@"startStopTag"];
+    [anEncoder encodeObject:self.startStopId forKey:@"startStopId"];
     [anEncoder encodeObject:self.destLabel forKey:@"destLabel"];
     [anEncoder encodeObject:self.routeLabel forKey:@"routeLabel"];
+    [anEncoder encodeObject:self.routeId forKey:@"routeId"];
     [anEncoder encodeObject:self.useDefault forKey:@"useDefault"];
     [anEncoder encodeObject:self.includeReturn forKey:@"includeReturn"];
     [anEncoder encodeObject:self.repeatLabel forKey:@"repeatLabel"];
