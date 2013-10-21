@@ -19,8 +19,9 @@ NSMutableArray *buzzList;
 @property (strong, nonatomic) IBOutlet UITableView *buzzTableView;
 @property (weak, nonatomic) IBOutlet UILabel *slabel;
 @property (weak, nonatomic) IBOutlet UILabel *dlabel;
+@property (strong, nonatomic) NSMutableArray *alarmArray;
 @property BOOL canRefresh;
--(void)addRow:(UITableViewCell*)sender;
 -(void)addOrDeleteRows:(id)sender;
+-(void)setAlarm:(id)sender;
 
 @end

@@ -90,6 +90,7 @@
         self.repeat_default_label = [NSMutableString stringWithString:@""];
         self.remindLabel = [NSMutableString stringWithString:@""];
         self.remind_default_label = [NSMutableString stringWithString:@""];
+        self.alarm = [NSMutableString stringWithString:@""];
     }
     return self;
 }
@@ -109,6 +110,7 @@
         self.repeat_default_label = [aDecoder decodeObjectForKey:@"repeat_default_label"];
         self.remindLabel = [aDecoder decodeObjectForKey:@"remindLabel"];
         self.remind_default_label = [aDecoder decodeObjectForKey:@"remind_default_label"];
+        self.alarm = [aDecoder decodeObjectForKey:@"alarm"];
     }
     return self;
 }

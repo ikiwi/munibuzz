@@ -28,12 +28,12 @@ NSInteger DESTLABELTAG = 6;
 @synthesize canRefresh;
 @synthesize slabel;
 @synthesize dlabel;
+@synthesize alarmArray;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
@@ -43,7 +43,8 @@ NSInteger DESTLABELTAG = 6;
     [super viewDidLoad];
 
     canRefresh = FALSE;
-//    self.buzzArray = [NSMutableArray new];
+    
+    self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
     buzzList = [NSMutableArray new];
     UIBarButtonItem *editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
     [self.navigationItem setLeftBarButtonItem:editButton];
@@ -52,23 +53,11 @@ NSInteger DESTLABELTAG = 6;
     [scrollView addSubview:buzzTableView];
     [self.view addSubview:scrollView];
 
-//    [self refreshTime];
-}
-
--(void)addRow:(UITableViewCell*)sender
-{
-    float xx = 0;
-    float yy = 128;
-    float hh = 64;
-    float ww = 64;
-    customButton *button;
-
-    for (NSInteger num = 0; num < 5; num++) {
-        button = [[customButton alloc] initWithFrame:CGRectMake(xx,yy,hh,ww)];
-        button.backgroundColor = [UIColor redColor];
-        [sender addSubview:button];
-        xx += ww;
-    }
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
+                                                      target: self
+                                                    selector: @selector(viewWillAppear:)
+                                                    userInfo: nil
+                                                     repeats: YES];
 }
 
 - (IBAction)checkMax:(id)sender {
@@ -117,26 +106,6 @@ NSInteger DESTLABELTAG = 6;
 
     isEdit = FALSE;
 
-    if (FALSE) {
-        /* TO BE IMPLEMENTED */
-        UIApplication* app = [UIApplication sharedApplication];
-        NSArray*    oldNotifications = [app scheduledLocalNotifications];
-    
-        // Clear out the old notification before scheduling a new one.
-        if ([oldNotifications count] > 0)
-            [app cancelAllLocalNotifications];
-
-        UILocalNotification *alarm = [[UILocalNotification alloc] init];
-        if (alarm) {
-            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:60];
-            alarm.alertBody = @"Your muni is arriving.";
-            alarm.applicationIconBadgeNumber = 1;
-            alarm.soundName = UILocalNotificationDefaultSoundName;
-            alarm.alertAction = @"View Details";
-        
-            [app scheduleLocalNotification:alarm];
-        }
-    }
     if (canRefresh) {
         [buzzTableView beginUpdates];
         [buzzTableView reloadRowsAtIndexPaths:[buzzTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
@@ -144,6 +113,66 @@ NSInteger DESTLABELTAG = 6;
         [self refresh];
      }
     [buzzTableView reloadData];
+}
+
+- (void)setAlarm:(id)sender
+{
+    UIApplication *app = [UIApplication sharedApplication];
+    NSInteger tmp = ((UIControl*)sender).tag;
+    NSInteger ii = tmp / 100;
+    NSInteger jj = tmp % 5;
+    NSInteger seconds = [[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue] * 60;
+    NSLog(@"setting %ld %ld alarm %ld sec", ii, jj, seconds);
+    
+    NSLog(@"alarmArray %ld", [[alarmArray objectAtIndex:ii] count]);
+
+    // switch alarm on or off
+    customCell *cell = [buzzList objectAtIndex:ii];
+    customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
+    if ([button.backgroundColor isEqual:[UIColor redColor]]) {
+        // set alarm
+        [button setBackgroundColor:[UIColor orangeColor]];
+        UILocalNotification *alarm = [[UILocalNotification alloc] init];
+        if (alarm) {
+            alarm.fireDate =[[NSDate alloc] initWithTimeIntervalSinceNow:seconds];
+            alarm.alertBody = @"Your muni is arriving.";
+            alarm.applicationIconBadgeNumber = 1;
+            alarm.soundName = UILocalNotificationDefaultSoundName;
+            alarm.alertAction = @"View details";
+            alarm.hasAction = YES;
+            NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
+            alarm.userInfo = alarmID;
+            
+            [app scheduleLocalNotification:alarm];
+        }
+    } else {
+        UIApplication *app = [UIApplication sharedApplication];
+        NSArray *eventArray = [app scheduledLocalNotifications];
+        for (int i=0; i<[eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            NSString *slot = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
+            if ([slot isEqualToString:[NSString stringWithFormat:@"%ld-%ld",ii,jj]])
+            {
+                NSLog(@"cancelling");
+                [app cancelLocalNotification:oneEvent];
+                // cancel alarm
+                [button setBackgroundColor:[UIColor redColor]];
+                break;
+            }
+        }
+    }
+}
+
+- (void)application:(UIApplication *)application
+didReceiveLocalNotification:(UILocalNotification *)notification
+{
+    UIApplicationState state = [application applicationState];
+    NSLog(@"checking notification");
+    if (state == UIApplicationStateActive) {
+        NSLog(@"alarm is setting off!");
+    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -158,6 +187,7 @@ NSInteger DESTLABELTAG = 6;
 
 - (void)refresh
 {
+    NSMutableArray *alarmSubarray = [[NSMutableArray alloc] initWithCapacity:5];
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
@@ -165,9 +195,16 @@ NSInteger DESTLABELTAG = 6;
         customCell *cell = [buzzList objectAtIndex:ii];
         for (NSInteger jj = 0; jj < 5; jj++)
         {
-            [(customButton*)[[cell.contentView subviews] objectAtIndex:jj]
-             setTitle:[NSString stringWithFormat:@"%@",[newTime objectAtIndex:jj]] forState:UIControlStateNormal];
+            customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+            [button setTitle:[NSString stringWithFormat:@"%@",[newTime objectAtIndex:jj]] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
+            [alarmSubarray setObject:[newTime objectAtIndex:jj] atIndexedSubscript:jj];
+            // to make the button retrievable, set tag to the schedule #
+            // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
+            // and y ranges from 0 to 4 (max alarms)
+            button.tag = ii*100 + jj;
         }
+        [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;
     }
@@ -212,6 +249,7 @@ NSInteger DESTLABELTAG = 6;
         //if there no more predictions, pad the rest of the array
         [result addObject:@"-"];
     }
+
     return result;
 }
 

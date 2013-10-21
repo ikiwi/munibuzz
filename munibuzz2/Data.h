@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSMutableString *remindLabel;
 @property (strong, nonatomic) NSMutableString *remind_default_label;
 @property (strong, nonatomic) NSMutableString *filename;
+@property (strong, nonatomic) NSMutableString *alarm;
 
 -(Data*)initWithCoder:(NSCoder *)aDecoder;
 -(void)encodeWithCoder:(NSCoder *)anEncoder;

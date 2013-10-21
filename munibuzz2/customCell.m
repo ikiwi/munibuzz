@@ -29,7 +29,6 @@
             customButton *button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
             button.minute = idx;
             button.titleLabel.text = [NSString stringWithFormat:@"%ld", idx];
-//            [button setTitle:@"" forState:UIControlStateNormal];
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
         }

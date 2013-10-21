@@ -16,9 +16,19 @@ NSInteger MAXTRIPS=20;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    UIApplication* app = [UIApplication sharedApplication];
+    NSArray*    oldNotifications = [app scheduledLocalNotifications];
+    
+    // Clear out the old notification before scheduling a new one.
+    if ([oldNotifications count] > 0) {
+        [app cancelAllLocalNotifications];
+    }
+
     totalTrip = MAXTRIPS;
     dataArray = [Data getAll];
-
+    // Reset the Icon Alert Number back to Zero
+    application.applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
