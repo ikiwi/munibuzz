@@ -10,4 +10,6 @@
 
 @interface customButton : UIButton
 @property NSInteger minute;
+@property UILocalNotification *alarm;
+-(BOOL)isAlarmOn;
 @end

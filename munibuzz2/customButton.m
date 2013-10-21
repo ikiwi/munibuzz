@@ -23,6 +23,13 @@
     return self;
 }
 
+- (BOOL)isAlarmOn
+{
+    if ([self.backgroundColor isEqual:[UIColor redColor]])
+        return FALSE;
+    return TRUE;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

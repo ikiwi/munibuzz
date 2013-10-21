@@ -15,12 +15,12 @@
 #import "customCell.h"
 
 @interface BuzzViewController ()
-
 @end
 
 NSString *predictionString = @"prediction";
 NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
+NSInteger SECPERMIN = 60;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize scrollView;
@@ -29,6 +29,7 @@ NSInteger DESTLABELTAG = 6;
 @synthesize slabel;
 @synthesize dlabel;
 @synthesize alarmArray;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -41,8 +42,6 @@ NSInteger DESTLABELTAG = 6;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    canRefresh = FALSE;
     
     self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
     buzzList = [NSMutableArray new];
@@ -52,7 +51,7 @@ NSInteger DESTLABELTAG = 6;
     
     [scrollView addSubview:buzzTableView];
     [self.view addSubview:scrollView];
-
+    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
                                                       target: self
                                                     selector: @selector(viewWillAppear:)
@@ -105,12 +104,12 @@ NSInteger DESTLABELTAG = 6;
     dataArray = [Data getAll];
 
     isEdit = FALSE;
-
+    
     if (canRefresh) {
         [buzzTableView beginUpdates];
-        [buzzTableView reloadRowsAtIndexPaths:[buzzTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
-        [buzzTableView endUpdates];
+//        [buzzTableView reloadRowsAtIndexPaths:[buzzTableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationFade];
         [self refresh];
+        [buzzTableView endUpdates];
      }
     [buzzTableView reloadData];
 }
@@ -121,15 +120,30 @@ NSInteger DESTLABELTAG = 6;
     NSInteger tmp = ((UIControl*)sender).tag;
     NSInteger ii = tmp / 100;
     NSInteger jj = tmp % 5;
-    NSInteger seconds = [[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue] * 60;
-    NSLog(@"setting %ld %ld alarm %ld sec", ii, jj, seconds);
+    NSInteger seconds = [[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue] * SECPERMIN;
     
-    NSLog(@"alarmArray %ld", [[alarmArray objectAtIndex:ii] count]);
-
     // switch alarm on or off
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
-    if ([button.backgroundColor isEqual:[UIColor redColor]]) {
+    if ([button isAlarmOn]) {
+        NSLog(@"turning %ld %ld off", ii, jj);
+        UIApplication *app = [UIApplication sharedApplication];
+        NSArray *eventArray = [app scheduledLocalNotifications];
+        for (int i=0; i<[eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            NSString *slot = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
+            if ([slot isEqualToString:[NSString stringWithFormat:@"%ld-%ld",ii,jj]])
+            {
+                [app cancelLocalNotification:oneEvent];
+                // cancel alarm
+                [button setBackgroundColor:[UIColor redColor]];
+                break;
+            }
+        }
+    } else {
+        NSLog(@"turning %ld %ld on", ii, jj);
         // set alarm
         [button setBackgroundColor:[UIColor orangeColor]];
         UILocalNotification *alarm = [[UILocalNotification alloc] init];
@@ -142,36 +156,10 @@ NSInteger DESTLABELTAG = 6;
             alarm.hasAction = YES;
             NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
             alarm.userInfo = alarmID;
+            button.alarm = alarm;
             
             [app scheduleLocalNotification:alarm];
         }
-    } else {
-        UIApplication *app = [UIApplication sharedApplication];
-        NSArray *eventArray = [app scheduledLocalNotifications];
-        for (int i=0; i<[eventArray count]; i++)
-        {
-            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
-            NSDictionary *userInfoCurrent = oneEvent.userInfo;
-            NSString *slot = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
-            if ([slot isEqualToString:[NSString stringWithFormat:@"%ld-%ld",ii,jj]])
-            {
-                NSLog(@"cancelling");
-                [app cancelLocalNotification:oneEvent];
-                // cancel alarm
-                [button setBackgroundColor:[UIColor redColor]];
-                break;
-            }
-        }
-    }
-}
-
-- (void)application:(UIApplication *)application
-didReceiveLocalNotification:(UILocalNotification *)notification
-{
-    UIApplicationState state = [application applicationState];
-    NSLog(@"checking notification");
-    if (state == UIApplicationStateActive) {
-        NSLog(@"alarm is setting off!");
     }
 }
 
@@ -188,21 +176,33 @@ didReceiveLocalNotification:(UILocalNotification *)notification
 - (void)refresh
 {
     NSMutableArray *alarmSubarray = [[NSMutableArray alloc] initWithCapacity:5];
+    BOOL shiftAlarms = FALSE;
+    
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
-        NSArray *newTime = [self refreshTime];
+        NSArray *newTime = [[self class] refreshTime];
         customCell *cell = [buzzList objectAtIndex:ii];
         for (NSInteger jj = 0; jj < 5; jj++)
         {
             customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
-            [button setTitle:[NSString stringWithFormat:@"%@",[newTime objectAtIndex:jj]] forState:UIControlStateNormal];
+            NSString *newtime = [newTime objectAtIndex:jj];
+            if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
+                // muni has arrived, removing the first time slot will cause the row to be shifted,
+                // if alarms is set on one of the button, then reassign each alarm to its previous button
+                shiftAlarms = TRUE;
+            }
+            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
-            [alarmSubarray setObject:[newTime objectAtIndex:jj] atIndexedSubscript:jj];
+            [alarmSubarray setObject:newtime atIndexedSubscript:jj];
             // to make the button retrievable, set tag to the schedule #
             // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
             // and y ranges from 0 to 4 (max alarms)
             button.tag = ii*100 + jj;
+            if ([button isAlarmOn]) {
+                [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+                [[self class] refreshAlarm];
+            }
         }
         [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
         cell.startLabel.text = data.startLabel;
@@ -210,7 +210,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification
     }
 }
 
-- (NSArray*)refreshTime
++ (NSArray*)refreshTime
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -251,6 +251,46 @@ didReceiveLocalNotification:(UILocalNotification *)notification
     }
 
     return result;
+}
+
++ (void)refreshAlarm
+{
+    NSScanner *theScanner = [NSScanner scannerWithString:[NSString stringWithFormat:@"%@",[alarmNotification.userInfo valueForKey:@"id"]]];
+    NSInteger ii;
+    NSInteger jj;
+    [theScanner scanInteger:&ii];
+    [theScanner scanString:@"-" intoString:NULL];
+    [theScanner scanInteger:&jj];
+
+    UITableViewCell *cell = [buzzList objectAtIndex:ii];
+
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *eventArray = [app scheduledLocalNotifications];
+    NSLog(@"switching alarm %ld %ld", ii, jj);
+    for (int i=0; i<[eventArray count]; i++)
+    {
+        UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+        NSString *slot = [NSString stringWithFormat:@"%@",[oneEvent.userInfo valueForKey:@"id"]];
+        if ([slot hasPrefix:[NSString stringWithFormat:@"%ld-",ii]])
+        {
+            NSInteger slotnum = [[slot substringFromIndex:[slot length] - 1] integerValue] - 1;
+            oneEvent.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,slotnum] forKey:@"id"];
+            break;
+        }
+    }
+    customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+    jj++;
+    while(jj < 5)
+    {
+        customButton *button2 = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+        [button setBackgroundColor:[button2 backgroundColor]];
+        button.alarm = button2.alarm;
+        button = button2;
+        jj++;
+    }
+    button.alarm = nil;
+    [button setBackgroundColor:[UIColor redColor]];
+    [[self class] refreshTime];
 }
 
 - (customCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

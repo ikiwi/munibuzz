@@ -13,6 +13,7 @@ NSInteger totalTrip;
 NSInteger MAXTRIPS;
 BOOL useDefaultSwitch;
 BOOL includeReturnSwitch;
+UILocalNotification *alarmNotification;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

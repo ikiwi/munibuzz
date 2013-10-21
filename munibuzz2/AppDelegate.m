@@ -8,7 +8,9 @@
 
 #import "AppDelegate.h"
 #import "NavController.h"
+#import "BuzzViewController.h"
 #import "Data.h"
+#import "customButton.h"
 
 NSInteger MAXTRIPS=20;
 
@@ -34,6 +36,13 @@ NSInteger MAXTRIPS=20;
 
 - (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
+    UIApplicationState state = [application applicationState];
+
+    alarmNotification = notification;
+    
+    [BuzzViewController refreshAlarm];
+    
+    
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"
                           message:notification.alertBody
@@ -41,7 +50,6 @@ NSInteger MAXTRIPS=20;
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
     
     [alert show];
-    //    [alert release];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -52,19 +60,6 @@ NSInteger MAXTRIPS=20;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    /*
-    if (useDefaultSwitch == TRUE) {
-        [data.useDefault setString:@"YES"];
-    } else {
-        [data.useDefault setString:@"NO"];
-    }
-    if (includeReturnSwitch == TRUE) {
-        [data.includeReturn setString:@"YES"];
-    } else {
-        [data.includeReturn setString:@"NO"];
-    }
-    */
-
     [Data saveAll:dataArray];
 }
 
@@ -79,19 +74,6 @@ NSInteger MAXTRIPS=20;
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-    /*
-    if (useDefaultSwitch == TRUE) {
-        [data.useDefault setString:@"YES"];
-    } else {
-        [data.useDefault setString:@"NO"];
-    }
-    if (includeReturnSwitch == TRUE) {
-        [data.includeReturn setString:@"YES"];
-    } else {
-        [data.includeReturn setString:@"NO"];
-    }
-    */
-    
     [Data saveAll:dataArray];
 }
 

@@ -11,6 +11,7 @@
 BOOL isEdit;
 NSInteger currentTrip;
 NSMutableArray *buzzList;
+UILocalNotification *notification;
 
 @interface BuzzViewController : UIViewController
 
@@ -23,5 +24,7 @@ NSMutableArray *buzzList;
 @property BOOL canRefresh;
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
++(NSArray*)refreshTime;
++(void)refreshAlarm;
 
 @end
