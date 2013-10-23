@@ -22,6 +22,8 @@ NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
 NSInteger SECPERMIN = 60;
 NSArray *newTime;
+NSInteger defaultRowHeight = 114;
+NSInteger collapsedRowHeight = 50;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize scrollView;
@@ -77,6 +79,7 @@ NSArray *newTime;
 {
     if(self.editing)
     {
+        [buzzTableView setRowHeight:defaultRowHeight];
         [super setEditing:NO animated:NO];
         [buzzTableView setEditing:NO animated:NO];
         [buzzTableView reloadData];
@@ -85,6 +88,7 @@ NSArray *newTime;
     }
     else
     {
+        [buzzTableView setRowHeight:collapsedRowHeight];
         [super setEditing:YES animated:YES];
         [buzzTableView setEditing:YES animated:YES];
         [buzzTableView reloadData];
@@ -337,7 +341,7 @@ NSArray *newTime;
     if (cell == nil) {
         cell = [[customCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
-    
+
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
