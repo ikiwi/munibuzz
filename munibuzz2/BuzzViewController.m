@@ -192,6 +192,8 @@ NSArray *newTime;
 
 - (void)refresh
 {
+    BOOL clearAlarms = FALSE;
+    
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
@@ -199,28 +201,57 @@ NSArray *newTime;
         NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
         [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
         customCell *cell = [buzzList objectAtIndex:ii];
-        for (NSInteger jj = 0; jj < 5; jj++)
+        
+        // for the first button, refresh everything
+        customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
+        NSString *newtime = [newTime objectAtIndex:0];
+        if (isEdit == TRUE) {
+            NSLog(@"clearing alarms");
+            // clear out the alarm from the previous routes
+            clearAlarms = TRUE;
+            isEdit = FALSE;
+        } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
+            // muni has arrived and predictions queue has shifted, now we can shift the alarms
+            [[self class] refreshAlarm:ii];
+        }
+        [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
+        // to make the button retrievable, set tag to the schedule #
+        // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
+        // and y ranges from 0 to 4 (max alarms)
+        button.tag = ii*100;
+        if (button.isOn == TRUE) {
+            if (clearAlarms == TRUE) {
+                button.isOn = FALSE;
+                [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
+            } else {
+                [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+            }
+        }
+        [button setBackground];
+        
+        // for the rest, refresh everything except alarm
+        for (NSInteger jj = 1; jj < 5; jj++)
         {
             customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
             NSString *newtime = [newTime objectAtIndex:jj];
-            if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
-                // muni has arrived and predictions queue has shifted, now we can shift the alarms
-                if (isEdit == FALSE) {
-                    NSLog(@"shifting alarm");
-                    [[self class] refreshAlarm:ii];
-                } else {
-                    isEdit = FALSE;
-                }
-            }
+            
             [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
             // to make the button retrievable, set tag to the schedule #
             // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
             // and y ranges from 0 to 4 (max alarms)
             button.tag = ii*100 + jj;
             if (button.isOn == TRUE) {
-                [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+                if (clearAlarms == TRUE) {
+                    button.isOn = FALSE;
+                    [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
+                } else {
+                    [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+                }
             }
+            [button setBackground];
         }
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;

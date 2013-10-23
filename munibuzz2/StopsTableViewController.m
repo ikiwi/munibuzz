@@ -150,7 +150,6 @@
             [data.startStopId setString:[[filteredStopsArray objectAtIndex:0] sId]];
         }
     }
-    [Data saveData:data filename:filename];
     
     [self.navigationController popViewControllerAnimated:YES];
 }

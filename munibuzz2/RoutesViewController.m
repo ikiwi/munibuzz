@@ -56,9 +56,12 @@ search for the stopId for the matching routeTag and directionTag
     [super viewDidLoad];
     
     if (isEdit == TRUE) {
+        // edit existing trip
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
         data = [Data getData:filename];
+        isEdit = FALSE;
     } else {
+        // new trip
         currentTrip = totalTrip;
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
         data = [[Data alloc] init];
@@ -90,8 +93,6 @@ search for the stopId for the matching routeTag and directionTag
         includeReturnSwitch = FALSE;
         [data.includeReturn setString:@"NO"];
     }
-    
-//    [Data saveData:data filename:filename];
 }
 
 - (void)didReceiveMemoryWarning
@@ -173,8 +174,6 @@ search for the stopId for the matching routeTag and directionTag
         else
             [data.includeReturn setString:@"YES"];
     }
-
-//    [Data saveData:data filename:filename];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -195,7 +194,6 @@ search for the stopId for the matching routeTag and directionTag
         [self.navigationController pushViewController:repeat animated:YES];
     }
 
-//    [Data saveData:data filename:filename];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -208,10 +206,23 @@ search for the stopId for the matching routeTag and directionTag
 }
 
 - (IBAction)savingRoute:(id)sender {
-    [Data saveData:data filename:filename];
-    if (isEdit == FALSE) {
+    Data *oldData = [Data getData:filename];
+    if (currentTrip == totalTrip) {
+        // this is a new route, so update the total
         totalTrip++;
+    } else if (![oldData.startLabel isEqual:data.startLabel]
+        || ![oldData.destLabel isEqual:data.destLabel]
+        || ![oldData.routeLabel isEqual:data.routeLabel])
+    {
+        // isEdit flag indicates to buzz view controller
+        // whether alarms need to be reset. e.g.
+        // isEdit is TRUE will cause alarms to be reset
+        // since start/end/route changes create a new route,
+        // any other changes does not require the alarms to
+        // be reset (isEdit is FALSE)
+        isEdit = TRUE;
     }
+    [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
