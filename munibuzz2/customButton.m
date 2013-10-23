@@ -9,7 +9,6 @@
 #import "customButton.h"
 
 @implementation customButton
-@synthesize minute;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -18,18 +17,19 @@
         self.backgroundColor = [UIColor redColor];
         [self setTitle:@"-" forState:UIControlStateNormal];
         self.tintColor = [UIColor whiteColor];
-        [self setTitle:[NSString stringWithFormat:@"%ld", self.minute] forState:UIControlStateNormal];
+        self.alarm = [[UILocalNotification alloc] init];
     }
     return self;
 }
 
-- (BOOL)isAlarmOn
+- (void)setBackground
 {
-    if ([self.backgroundColor isEqual:[UIColor redColor]])
-        return FALSE;
-    return TRUE;
+    if (self.isOn) {
+        [self setBackgroundColor:[UIColor orangeColor]];
+    } else {
+        [self setBackgroundColor:[UIColor redColor]];
+    }
 }
-
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

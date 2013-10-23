@@ -21,10 +21,12 @@ UILocalNotification *notification;
 @property (weak, nonatomic) IBOutlet UILabel *slabel;
 @property (weak, nonatomic) IBOutlet UILabel *dlabel;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
+@property (strong, nonatomic) NSMutableArray *rowTimer;
 @property BOOL canRefresh;
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
+-(void)refreshRowAlarms:(id)sender;
 +(NSArray*)refreshTime;
-+(void)refreshAlarm;
++(void)refreshAlarm:(NSInteger)index;
 
 @end

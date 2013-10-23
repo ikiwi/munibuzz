@@ -25,6 +25,7 @@ NSInteger MAXTRIPS=20;
     if ([oldNotifications count] > 0) {
         [app cancelAllLocalNotifications];
     }
+    alarmNotification = nil;
 
     totalTrip = MAXTRIPS;
     dataArray = [Data getAll];
@@ -36,12 +37,7 @@ NSInteger MAXTRIPS=20;
 
 - (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    UIApplicationState state = [application applicationState];
-
     alarmNotification = notification;
-    
-    [BuzzViewController refreshAlarm];
-    
     
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"

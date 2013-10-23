@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface customButton : UIButton
-@property NSInteger minute;
 @property UILocalNotification *alarm;
--(BOOL)isAlarmOn;
+@property BOOL isOn;
+-(void)setBackground;
 @end
