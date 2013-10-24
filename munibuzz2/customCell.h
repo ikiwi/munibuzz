@@ -11,4 +11,5 @@
 @interface customCell : UITableViewCell
 @property (strong, nonatomic) UILabel *startLabel;
 @property (strong, nonatomic) UILabel *destLabel;
+@property (strong, nonatomic) UILabel *routeId;
 @end

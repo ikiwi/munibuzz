@@ -41,9 +41,9 @@
         dst = src;
     }
     //resetting startlabel & destlabel to indicate obsolete data
-    [src.startLabel setString:@"location"];
-    [src.destLabel setString:@"location"];
-    [Data saveData:src filename:sf];
+    [dst.startLabel setString:@"location"];
+    [dst.destLabel setString:@"location"];
+    [Data saveData:dst filename:df];
     totalTrip--;
 }
 

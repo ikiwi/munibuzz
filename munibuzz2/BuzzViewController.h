@@ -20,6 +20,7 @@ UILocalNotification *notification;
 @property (strong, nonatomic) IBOutlet UITableView *buzzTableView;
 @property (weak, nonatomic) IBOutlet UILabel *slabel;
 @property (weak, nonatomic) IBOutlet UILabel *dlabel;
+@property (weak, nonatomic) IBOutlet UILabel *rid;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 @property (strong, nonatomic) NSMutableArray *rowTimer;
 @property BOOL canRefresh;

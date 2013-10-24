@@ -106,6 +106,13 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" restorationIdentifier="rid" text="rid" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TXb-Kt-Aue" userLabel="rid">
+                                                    <rect key="frame" x="5" y="5" width="42" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -307,6 +314,7 @@
                     <connections>
                         <outlet property="buzzTableView" destination="KQf-SN-O5f" id="gyw-4p-Tnt"/>
                         <outlet property="dlabel" destination="Qi9-yJ-XwB" id="vfS-Gl-dGg"/>
+                        <outlet property="rid" destination="TXb-Kt-Aue" id="m4f-pF-qVh"/>
                         <outlet property="scrollView" destination="sCh-85-l4D" id="WuN-bk-qCn"/>
                         <outlet property="slabel" destination="3F0-FI-WTb" id="K0Y-WQ-TSI"/>
                     </connections>

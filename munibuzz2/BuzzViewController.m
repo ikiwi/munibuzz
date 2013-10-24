@@ -20,6 +20,7 @@
 NSString *predictionString = @"prediction";
 NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
+NSInteger ROUTEIDTAG = 7;
 NSInteger SECPERMIN = 60;
 NSArray *newTime;
 NSInteger defaultRowHeight = 114;
@@ -31,6 +32,7 @@ NSInteger collapsedRowHeight = 50;
 @synthesize canRefresh;
 @synthesize slabel;
 @synthesize dlabel;
+@synthesize rid;
 @synthesize alarmArray;
 
 
@@ -345,8 +347,10 @@ NSInteger collapsedRowHeight = 50;
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
+    cell.routeId.text = data.routeId;
     [cell insertSubview:cell.startLabel atIndex:STARTLABELTAG];
     [cell insertSubview:cell.destLabel atIndex:DESTLABELTAG];
+    [cell insertSubview:cell.routeId atIndex:ROUTEIDTAG];
 
     [buzzList setObject:cell atIndexedSubscript:indexPath.row];
 

@@ -19,6 +19,8 @@
     if (self) {
         self.startLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,5,200,20)];
         self.destLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,25,200,20)];
+        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(25,10,30,15)];
+        [self.routeId setTextAlignment:NSTextAlignmentRight];
         self.startLabel.textColor = [UIColor redColor];
         self.startLabel.backgroundColor = [UIColor whiteColor];
         self.destLabel.textColor = [UIColor redColor];
