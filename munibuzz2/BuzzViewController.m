@@ -233,7 +233,8 @@ NSInteger collapsedRowHeight = 50;
 - (void)refresh
 {
     BOOL clearAlarms = FALSE;
-    
+    NSLog(@"refreshing");
+
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
@@ -261,12 +262,14 @@ NSInteger collapsedRowHeight = 50;
         // and y ranges from 0 to 4 (max alarms)
         button.tag = ii*100;
         if (button.isOn == TRUE) {
+            [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
             if (clearAlarms == TRUE) {
                 button.isOn = FALSE;
-                [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
             } else {
+                NSLog(@"resetting alarm");
                 NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
                 [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
+                [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
             }
         }
         [button setBackground];
@@ -285,12 +288,13 @@ NSInteger collapsedRowHeight = 50;
             // and y ranges from 0 to 4 (max alarms)
             button.tag = ii*100 + jj;
             if (button.isOn == TRUE) {
+                [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
                 if (clearAlarms == TRUE) {
                     button.isOn = FALSE;
-                    [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
                 } else {
                     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
                     [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
+                    [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
                 }
             }
             [button setBackground];
