@@ -37,13 +37,15 @@ NSInteger MAXTRIPS=20;
 
 - (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    alarmNotification = notification;
+//    alarmNotification = notification;
     
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"
                           message:notification.alertBody
                           delegate:self
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    
+    [BuzzViewController turnOffAlarm:notification];
     
     [alert show];
 }

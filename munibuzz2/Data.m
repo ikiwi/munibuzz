@@ -86,9 +86,9 @@
         self.routeId = [NSMutableString stringWithString:@"0"];
         self.useDefault = [NSMutableString stringWithString:@"YES"];
         self.includeReturn = [NSMutableString stringWithString:@"NO"];
-        self.repeatLabel = [NSMutableString stringWithString:@""];
+        self.repeatLabel = [NSMutableString stringWithString:@"Never"];
         self.repeat_default_label = [NSMutableString stringWithString:@""];
-        self.remindLabel = [NSMutableString stringWithString:@""];
+        self.remindLabel = [NSMutableString stringWithString:@"None"];
         self.remind_default_label = [NSMutableString stringWithString:@""];
         self.alarm = [NSMutableString stringWithString:@""];
     }

@@ -117,7 +117,7 @@ NSInteger collapsedRowHeight = 50;
         [self refresh];
         [buzzTableView endUpdates];
      }
-    
+    [self showAllEvents];
     
     [buzzTableView reloadData];
 }
@@ -139,13 +139,27 @@ NSInteger collapsedRowHeight = 50;
      }
 }
 
+- (NSInteger)getReminderMinutes:(NSInteger)alarm
+{
+    NSInteger reminder;
+    if ([data.useDefault isEqualToString:@"YES"]) {
+        reminder = [data.remind_default_label integerValue];
+    } else {
+        reminder = [data.remindLabel integerValue];
+    }
+    if ((alarm - reminder) <= 0) {
+        NSLog(@"alarm cannot be set");
+    }
+    return (alarm - reminder);
+}
+
 - (void)setAlarm:(id)sender
 {
     UIApplication *app = [UIApplication sharedApplication];
     NSInteger tmp = ((UIControl*)sender).tag;
     NSInteger ii = tmp / 100;
     NSInteger jj = tmp % 5;
-    NSInteger seconds = [[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue] * SECPERMIN;
+    NSInteger seconds = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]] * SECPERMIN;
     
     // switch alarm on or off
     customCell *cell = [buzzList objectAtIndex:ii];
@@ -169,11 +183,9 @@ NSInteger collapsedRowHeight = 50;
         }
     } else {
         // set alarm
+        NSLog(@"setting alarm for %ld", seconds);
         button.isOn = TRUE;
         [button setBackground];
-        if (seconds == 0) {
-            return;
-        }
         [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
         button.alarm.alertBody = @"Your muni is arriving.";
         button.alarm.applicationIconBadgeNumber = 1;
@@ -186,6 +198,26 @@ NSInteger collapsedRowHeight = 50;
         NSLog(@"turning %ld %ld on", ii, jj);
         [app scheduleLocalNotification:button.alarm];
     }
+}
+
++(void)turnOffAlarm:(UILocalNotification*)oneEvent
+{
+    NSDictionary *userInfoCurrent = oneEvent.userInfo;
+    NSString *str = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
+    NSScanner *theScanner = [NSScanner scannerWithString:str];
+    NSInteger ii = 0;
+    NSInteger jj = 0;
+    [theScanner scanInteger:&ii];
+    [theScanner scanString:@"-" intoString:NULL];
+    [theScanner scanInteger:&jj];
+    if (ii < 0 || ii > 5 || jj < 0 || jj > 5) {
+        NSLog(@"turning off alarm failed %ld %ld", ii, jj);
+        return;
+    }
+    UITableViewCell *cell = [buzzList objectAtIndex:ii];
+    customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+    button.isOn = FALSE;
+    [button setBackground];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -233,7 +265,8 @@ NSInteger collapsedRowHeight = 50;
                 button.isOn = FALSE;
                 [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
             } else {
-                [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+                NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
+                [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
             }
         }
         [button setBackground];
@@ -256,7 +289,8 @@ NSInteger collapsedRowHeight = 50;
                     button.isOn = FALSE;
                     [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
                 } else {
-                    [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:([newtime integerValue]*SECPERMIN)]];
+                    NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
+                    [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                 }
             }
             [button setBackground];

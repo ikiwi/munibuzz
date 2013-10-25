@@ -29,5 +29,6 @@ UILocalNotification *notification;
 -(void)refreshRowAlarms:(id)sender;
 +(NSArray*)refreshTime;
 +(void)refreshAlarm:(NSInteger)index;
++(void)turnOffAlarm:(UILocalNotification*)notification;
 
 @end
