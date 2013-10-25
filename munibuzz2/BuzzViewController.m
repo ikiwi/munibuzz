@@ -117,6 +117,8 @@ NSInteger collapsedRowHeight = 50;
         [self refresh];
         [buzzTableView endUpdates];
      }
+    
+    
     [buzzTableView reloadData];
 }
 

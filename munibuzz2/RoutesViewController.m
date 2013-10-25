@@ -32,6 +32,10 @@ search for the stopId for the matching routeTag and directionTag
 
 @end
 
+NSArray *reminderArray;
+NSArray *repeatArray;
+UIBarButtonItem *doneButton;
+BOOL reminding;
 @implementation RoutesViewController
 @synthesize tripArray;
 @synthesize startCell;
@@ -41,6 +45,8 @@ search for the stopId for the matching routeTag and directionTag
 @synthesize repeatCell;
 @synthesize useDefaultCell;
 @synthesize includeReturnCell;
+@synthesize backToBuzz;
+@synthesize saveRoute;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -76,8 +82,8 @@ search for the stopId for the matching routeTag and directionTag
                  [Trip tripId:@"Include return journey" desc:@""], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Use default" desc:@""],
-                 [Trip tripId:@"Remind me" desc:@"None"],
-                 [Trip tripId:@"Repeat reminder" desc:@"Never"], nil];
+                 [Trip tripId:@"Remind me" desc:data.remindLabel],
+                 [Trip tripId:@"Repeat reminder" desc:data.repeatLabel], nil];
     
     tripArray = [NSArray arrayWithObjects:subArray1,subArray2,nil];
 
@@ -93,6 +99,20 @@ search for the stopId for the matching routeTag and directionTag
         includeReturnSwitch = FALSE;
         [data.includeReturn setString:@"NO"];
     }
+    reminderArray = [NSArray arrayWithObjects:
+                     @"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before", nil];
+    repeatArray = [NSArray arrayWithObjects:
+                     @"Never", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", nil];
+    
+    self.pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 350, 0, 0)];
+    self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.pickerView.showsSelectionIndicator = YES;
+    [backToBuzz setAction:@selector(backButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = backToBuzz;
+    
+    // this view controller is the data source and delegate
+    self.pickerView.delegate = self;
+    self.pickerView.dataSource = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -187,11 +207,24 @@ search for the stopId for the matching routeTag and directionTag
     
         [self.navigationController pushViewController:svc animated:YES];
     } else if ([trip.name isEqual: @"Remind me"]) {
-        ReminderTableViewController *reminder = [[ReminderTableViewController alloc] init];
-        [self.navigationController pushViewController:reminder animated:YES];
+        reminding = TRUE;
+        if (self.pickerView.superview == nil) {
+            
+            [self.view.window addSubview: self.pickerView];
+        }
+        [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
+        [self.pickerView reloadComponent:0];
+        self.navigationItem.rightBarButtonItem = doneButton;
+        
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
-        RepeatTableViewController *repeat = [[RepeatTableViewController alloc] init];
-        [self.navigationController pushViewController:repeat animated:YES];
+        reminding = FALSE;
+        if (self.pickerView.superview == nil) {
+            
+            [self.view.window addSubview: self.pickerView];
+        }
+        [self.pickerView selectRow:[data.repeatLabel integerValue] inComponent:0 animated:YES];
+        [self.pickerView reloadComponent:0];
+        self.navigationItem.rightBarButtonItem = doneButton;
     }
 
 }
@@ -203,6 +236,76 @@ search for the stopId for the matching routeTag and directionTag
     routeCell.detailTextLabel.text = data.routeLabel;
     remindCell.detailTextLabel.text = data.remindLabel;
     repeatCell.detailTextLabel.text = data.repeatLabel;
+    doneButton = [[UIBarButtonItem alloc]
+                  initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                  target:self
+                  action:@selector(doneAction:)];
+}
+
+- (void)doneAction:(id)sender
+{
+    [self.pickerView removeFromSuperview];
+    
+    // remove the "Done" button in the nav bar
+    self.navigationItem.rightBarButtonItem = saveRoute;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
+       inComponent:(NSInteger)component
+{
+    if (reminding == TRUE) {
+        data.remindLabel = [reminderArray objectAtIndex:row];
+        remindCell.detailTextLabel.text = data.remindLabel;
+    } else {
+        data.repeatLabel = [repeatArray objectAtIndex:row];
+        repeatCell.detailTextLabel.text = data.repeatLabel;
+    }
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView
+numberOfRowsInComponent:(NSInteger)component
+{
+    if (reminding == TRUE)
+        return [reminderArray count];
+    else return [repeatArray count];
+}
+
+- (NSInteger)numberOfComponentsInPickerView:
+(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+- (IBAction)backButtonPressed:(id)sender {
+    [self.pickerView removeFromSuperview];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// Set the size of the component wheel on the picker
+- (CGFloat)pickerView:(UIPickerView *)pickerView
+    widthForComponent:(NSInteger)component
+{
+    CGFloat componentWidth = 60.0;
+    return componentWidth;
+}
+
+// Populate the picker
+- (NSString *)pickerView:(UIPickerView *)pickerView
+             titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *returnStr = @"";
+    
+    // note: custom picker doesn't care about titles, it
+    // uses custom views
+    if (reminding == TRUE) {
+        returnStr = [NSString stringWithFormat:@"%@",
+                     [reminderArray objectAtIndex:row]];
+    } else {
+        returnStr = [NSString stringWithFormat:@"%@",
+                     [repeatArray objectAtIndex:row]];
+    }
+    
+    return returnStr;
 }
 
 - (IBAction)savingRoute:(id)sender {
@@ -222,6 +325,7 @@ search for the stopId for the matching routeTag and directionTag
         // be reset (isEdit is FALSE)
         isEdit = TRUE;
     }
+
     [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
 }
