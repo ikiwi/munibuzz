@@ -30,8 +30,6 @@
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
 		A6DCD581180F2EE5002677D1 /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DCD580180F2EE5002677D1 /* customButton.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
-		A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48491180D331E00523012 /* ReminderTableViewController.m */; };
-		A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F48494180D332900523012 /* RepeatTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,10 +80,6 @@
 		A6DCD580180F2EE5002677D1 /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
 		A6F4848E180D0CEC00523012 /* StopsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsTableViewController.m; sourceTree = "<group>"; };
-		A6F48490180D331E00523012 /* ReminderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReminderTableViewController.h; sourceTree = "<group>"; };
-		A6F48491180D331E00523012 /* ReminderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReminderTableViewController.m; sourceTree = "<group>"; };
-		A6F48493180D332900523012 /* RepeatTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepeatTableViewController.h; sourceTree = "<group>"; };
-		A6F48494180D332900523012 /* RepeatTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepeatTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,10 +158,6 @@
 				A687FE8E1810E88900398423 /* customCell.m */,
 				A6074FF8180A4C6400396E55 /* RoutesViewController.h */,
 				A6074FF9180A4C6400396E55 /* RoutesViewController.m */,
-				A6F48493180D332900523012 /* RepeatTableViewController.h */,
-				A6F48494180D332900523012 /* RepeatTableViewController.m */,
-				A6F48490180D331E00523012 /* ReminderTableViewController.h */,
-				A6F48491180D331E00523012 /* ReminderTableViewController.m */,
 				A6430C83180CCAC500C0A699 /* SettingsViewController.h */,
 				A6430C84180CCAC500C0A699 /* SettingsViewController.m */,
 				A6F4848D180D0CEC00523012 /* StopsTableViewController.h */,
@@ -305,9 +295,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6A5088A180E2A0700D6DA5C /* Data.m in Sources */,
-				A6F48492180D331E00523012 /* ReminderTableViewController.m in Sources */,
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
-				A6F48495180D332900523012 /* RepeatTableViewController.m in Sources */,
 				A6DCD581180F2EE5002677D1 /* customButton.m in Sources */,
 				A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */,
 				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,

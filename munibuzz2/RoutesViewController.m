@@ -22,8 +22,6 @@ search for the stopId for the matching routeTag and directionTag
 
 #import "RoutesViewController.h"
 #import "StopsTableViewController.h"
-#import "RepeatTableViewController.h"
-#import "ReminderTableViewController.h"
 #import "AppDelegate.h"
 #import "Trip.h"
 #import "BuzzViewController.h"
@@ -104,15 +102,16 @@ BOOL reminding;
     repeatArray = [NSArray arrayWithObjects:
                      @"Never", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", nil];
     
-    self.pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 350, 0, 0)];
+    self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.pickerView.showsSelectionIndicator = YES;
+    self.pickerView.delegate = self;
+    self.pickerView.dataSource = self;
+    
     [backToBuzz setAction:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem = backToBuzz;
     
-    // this view controller is the data source and delegate
-    self.pickerView.delegate = self;
-    self.pickerView.dataSource = self;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -214,6 +213,11 @@ BOOL reminding;
         }
         [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [self.pickerView reloadComponent:0];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 380, [[self view] frame].size.width, 216)];
+        [UIView beginAnimations: nil context: NULL];
+        [UIView setAnimationDuration: 0.25];
+        [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
+        [UIView commitAnimations];
         self.navigationItem.rightBarButtonItem = doneButton;
         
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
@@ -224,6 +228,11 @@ BOOL reminding;
         }
         [self.pickerView selectRow:[data.repeatLabel integerValue] inComponent:0 animated:YES];
         [self.pickerView reloadComponent:0];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
+        [UIView beginAnimations: nil context: NULL];
+        [UIView setAnimationDuration: 0.25];
+        [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
+        [UIView commitAnimations];
         self.navigationItem.rightBarButtonItem = doneButton;
     }
 
