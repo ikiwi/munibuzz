@@ -10,6 +10,9 @@
 
 @interface customButton : UIButton
 @property UILocalNotification *alarm;
+@property UILocalNotification *alarm2;
 @property BOOL isOn;
+@property BOOL alarmOn;
+@property BOOL alarm2On;
 -(void)setBackground;
 @end

@@ -97,10 +97,8 @@ BOOL reminding;
         includeReturnSwitch = FALSE;
         [data.includeReturn setString:@"NO"];
     }
-    reminderArray = [NSArray arrayWithObjects:
-                     @"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before", nil];
-    repeatArray = [NSArray arrayWithObjects:
-                     @"Never", @"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", nil];
+    reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
+    repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
     
     self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -110,8 +108,6 @@ BOOL reminding;
     
     [backToBuzz setAction:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem = backToBuzz;
-    
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -226,6 +222,13 @@ BOOL reminding;
             
             [self.view.window addSubview: self.pickerView];
         }
+        
+        if ([data.repeatLabel integerValue] >= [data.remindLabel integerValue]) {
+            data.repeatLabel = [reminderArray objectAtIndex:0];
+        }
+
+        NSInteger end = [data.remindLabel integerValue] ;
+        repeatArray = [reminderArray subarrayWithRange:NSMakeRange(0, end)];
         [self.pickerView selectRow:[data.repeatLabel integerValue] inComponent:0 animated:YES];
         [self.pickerView reloadComponent:0];
         [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
@@ -335,6 +338,10 @@ numberOfRowsInComponent:(NSInteger)component
         isEdit = TRUE;
     }
 
+    //reset repeat if it's larger than reminder
+    if ([data.repeatLabel integerValue] >= [data.remindLabel integerValue]) {
+        data.repeatLabel = [reminderArray objectAtIndex:0];
+    }
     [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
 }

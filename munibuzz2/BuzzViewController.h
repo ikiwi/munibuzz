@@ -26,6 +26,7 @@ UILocalNotification *notification;
 @property BOOL canRefresh;
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
+-(void)setAlarmInternal:(UILocalNotification*)alarm ii:(NSInteger)ii jj:(NSInteger)jj seconds:(NSInteger)seconds alarmID:(NSDictionary*)alarmID;
 -(void)refreshRowAlarms:(id)sender;
 +(NSArray*)refreshTime;
 +(void)refreshAlarm:(NSInteger)index;

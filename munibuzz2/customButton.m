@@ -18,6 +18,9 @@
         [self setTitle:@"-" forState:UIControlStateNormal];
         self.tintColor = [UIColor whiteColor];
         self.alarm = [[UILocalNotification alloc] init];
+        self.alarmOn = FALSE;
+        self.alarm2 = [[UILocalNotification alloc] init];
+        self.alarm2On = FALSE;
     }
     return self;
 }
