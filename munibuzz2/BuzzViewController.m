@@ -175,6 +175,9 @@ NSInteger collapsedRowHeight = 50;
     NSInteger ii = tmp / 100;
     NSInteger jj = tmp % 5;
     
+    if ([[[alarmArray objectAtIndex:ii] objectAtIndex:jj] isEqual:@"-"]) {
+        return;
+    }
     // switch alarm on or off
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
@@ -182,10 +185,12 @@ NSInteger collapsedRowHeight = 50;
         button.isOn = FALSE;
         [button setBackground];
         if (button.alarmOn) {
+            NSLog(@"setting alarm off");
             button.alarmOn = FALSE;
             [app cancelLocalNotification:button.alarm];
         }
         if (button.alarm2On) {
+            NSLog(@"setting alarm2 off");
             button.alarm2On = FALSE;
             [app cancelLocalNotification:button.alarm2];
         }
@@ -292,30 +297,41 @@ NSInteger collapsedRowHeight = 50;
             // muni has arrived and predictions queue has shifted, now we can shift the alarms
             [[self class] refreshAlarm:ii];
         }
-        [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+        button.titleLabel.text = [NSString stringWithFormat:@"%@",newtime];
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
         // and y ranges from 0 to 4 (max alarms)
         button.tag = ii*100;
         if (button.isOn == TRUE) {
-            [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
-            if (hasRepeat) {
+            if (button.alarmOn) {
+                [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
+            }
+            if (button.alarm2On) {
                 [[UIApplication sharedApplication] cancelLocalNotification:button.alarm2];
+                if (!hasRepeat)
+                    button.alarm2On = FALSE;
             }
             if (clearAlarms == TRUE) {
                 button.isOn = FALSE;
+                button.alarmOn = FALSE;
+                button.alarm2On = FALSE;
             } else {
                 if (button.alarmOn) {
-                    NSLog(@"resetting alarm");
                     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
                     [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                     [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
                 }
-                if (button.alarm2On || hasRepeat) {
-                    NSInteger repeat = [self getRepeatMinutes:[newtime integerValue]];
-                    [button.alarm2 setFireDate:[NSDate dateWithTimeIntervalSinceNow:(repeat * SECPERMIN)]];
-                    [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm2];
+                if (hasRepeat) {
+                    if (button.alarm2On == FALSE) {
+                        NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-0-2",ii] forKey:@"id"];
+                        [self setAlarmInternal:button.alarm2 ii:ii jj:0 seconds:([self getRepeatMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:0] integerValue]] * SECPERMIN) alarmID:alarmID];
+                    } else {
+                        NSInteger repeat = [self getRepeatMinutes:[newtime integerValue]];
+                        [button.alarm2 setFireDate:[NSDate dateWithTimeIntervalSinceNow:(repeat * SECPERMIN)]];
+                        [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm2];
+                    }
+                    button.alarm2On = TRUE;
                 }
             }
         }
@@ -328,7 +344,7 @@ NSInteger collapsedRowHeight = 50;
             customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
             NSString *newtime = [newTime objectAtIndex:jj];
             
-            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+            button.titleLabel.text = [NSString stringWithFormat:@"%@",newtime];
 
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
             // to make the button retrievable, set tag to the schedule #
@@ -336,26 +352,39 @@ NSInteger collapsedRowHeight = 50;
             // and y ranges from 0 to 4 (max alarms)
             button.tag = ii*100 + jj;
             if (button.isOn == TRUE) {
-                [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
-                if (hasRepeat) {
+                if (button.alarmOn) {
+                    [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
+                }
+                if (button.alarm2On) {
                     [[UIApplication sharedApplication] cancelLocalNotification:button.alarm2];
+                    if (!hasRepeat)
+                        button.alarm2On = FALSE;
                 }
                 if (clearAlarms == TRUE) {
                     button.isOn = FALSE;
+                    button.alarmOn = FALSE;
+                    button.alarm2On = FALSE;
                 } else {
                     if (button.alarmOn) {
                         NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
                         [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                         [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
                     }
-                    if (button.alarm2On || hasRepeat) {
-                        NSInteger repeat = [self getRepeatMinutes:[newtime integerValue]];
-                        [button.alarm2 setFireDate:[NSDate dateWithTimeIntervalSinceNow:(repeat * SECPERMIN)]];
-                        [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm2];
+                    if (hasRepeat) {
+                        if (button.alarm2On == FALSE) {
+                            NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
+                            [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:([self getRepeatMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]] * SECPERMIN) alarmID:alarmID];
+                        } else {
+                            NSInteger repeat = [self getRepeatMinutes:[newtime integerValue]];
+                            [button.alarm2 setFireDate:[NSDate dateWithTimeIntervalSinceNow:(repeat * SECPERMIN)]];
+                            [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm2];
+                        }
+                        button.alarm2On = TRUE;
                     }
                 }
             }
             [button setBackground];
+
         }
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;
@@ -397,9 +426,11 @@ NSInteger collapsedRowHeight = 50;
         }
         [theScanner scanUpToString:@"minutes" intoString:NULL];
     }
-    while ([result count] < 5) {
+    NSInteger count = [result count];
+    while (count < 5) {
         //if there no more predictions, pad the rest of the array
         [result addObject:@"-"];
+        count++;
     }
 
     return result;

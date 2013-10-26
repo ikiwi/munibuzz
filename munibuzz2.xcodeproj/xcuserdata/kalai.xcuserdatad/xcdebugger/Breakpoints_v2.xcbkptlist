@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404440775.181319"
+            timestampString = "404465860.24762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "470"
-            endingLineNumber = "470"
+            startingLineNumber = "501"
+            endingLineNumber = "501"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404440775.181319"
+            timestampString = "404465860.24762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "502"
-            endingLineNumber = "502">
+            startingLineNumber = "533"
+            endingLineNumber = "533">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -166,11 +166,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404440775.181319"
+            timestampString = "404465860.24762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "212"
+            endingLineNumber = "212"
             landmarkName = "-setAlarmInternal:ii:jj:seconds:alarmID:"
             landmarkType = "5">
          </BreakpointContent>
