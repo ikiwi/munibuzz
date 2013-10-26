@@ -297,7 +297,7 @@ NSInteger collapsedRowHeight = 50;
             // muni has arrived and predictions queue has shifted, now we can shift the alarms
             [[self class] refreshAlarm:ii];
         }
-        button.titleLabel.text = [NSString stringWithFormat:@"%@",newtime];
+        [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
@@ -344,7 +344,7 @@ NSInteger collapsedRowHeight = 50;
             customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
             NSString *newtime = [newTime objectAtIndex:jj];
             
-            button.titleLabel.text = [NSString stringWithFormat:@"%@",newtime];
+            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
 
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
             // to make the button retrievable, set tag to the schedule #

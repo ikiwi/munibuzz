@@ -34,6 +34,7 @@ NSArray *reminderArray;
 NSArray *repeatArray;
 UIBarButtonItem *doneButton;
 BOOL reminding;
+BOOL selected;
 @implementation RoutesViewController
 @synthesize tripArray;
 @synthesize startCell;
@@ -100,6 +101,7 @@ BOOL reminding;
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
     
+    selected = FALSE;
     self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.pickerView.showsSelectionIndicator = YES;
@@ -202,14 +204,18 @@ BOOL reminding;
     
         [self.navigationController pushViewController:svc animated:YES];
     } else if ([trip.name isEqual: @"Remind me"]) {
+        if (selected == TRUE) {
+            // close existing picker view
+            [self doneAction:self];
+            selected = FALSE;
+        }
         reminding = TRUE;
         if (self.pickerView.superview == nil) {
-            
             [self.view.window addSubview: self.pickerView];
         }
-        [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [self.pickerView reloadComponent:0];
         [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 380, [[self view] frame].size.width, 216)];
+        [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];
         [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
@@ -217,6 +223,11 @@ BOOL reminding;
         self.navigationItem.rightBarButtonItem = doneButton;
         
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
+        if (selected == TRUE) {
+            // close existing picker view
+            [self doneAction:self];
+            selected = FALSE;
+        }
         reminding = FALSE;
         if (self.pickerView.superview == nil) {
             
@@ -228,10 +239,13 @@ BOOL reminding;
         }
 
         NSInteger end = [data.remindLabel integerValue] ;
+        if (end == 0) {
+            end = 1;
+        }
         repeatArray = [reminderArray subarrayWithRange:NSMakeRange(0, end)];
-        [self.pickerView selectRow:[data.repeatLabel integerValue] inComponent:0 animated:YES];
         [self.pickerView reloadComponent:0];
         [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
+        [self.pickerView selectRow:[data.repeatLabel integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];
         [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
@@ -265,6 +279,7 @@ BOOL reminding;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component
 {
+    selected = TRUE;
     if (reminding == TRUE) {
         data.remindLabel = [reminderArray objectAtIndex:row];
         remindCell.detailTextLabel.text = data.remindLabel;
