@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor redColor];
-        [self setTitle:@"-" forState:UIControlStateNormal];
+        self.titleLabel.text = @"-";
         self.tintColor = [UIColor whiteColor];
         self.alarm = [[UILocalNotification alloc] init];
         self.alarmOn = FALSE;
