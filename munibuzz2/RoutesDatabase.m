@@ -22,11 +22,16 @@ static RoutesDatabase *_database;
 
 - (id)init {
     if ((self = [super init])) {
-        NSString *sqLiteDb = [[NSBundle mainBundle] pathForResource:@"data.sqlite3"
-                                                             ofType:@"sqlite3"];
-        NSLog(@"routes db: %d %d", sqlite3_open([sqLiteDb UTF8String], &_database), (int)SQLITE_OK);
-        if (sqlite3_open([sqLiteDb UTF8String], &_database) != SQLITE_OK) {
-            NSLog(@"Failed to open database!");
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        NSString *dbPath = [[[NSBundle mainBundle] resourcePath ]stringByAppendingPathComponent:@"data.sqlite3"];
+        BOOL success = [fileMgr fileExistsAtPath:dbPath];
+        if (success == FALSE)
+        {
+            NSLog(@"Error finding path %@", dbPath);
+        }
+        if(sqlite3_open([dbPath UTF8String], &_database) != SQLITE_OK)
+        {
+            NSLog(@"An error has occured.");
         }
     }
     return self;
@@ -36,22 +41,10 @@ static RoutesDatabase *_database;
     sqlite3_close(_database);
 }
 
-- (NSArray *)RoutesInfo {
-    const char *query = "SELECT * FROM stops";
+- (NSArray *)RoutesInfo:(const char*) query {
     sqlite3_stmt *statement;
     NSMutableArray *retval = [[NSMutableArray alloc] init];
-    NSFileManager *fileMgr = [NSFileManager defaultManager];
-    NSString *dbPath = [[[NSBundle mainBundle] resourcePath ]stringByAppendingPathComponent:@"data.sqlite3"];
-    BOOL success = [fileMgr fileExistsAtPath:dbPath];
-    if (success == FALSE)
-    {
-        NSLog(@"Error finding path %@", dbPath);
-    }
-    if(!(sqlite3_open([dbPath UTF8String], &_database) == SQLITE_OK))
-    {
-        NSLog(@"An error has occured.");
-    }
-    
+
     if (sqlite3_prepare((_database), query, -1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
             char *nameChars = (char *) sqlite3_column_text(statement, 0);

@@ -35,8 +35,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    stopsArray = [[RoutesDatabase database] RoutesInfo];
+    const char *query = "SELECT * FROM stops group by title";
+
+    stopsArray = [[RoutesDatabase database] RoutesInfo:query];
 
 
     self.filteredStopsArray = [NSMutableArray arrayWithCapacity:[stopsArray count]];

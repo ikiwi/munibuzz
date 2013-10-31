@@ -34,8 +34,6 @@ NSInteger MAXTRIPS=20;
     // Reset the Icon Alert Number back to Zero
     application.applicationIconBadgeNumber = 0;
     
-//    NSArray *routelist = [[RoutesDatabase database] RoutesInfo];
-    
     return YES;
 }
 
