@@ -11,6 +11,8 @@
 #import "BuzzViewController.h"
 #import "Data.h"
 #import "customButton.h"
+#import "RoutesDatabase.h"
+#import "Stops.h"
 
 NSInteger MAXTRIPS=20;
 
@@ -31,6 +33,8 @@ NSInteger MAXTRIPS=20;
     dataArray = [Data getAll];
     // Reset the Icon Alert Number back to Zero
     application.applicationIconBadgeNumber = 0;
+    
+//    NSArray *routelist = [[RoutesDatabase database] RoutesInfo];
     
     return YES;
 }

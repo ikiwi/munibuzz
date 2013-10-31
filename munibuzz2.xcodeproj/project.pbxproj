@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6074FF9180A4C6400396E55 /* RoutesViewController.m */; };
+		A62AE3E418220ECE00CC18A2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */; };
 		A6430C82180C856E00C0A699 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C81180C856E00C0A699 /* Trip.m */; };
 		A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C84180CCAC500C0A699 /* SettingsViewController.m */; };
 		A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A64C9545180CD7ED0010336B /* BuzzViewController.m */; };
 		A666565E180A370500387844 /* Stops.m in Sources */ = {isa = PBXBuildFile; fileRef = A666565D180A370500387844 /* Stops.m */; };
 		A687FE8F1810E88900398423 /* customCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A687FE8E1810E88900398423 /* customCell.m */; };
+		A696F47A181FA44700B8786E /* RoutesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A696F479181FA44700B8786E /* RoutesDatabase.m */; };
 		A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED971808918A00482EC5 /* Foundation.framework */; };
 		A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED991808918A00482EC5 /* CoreGraphics.framework */; };
 		A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
@@ -28,8 +30,11 @@
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
+		A6D351E51822127000A9A3A2 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A6D351E41822127000A9A3A2 /* data.sqlite3 */; };
+		A6D351E7182213D000A9A3A2 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A6D351E41822127000A9A3A2 /* data.sqlite3 */; };
 		A6DCD581180F2EE5002677D1 /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DCD580180F2EE5002677D1 /* customButton.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
+		A6F6935D18220BC3009C8D17 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,8 @@
 		A666565D180A370500387844 /* Stops.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Stops.m; sourceTree = "<group>"; };
 		A687FE8D1810E88900398423 /* customCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customCell.h; sourceTree = "<group>"; };
 		A687FE8E1810E88900398423 /* customCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customCell.m; sourceTree = "<group>"; };
+		A696F478181FA44700B8786E /* RoutesDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesDatabase.h; sourceTree = "<group>"; };
+		A696F479181FA44700B8786E /* RoutesDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesDatabase.m; sourceTree = "<group>"; };
 		A698ED941808918A00482EC5 /* munibuzz2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = munibuzz2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A698ED971808918A00482EC5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A698ED991808918A00482EC5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -76,10 +83,12 @@
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
 		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		A6D351E41822127000A9A3A2 /* data.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = data.sqlite3; sourceTree = "<group>"; };
 		A6DCD57F180F2EE5002677D1 /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
 		A6DCD580180F2EE5002677D1 /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
 		A6F4848E180D0CEC00523012 /* StopsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopsTableViewController.m; sourceTree = "<group>"; };
+		A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A62AE3E418220ECE00CC18A2 /* libsqlite3.dylib in Frameworks */,
 				A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */,
 				A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */,
 				A698ED981808918A00482EC5 /* Foundation.framework in Frameworks */,
@@ -100,6 +110,7 @@
 				A698EDB71808918A00482EC5 /* XCTest.framework in Frameworks */,
 				A698EDB91808918A00482EC5 /* UIKit.framework in Frameworks */,
 				A698EDB81808918A00482EC5 /* Foundation.framework in Frameworks */,
+				A6F6935D18220BC3009C8D17 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +139,7 @@
 		A698ED961808918A00482EC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */,
 				A698ED971808918A00482EC5 /* Foundation.framework */,
 				A698ED991808918A00482EC5 /* CoreGraphics.framework */,
 				A698ED9B1808918A00482EC5 /* UIKit.framework */,
@@ -139,6 +151,7 @@
 		A698ED9D1808918A00482EC5 /* munibuzz2 */ = {
 			isa = PBXGroup;
 			children = (
+				A6D351E6182213A600A9A3A2 /* Resources */,
 				A698EDA61808918A00482EC5 /* AppDelegate.h */,
 				A698EDA71808918A00482EC5 /* AppDelegate.m */,
 				A698EDAC1808918A00482EC5 /* ViewController.h */,
@@ -148,6 +161,8 @@
 				A666565D180A370500387844 /* Stops.m */,
 				A6A50888180E2A0700D6DA5C /* Data.h */,
 				A6A50889180E2A0700D6DA5C /* Data.m */,
+				A696F478181FA44700B8786E /* RoutesDatabase.h */,
+				A696F479181FA44700B8786E /* RoutesDatabase.m */,
 				A6430C80180C856E00C0A699 /* Trip.h */,
 				A6430C81180C856E00C0A699 /* Trip.m */,
 				A6DCD57F180F2EE5002677D1 /* customButton.h */,
@@ -195,6 +210,14 @@
 				A698EDBF1808918A00482EC5 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A6D351E6182213A600A9A3A2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A6D351E41822127000A9A3A2 /* data.sqlite3 */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -274,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDB01808918A00482EC5 /* Images.xcassets in Resources */,
+				A6D351E51822127000A9A3A2 /* data.sqlite3 in Resources */,
 				A698EDA21808918A00482EC5 /* InfoPlist.strings in Resources */,
 				A698EDAB1808918A00482EC5 /* Main.storyboard in Resources */,
 			);
@@ -284,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */,
+				A6D351E7182213D000A9A3A2 /* data.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +323,7 @@
 				A698EDAE1808918A00482EC5 /* ViewController.m in Sources */,
 				A6DCD581180F2EE5002677D1 /* customButton.m in Sources */,
 				A64C9546180CD7ED0010336B /* BuzzViewController.m in Sources */,
+				A696F47A181FA44700B8786E /* RoutesDatabase.m in Sources */,
 				A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */,
 				A6430C82180C856E00C0A699 /* Trip.m in Sources */,
 				A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */,
@@ -390,6 +416,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-lsqlite3";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -422,6 +449,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				OTHER_LDFLAGS = "-lsqlite3";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -435,6 +463,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "munibuzz2/munibuzz2-Prefix.pch";
 				INFOPLIST_FILE = "munibuzz2/munibuzz2-Info.plist";
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -448,6 +477,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "munibuzz2/munibuzz2-Prefix.pch";
 				INFOPLIST_FILE = "munibuzz2/munibuzz2-Info.plist";
+				OTHER_LDFLAGS = "-lsqlite3";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -470,6 +500,10 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "munibuzz2Tests/munibuzz2Tests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsqlite3",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -489,6 +523,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "munibuzz2/munibuzz2-Prefix.pch";
 				INFOPLIST_FILE = "munibuzz2Tests/munibuzz2Tests-Info.plist";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lsqlite3",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;

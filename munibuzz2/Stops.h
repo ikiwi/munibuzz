@@ -10,17 +10,21 @@
 
 @interface Stops : NSObject
 {
-    NSString *sTag;
-    NSString *dTag;
-    NSString *title;
-    NSString *sId;
+    int _uniqueId;
+    NSString *_sTag;
+    NSString *_dTag;
+    NSString *_title;
+    NSString *_sId;
+    NSString *_rId;
 }
 
+@property (nonatomic,assign) int uniqueId;
 @property (nonatomic, copy) NSString *sTag;
 @property (nonatomic, copy) NSString *dTag;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *sId;
+@property (nonatomic, copy) NSString *rId;
 
-+ (id)stopsId:(NSString*)sTag title:(NSString*)title sId:(NSString*)sId dTag:(NSString*)dTag;
++ (id)stopsId:(NSString*)sTag title:(NSString*)title sId:(NSString*)sId dTag:(NSString*)dTag rId:(NSString*)rId;
 
 @end

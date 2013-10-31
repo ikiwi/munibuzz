@@ -9,6 +9,8 @@
 #import "Data.h"
 #import "AppDelegate.h"
 
+NSString *DATADIR = @"munibuzz";
+
 @implementation Data
 
 +(void)saveData:(Data *)aData filename:(NSString *)filename
@@ -19,7 +21,6 @@
 +(void)saveAll:(NSArray *)aArray
 {
     Data *tmp;
-    
     for (NSInteger idx = 0; idx < totalTrip; idx++)
     {
         tmp = [aArray objectAtIndex:idx];
@@ -136,6 +137,10 @@
                                                          NSUserDomainMask,
                                                          YES);
     NSString *docsDir = [paths objectAtIndex:0];
-    return [docsDir stringByAppendingString:filename];
+    NSError *error;
+    docsDir = [docsDir stringByAppendingPathComponent:DATADIR];
+    [[NSFileManager defaultManager] createDirectoryAtPath:docsDir withIntermediateDirectories:YES attributes:nil error:&error];
+    
+    return [docsDir stringByAppendingPathComponent:filename];
 }
 @end

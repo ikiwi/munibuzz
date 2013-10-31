@@ -417,8 +417,6 @@ NSInteger collapsedRowHeight = 50;
     NSDictionary *dict = [sender userInfo];
     NSInteger row = [[dict objectForKey:@"row"] integerValue];
 
-    NSLog(@"in refreshRow %ld", row);
-    
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",row]];
 }
 

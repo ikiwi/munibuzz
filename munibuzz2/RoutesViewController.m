@@ -71,8 +71,8 @@ BOOL selected;
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
         data = [[Data alloc] init];
     }
-    [data.routeId setString:@"8X"];
-    [data.routeLabel setString:@"8X-BayshoreExpress"];
+    [data.routeId setString:@""];
+    [data.routeLabel setString:@""];
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
@@ -201,6 +201,8 @@ BOOL selected;
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
+        if ([trip.name isEqual: @"Start"])
+            filtered = FALSE;
     
         [self.navigationController pushViewController:svc animated:YES];
     } else if ([trip.name isEqual: @"Remind me"]) {
