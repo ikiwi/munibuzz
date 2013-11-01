@@ -13,7 +13,9 @@
 Data *data;
 NSString *filename;
 NSArray *routesArray;
-BOOL filtered;
+NSArray *stopsArray;
+NSArray *rarray;
+NSMutableArray *filteredStopsArray;
 @interface RoutesViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 @property (strong,nonatomic) NSArray *tripArray;
 @property (strong,nonatomic) UITableViewCell *startCell;

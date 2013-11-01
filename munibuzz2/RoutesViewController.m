@@ -24,7 +24,9 @@ search for the stopId for the matching routeTag and directionTag
 #import "StopsTableViewController.h"
 #import "AppDelegate.h"
 #import "Trip.h"
+#import "Stops.h"
 #import "BuzzViewController.h"
+#import "RoutesDatabase.h"
 
 @interface RoutesViewController ()
 
@@ -100,6 +102,12 @@ BOOL selected;
     }
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
+    
+    NSString *query = @"SELECT * FROM stops group by title";
+
+    stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
+    
+    filteredStopsArray = [NSMutableArray arrayWithCapacity:[stopsArray count]];
     
     selected = FALSE;
     self.pickerView = [[UIPickerView alloc] init];
@@ -195,14 +203,34 @@ BOOL selected;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"selected %ld", indexPath.row);
     Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     if ([trip.name  isEqual: @"Start"] || [trip.name  isEqual: @"End"]) {
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
-        if ([trip.name isEqual: @"Start"])
-            filtered = FALSE;
+        if ([trip.name isEqual: @"Start"]) {
+            NSLog(@"filtering start");
+            NSString *query = @"SELECT * FROM stops group by title";
+            
+            stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
+            NSLog(@"%ld stops", [stopsArray count]);
+        }
+        if ([trip.name isEqual: @"End"]) {
+            NSLog(@"filtering end for %@", data.routeId);
+            Stops *potentialRoute = [rarray objectAtIndex:0];
+            NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by stopid having direction=\"%@\"", potentialRoute.dTag];
+            for (NSInteger idx=1; idx < [rarray count]; idx++) {
+                potentialRoute = [rarray objectAtIndex:idx];
+                [queryStr appendString:
+                 [NSString stringWithFormat:@" or direction=\"%@\"", potentialRoute.dTag]];
+            }
+            
+            stopsArray = [[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]];
+            NSLog(@"%@: %ld stops", queryStr, [stopsArray count]);
+            [filteredStopsArray setArray:stopsArray];
+        }
     
         [self.navigationController pushViewController:svc animated:YES];
     } else if ([trip.name isEqual: @"Remind me"]) {

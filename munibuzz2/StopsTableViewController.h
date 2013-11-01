@@ -11,8 +11,6 @@
 
 @interface StopsTableViewController : UITableViewController  <UISearchBarDelegate, UISearchDisplayDelegate>
 @property NSString *operation;
-@property (strong,nonatomic) NSArray *stopsArray;
-@property (strong,nonatomic) NSMutableArray *filteredStopsArray;
 @property IBOutlet UISearchBar *stopsSearchBar;
 @end
 
