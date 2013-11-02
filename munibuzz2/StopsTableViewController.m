@@ -123,14 +123,14 @@
 
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
-            if ([rarray1 count] > 0 && [directionArray count] > 0) {
+            if ([rarray1 count] > 0) {
                 [data.startStopTag setString:[[rarray1 objectAtIndex:0] sTag]];
                 [data.startStopId setString:[[rarray1 objectAtIndex:0] sId]];
-                [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
-            } else {
-                [data.startStopTag setString:@""];
-                [data.startStopId setString:@""];
-                [data.routeId setString:@""];
+                if ([directionArray count] > 0) {
+                    [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
+                } else {
+                    [data.routeId setString:@"-"];
+                }
             }
         }
     }
