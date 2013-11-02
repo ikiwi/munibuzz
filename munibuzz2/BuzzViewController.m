@@ -367,10 +367,10 @@ NSInteger collapsedRowHeight = 50;
 
 + (NSMutableArray*)refreshTime
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeLabel, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
-    NSLog(@"starttag: %@", data.startStopTag);  
+    NSLog(@"url %@", url);
     NSHTTPURLResponse *response = nil;
     NSError *error = nil;
     // this will perform a synchronous GET operation passing the values you specified in the header (typically you want asynchrounous, but for simplicity of answering the question it works)
@@ -455,7 +455,7 @@ NSInteger collapsedRowHeight = 50;
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
-    cell.routeId.text = data.routeId;
+    cell.routeId.text = data.routeLabel;
     [cell insertSubview:cell.startLabel atIndex:STARTLABELTAG];
     [cell insertSubview:cell.destLabel atIndex:DESTLABELTAG];
     [cell insertSubview:cell.routeId atIndex:ROUTEIDTAG];

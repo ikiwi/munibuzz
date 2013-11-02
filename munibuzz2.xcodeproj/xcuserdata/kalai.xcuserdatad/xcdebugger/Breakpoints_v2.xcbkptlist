@@ -104,7 +104,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "405026965.335032"
+            timestampString = "405069959.121053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "474"
@@ -136,7 +136,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "405026965.335032"
+            timestampString = "405069959.121053"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "506"
@@ -166,28 +166,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404900252.745073"
+            timestampString = "405063903.77212"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
             endingLineNumber = "210"
             landmarkName = "-setAlarmInternal:ii:jj:seconds:alarmID:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "munibuzz2/StopsTableViewController.m"
-            timestampString = "405060760.409836"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

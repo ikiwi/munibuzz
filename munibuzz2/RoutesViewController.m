@@ -101,17 +101,16 @@ BOOL selected;
     }
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
+    directionArray = [[NSMutableArray alloc] init];
     
     NSString *query = @"SELECT * FROM stops group by title";
 
     stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
     
     filteredStopsArray = [NSMutableArray arrayWithCapacity:[stopsArray count]];
-    directionArray = [[NSMutableArray alloc] init];
     rarray1 = [[NSMutableArray alloc] init];
     rarray2 = [[NSMutableArray alloc] init];
 
-    selected = FALSE;
     self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.pickerView.showsSelectionIndicator = YES;
@@ -207,6 +206,12 @@ BOOL selected;
 {
     Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
+    if (selected == TRUE) {
+        // close existing picker view
+        [self doneAction:self];
+        selected = FALSE;
+    }
+    
     if ([trip.name  isEqual: @"Start"] || [trip.name  isEqual: @"End"]) {
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
@@ -222,15 +227,13 @@ BOOL selected;
             }
             
             stopsArray = [[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]];
-//            [filteredStopsArray setArray:stopsArray];
         }
     
         [self.navigationController pushViewController:svc animated:YES];
-    } else if ([trip.name isEqual: @"Route"] && ([directionArray count] > 0)) {
-        if (selected == TRUE) {
-            // close existing picker view
-            [self doneAction:self];
-            selected = FALSE;
+    } else if ([trip.name isEqual: @"Route"]) {
+        selected = TRUE;
+        if (![data.startLabel isEqual:@"location"] && ![data.destLabel isEqual:@"location"]) {
+            [StopsTableViewController refreshDirectionArray:rarray1 rarray2:rarray2];
         }
         reminding = FALSE;
         repeating = FALSE;
@@ -247,11 +250,7 @@ BOOL selected;
         self.navigationItem.rightBarButtonItem = doneButton;
         
     } else if ([trip.name isEqual: @"Remind me"]) {
-        if (selected == TRUE) {
-            // close existing picker view
-            [self doneAction:self];
-            selected = FALSE;
-        }
+        selected = TRUE;
         reminding = TRUE;
         repeating = FALSE;
         if (self.pickerView.superview == nil) {
@@ -267,11 +266,7 @@ BOOL selected;
         self.navigationItem.rightBarButtonItem = doneButton;
         
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
-        if (selected == TRUE) {
-            // close existing picker view
-            [self doneAction:self];
-            selected = FALSE;
-        }
+        selected = TRUE;
         reminding = FALSE;
         repeating = TRUE;
         if (self.pickerView.superview == nil) {
@@ -332,8 +327,9 @@ BOOL selected;
         data.repeatLabel = [repeatArray objectAtIndex:row];
         repeatCell.detailTextLabel.text = data.repeatLabel;
     } else {
+        data.routeId = [directionArray objectAtIndex:row];
         data.routeLabel = [directionArray objectAtIndex:row];
-        routeCell.detailTextLabel.text = data.routeLabel;
+        routeCell.detailTextLabel.text = data.routeId;
     }
 }
 
