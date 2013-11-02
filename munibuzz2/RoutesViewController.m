@@ -108,6 +108,9 @@ BOOL selected;
     stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
     
     filteredStopsArray = [NSMutableArray arrayWithCapacity:[stopsArray count]];
+    directionArray = [[NSMutableArray alloc] init];
+    rarray1 = [[NSMutableArray alloc] init];
+    rarray2 = [[NSMutableArray alloc] init];
     
     selected = FALSE;
     self.pickerView = [[UIPickerView alloc] init];
@@ -203,33 +206,24 @@ BOOL selected;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"selected %ld", indexPath.row);
     Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
     if ([trip.name  isEqual: @"Start"] || [trip.name  isEqual: @"End"]) {
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
-        if ([trip.name isEqual: @"Start"]) {
-            NSLog(@"filtering start");
+        if ([trip.name isEqual: @"Start"] || [rarray1 count] == 0) {
             NSString *query = @"SELECT * FROM stops group by title";
-            
             stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
-            NSLog(@"%ld stops", [stopsArray count]);
-        }
-        if ([trip.name isEqual: @"End"]) {
-            NSLog(@"filtering end for %@", data.routeId);
-            Stops *potentialRoute = [rarray objectAtIndex:0];
-            NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by stopid having direction=\"%@\"", potentialRoute.dTag];
-            for (NSInteger idx=1; idx < [rarray count]; idx++) {
-                potentialRoute = [rarray objectAtIndex:idx];
+        } else if ([trip.name isEqual: @"End"]) {
+            NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by title having direction=\"%@\"", [[rarray1 objectAtIndex:0] dTag] ];
+            for (NSInteger idx=1; idx < [rarray1 count]; idx++) {
                 [queryStr appendString:
-                 [NSString stringWithFormat:@" or direction=\"%@\"", potentialRoute.dTag]];
+                 [NSString stringWithFormat:@" or direction=\"%@\"", [[rarray1 objectAtIndex:idx] dTag]]];
             }
             
             stopsArray = [[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]];
-            NSLog(@"%@: %ld stops", queryStr, [stopsArray count]);
-            [filteredStopsArray setArray:stopsArray];
+//            [filteredStopsArray setArray:stopsArray];
         }
     
         [self.navigationController pushViewController:svc animated:YES];

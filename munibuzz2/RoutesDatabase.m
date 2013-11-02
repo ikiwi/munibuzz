@@ -47,18 +47,38 @@ static RoutesDatabase *_database;
 
     if (sqlite3_prepare((_database), query, -1, &statement, nil) == SQLITE_OK) {
         while (sqlite3_step(statement) == SQLITE_ROW) {
-            char *nameChars = (char *) sqlite3_column_text(statement, 0);
+            int key = (int) sqlite3_column_text(statement, 0);
             char *titleChars = (char *) sqlite3_column_text(statement, 1);
-            char *stopidChars = (char *) sqlite3_column_text(statement, 2);
-            char *dirChars = (char *) sqlite3_column_text(statement, 3);
-            char *routeChars = (char *) sqlite3_column_text(statement, 4);
+            char *nameChars = (char *) sqlite3_column_text(statement, 2);
+            char *stopidChars = (char *) sqlite3_column_text(statement, 3);
+            char *dirChars = (char *) sqlite3_column_text(statement, 4);
+            char *routeChars = (char *) sqlite3_column_text(statement, 5);
             NSString *name = [[NSString alloc] initWithUTF8String:nameChars];
             NSString *title = [[NSString alloc] initWithUTF8String:titleChars];
             NSString *stopid = [[NSString alloc] initWithUTF8String:stopidChars];
             NSString *direction = [[NSString alloc] initWithUTF8String:dirChars];
             NSString *route = [[NSString alloc] initWithUTF8String:routeChars];
             
-            [retval addObject:[Stops stopsId:name title:title sId:stopid dTag:direction rId:route]];
+            [retval addObject:[Stops stopsId:key sTag:name title:title sId:stopid dTag:direction rId:route]];
+        }
+        sqlite3_finalize(statement);
+    }
+    return retval;
+}
+
+- (NSArray *)DirectionsInfo:(const char*) query direction:(NSString*)direction route:(NSString*)route{
+    sqlite3_stmt *statement;
+    NSMutableArray *retval = [[NSMutableArray alloc] init];
+    
+    if (sqlite3_prepare((_database), query, -1, &statement, nil) == SQLITE_OK) {
+        while (sqlite3_step(statement) == SQLITE_ROW) {
+            int key = (int) sqlite3_column_int(statement, 0);
+            char *titleChars = (char *) sqlite3_column_text(statement, 1);
+            char *stopidChars = (char *) sqlite3_column_text(statement, 2);
+            NSString *title = [[NSString alloc] initWithUTF8String:titleChars];
+            NSString *stopid = [[NSString alloc] initWithUTF8String:stopidChars];
+
+            [retval addObject:[Stops stopsId:key sTag:stopid title:title sId:@"" dTag:direction rId:route]];
         }
         sqlite3_finalize(statement);
     }

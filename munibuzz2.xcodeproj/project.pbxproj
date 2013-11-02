@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A6074FFA180A4C6400396E55 /* RoutesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6074FF9180A4C6400396E55 /* RoutesViewController.m */; };
+		A61713491824858F00BD3DE0 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A61713481824858F00BD3DE0 /* data.sqlite3 */; };
 		A62AE3E418220ECE00CC18A2 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */; };
 		A6430C82180C856E00C0A699 /* Trip.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C81180C856E00C0A699 /* Trip.m */; };
 		A6430C85180CCAC500C0A699 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6430C84180CCAC500C0A699 /* SettingsViewController.m */; };
@@ -30,8 +31,6 @@
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
-		A6D351E51822127000A9A3A2 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A6D351E41822127000A9A3A2 /* data.sqlite3 */; };
-		A6D351E7182213D000A9A3A2 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A6D351E41822127000A9A3A2 /* data.sqlite3 */; };
 		A6DCD581180F2EE5002677D1 /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DCD580180F2EE5002677D1 /* customButton.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
 		A6F6935D18220BC3009C8D17 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -50,6 +49,7 @@
 /* Begin PBXFileReference section */
 		A6074FF8180A4C6400396E55 /* RoutesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RoutesViewController.h; sourceTree = "<group>"; };
 		A6074FF9180A4C6400396E55 /* RoutesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RoutesViewController.m; sourceTree = "<group>"; };
+		A61713481824858F00BD3DE0 /* data.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = data.sqlite3; sourceTree = "<group>"; };
 		A6430C80180C856E00C0A699 /* Trip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trip.h; sourceTree = "<group>"; };
 		A6430C81180C856E00C0A699 /* Trip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Trip.m; sourceTree = "<group>"; };
 		A6430C83180CCAC500C0A699 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -83,7 +83,6 @@
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
 		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
-		A6D351E41822127000A9A3A2 /* data.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = data.sqlite3; sourceTree = "<group>"; };
 		A6DCD57F180F2EE5002677D1 /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
 		A6DCD580180F2EE5002677D1 /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
@@ -215,7 +214,7 @@
 		A6D351E6182213A600A9A3A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A6D351E41822127000A9A3A2 /* data.sqlite3 */,
+				A61713481824858F00BD3DE0 /* data.sqlite3 */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -297,7 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDB01808918A00482EC5 /* Images.xcassets in Resources */,
-				A6D351E51822127000A9A3A2 /* data.sqlite3 in Resources */,
+				A61713491824858F00BD3DE0 /* data.sqlite3 in Resources */,
 				A698EDA21808918A00482EC5 /* InfoPlist.strings in Resources */,
 				A698EDAB1808918A00482EC5 /* Main.storyboard in Resources */,
 			);
@@ -308,7 +307,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */,
-				A6D351E7182213D000A9A3A2 /* data.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404900252.745073"
+            timestampString = "405026965.335032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "473"
-            endingLineNumber = "473"
+            startingLineNumber = "474"
+            endingLineNumber = "474"
             landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "munibuzz2/BuzzViewController.m"
-            timestampString = "404900252.745073"
+            timestampString = "405026965.335032"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "505"
-            endingLineNumber = "505">
+            startingLineNumber = "506"
+            endingLineNumber = "506">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -172,6 +172,22 @@
             startingLineNumber = "210"
             endingLineNumber = "210"
             landmarkName = "-setAlarmInternal:ii:jj:seconds:alarmID:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "munibuzz2/StopsTableViewController.m"
+            timestampString = "405060492.338643"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "164"
+            endingLineNumber = "164"
+            landmarkName = "-tableView:didSelectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
