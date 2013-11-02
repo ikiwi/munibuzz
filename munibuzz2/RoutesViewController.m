@@ -233,6 +233,16 @@ BOOL selected;
     } else if ([trip.name isEqual: @"Route"]) {
         selected = TRUE;
         if (![data.startLabel isEqual:@"location"] && ![data.destLabel isEqual:@"location"]) {
+            [rarray1 removeAllObjects];
+            [rarray2 removeAllObjects];
+            NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.startLabel];
+
+            [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
+
+            [queryStr setString:[NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.destLabel] ];
+            
+            [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
+
             [StopsTableViewController refreshDirectionArray:rarray1 rarray2:rarray2];
         }
         reminding = FALSE;

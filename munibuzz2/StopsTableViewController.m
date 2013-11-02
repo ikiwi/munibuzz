@@ -106,7 +106,6 @@
         stop = [stopsArray objectAtIndex:indexPath.row];
     }
     
-    NSLog(@"stopsarray has %ld items", [stopsArray count]);
     if ([self.operation  isEqual: @"Start"]) {
         [data.startLabel setString:stop.title];
 
