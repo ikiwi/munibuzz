@@ -25,7 +25,6 @@ NSMutableArray *directionArray;
 @property (strong,nonatomic) UITableViewCell *routeCell;
 @property (strong,nonatomic) UITableViewCell *remindCell;
 @property (strong,nonatomic) UITableViewCell *repeatCell;
-@property (strong,nonatomic) UITableViewCell *includeReturnCell;
 @property (strong,nonatomic) UITableViewCell *useDefaultCell;
 @property (nonatomic, retain) UIBarButtonItem *reminderDoneButton;
 @property (nonatomic, retain) UIPickerView *pickerView;

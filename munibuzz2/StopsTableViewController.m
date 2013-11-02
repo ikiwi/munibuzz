@@ -111,7 +111,24 @@
 
         NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"",stop.title];
         [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
-
+        
+        if (![data.destLabel isEqual:@"location"]) {
+            //destination has already been set, we have both stops info, now calculate the routes
+            [rarray2 removeAllObjects];
+            
+            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.destLabel];
+            
+            [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
+            
+            [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
+            
+            if ([directionArray count] == 0) {
+                data.routeId = [NSMutableString stringWithString:@"-"];
+            } else {
+                [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
+            }
+        }
+        
     } else if ([self.operation  isEqual: @"End"]) {
         [data.destLabel setString:stop.title];
         if (![data.startLabel isEqualToString:@"location"] && ![data.destLabel isEqualToString:data.startLabel]) {
@@ -129,7 +146,7 @@
                 if ([directionArray count] > 0) {
                     [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
                 } else {
-                    [data.routeId setString:@"-"];
+                    data.routeId = [NSMutableString stringWithString:@"-"];
                 }
             }
         }

@@ -46,7 +46,6 @@ BOOL selected;
 @synthesize remindCell;
 @synthesize repeatCell;
 @synthesize useDefaultCell;
-@synthesize includeReturnCell;
 @synthesize backToBuzz;
 @synthesize saveRoute;
 
@@ -78,8 +77,7 @@ BOOL selected;
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"End" desc:data.destLabel],
-                 [Trip tripId:@"Route" desc:data.routeId],
-                 [Trip tripId:@"Include return journey" desc:@""], nil];
+                 [Trip tripId:@"Route" desc:data.routeId], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Use default" desc:@""],
                  [Trip tripId:@"Remind me" desc:data.remindLabel],
@@ -92,12 +90,6 @@ BOOL selected;
     } else {
         useDefaultSwitch = TRUE;
         [data.useDefault setString:@"YES"];
-    }
-    if ([data.includeReturn isEqual:@"YES"]) {
-        includeReturnSwitch = TRUE;
-    } else {
-        includeReturnSwitch = FALSE;
-        [data.includeReturn setString:@"NO"];
     }
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
@@ -166,12 +158,6 @@ BOOL selected;
         useDefaultSwitch == YES? switchView.On = YES : NO;
         useDefaultCell = cell;
         [switchView addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
-    } else if ([trip.name isEqual: @"Include return journey"]) {
-        UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(0,0,0,0)];
-        cell.accessoryView = switchView;
-        includeReturnSwitch == YES ? switchView.On = YES : NO;
-        includeReturnCell = cell;
-        [switchView addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
     } else if ([trip.name isEqual: @"Remind me"]) {
         remindCell = cell;
         cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
@@ -192,13 +178,6 @@ BOOL selected;
             [data.useDefault setString:@"NO"];
         else
             [data.useDefault setString:@"YES"];
-    } else if (sender == includeReturnCell.accessoryView) {
-        [sender setOn:!includeReturnSwitch animated:YES];
-        includeReturnSwitch = !includeReturnSwitch;
-        if ([data.includeReturn isEqual:@"YES"])
-            [data.includeReturn setString:@"NO"];
-        else
-            [data.includeReturn setString:@"YES"];
     }
 }
 
@@ -247,11 +226,15 @@ BOOL selected;
         }
         reminding = FALSE;
         repeating = FALSE;
+        if ([directionArray count] < 2) {
+            //no multiple routes to choose
+            return;
+        }
         if (self.pickerView.superview == nil) {
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 300, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
         [self.pickerView selectRow:[data.routeId integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];
@@ -267,7 +250,7 @@ BOOL selected;
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 380, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
         [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];

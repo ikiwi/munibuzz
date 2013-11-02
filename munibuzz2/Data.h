@@ -15,7 +15,6 @@
 @property (strong, nonatomic) NSMutableString *destLabel;
 @property (strong, nonatomic) NSMutableString *routeId;
 @property (strong, nonatomic) NSMutableString *useDefault;
-@property (strong, nonatomic) NSMutableString *includeReturn;
 @property (strong, nonatomic) NSMutableString *repeatLabel;
 @property (strong, nonatomic) NSMutableString *repeat_default_label;
 @property (strong, nonatomic) NSMutableString *remindLabel;
