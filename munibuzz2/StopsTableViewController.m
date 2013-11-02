@@ -116,13 +116,15 @@
     } else if ([self.operation  isEqual: @"End"]) {
         [data.destLabel setString:stop.title];
         if (![data.startLabel isEqualToString:@"location"] && ![data.destLabel isEqualToString:data.startLabel]) {
+            [rarray2 removeAllObjects];
+            
             NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.destLabel];
             
             [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
 
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
-            if ([rarray1 count] > 0) {
+            if ([rarray1 count] > 0 && [directionArray count] > 0) {
                 [data.startStopTag setString:[[rarray1 objectAtIndex:0] sTag]];
                 [data.startStopId setString:[[rarray1 objectAtIndex:0] sId]];
                 [data.routeId setString:[directionArray objectAtIndex:0]];
@@ -142,8 +144,6 @@
     NSMutableString *queryStr = [[NSMutableString alloc] init];
 
     //find routes that contain both start and end stops, and put into NSArray routes
-    NSMutableArray *tmp1 = [[NSMutableArray alloc] init];
-    NSMutableArray *tmp2 = [[NSMutableArray alloc] init];
     Stops *stop1;
     Stops *stop2;
     for (NSInteger ii=0; ii < [rarray1 count]; ii++) {
@@ -152,9 +152,9 @@
             stop2 = [rarray2 objectAtIndex:jj];
             if ([stop1.dTag isEqual:stop2.dTag]) {
                 [queryStr setString:[NSString stringWithFormat:@"SELECT * FROM route_%@ group by key,tag having title=\"%@\"", stop1.dTag, stop1.title]];
-                [tmp1 setArray:[[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:stop1.dTag route:stop1.rId]];
+                NSArray *tmp1 = [[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:stop1.dTag route:stop1.rId];
                 [queryStr setString:[NSString stringWithFormat:@"SELECT * FROM route_%@ group by key,tag having title=\"%@\"", stop2.dTag, stop2.title]];
-                [tmp2 setArray:[[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:stop2.dTag route:stop2.rId]];
+                NSArray *tmp2 = [[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:stop2.dTag route:stop2.rId];
                 if ([tmp1 count] > 0 && [tmp2 count] > 0) {
                     stop1 = [tmp1 objectAtIndex:0];
                     stop2 = [tmp2 objectAtIndex:0];
