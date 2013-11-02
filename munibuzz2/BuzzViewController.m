@@ -201,24 +201,26 @@ NSInteger collapsedRowHeight = 50;
             [app cancelLocalNotification:button.alarm2];
         }
     } else {
-        button.isOn = TRUE;
-        button.alarmOn = TRUE;
-        [button setBackground];
         NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
         NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
-        if (minute > 0) {
-            [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
+        if (minute <= 0) {
+            return;
         }
+        [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
 #ifdef REPEAT
         if ([data.repeatLabel integerValue] > 0) {
             button.alarm2On = TRUE;
             alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
             minute = [self getRepeatMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
-            if (minute > 0) {
-                [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
+            if (minute <= 0) {
+                return;
             }
+            [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
         }
 #endif
+        button.isOn = TRUE;
+        button.alarmOn = TRUE;
+        [button setBackground];
     }
 }
 
