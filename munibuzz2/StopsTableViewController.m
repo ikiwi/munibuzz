@@ -107,7 +107,7 @@
     }
     
     if ([self.operation  isEqual: @"Start"]) {
-        [data.startLabel setString:stop.title];
+        data.startLabel = [NSMutableString stringWithString:stop.title];
 
         NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"",stop.title];
         [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
@@ -130,7 +130,7 @@
         }
         
     } else if ([self.operation  isEqual: @"End"]) {
-        [data.destLabel setString:stop.title];
+        data.destLabel = [NSMutableString stringWithString:stop.title];
         if (![data.startLabel isEqualToString:@"location"] && ![data.destLabel isEqualToString:data.startLabel]) {
             [rarray2 removeAllObjects];
             

@@ -197,11 +197,17 @@ NSInteger collapsedRowHeight = 50;
         button.alarmOn = TRUE;
         [button setBackground];
         NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
-        [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:([self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]] * SECPERMIN) alarmID:alarmID];
+        NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
+        if (minute > 0) {
+            [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
+        }
         if ([data.repeatLabel integerValue] > 0) {
             button.alarm2On = TRUE;
             alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
-            [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:([self getRepeatMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]] * SECPERMIN) alarmID:alarmID];
+            minute = [self getRepeatMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
+            if (minute > 0) {
+                [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
+            }
         }
     }
 }
@@ -248,7 +254,7 @@ NSInteger collapsedRowHeight = 50;
         [button setBackground];
     } else if (repeat == 2) {
         // this is the repeat alarm, turn off everything
-        NSLog(@"turning of repeat");
+        NSLog(@"turning off repeat");
         button.alarm2On = FALSE;
         button.isOn = FALSE;
         [button setBackground];
