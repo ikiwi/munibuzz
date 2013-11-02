@@ -36,6 +36,7 @@ NSArray *reminderArray;
 NSArray *repeatArray;
 UIBarButtonItem *doneButton;
 BOOL reminding;
+BOOL repeating;
 BOOL selected;
 @implementation RoutesViewController
 @synthesize tripArray;
@@ -61,7 +62,7 @@ BOOL selected;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     if (isEdit == TRUE) {
         // edit existing trip
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
@@ -73,8 +74,6 @@ BOOL selected;
         filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
         data = [[Data alloc] init];
     }
-    [data.routeId setString:@""];
-    [data.routeLabel setString:@""];
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
@@ -111,14 +110,14 @@ BOOL selected;
     directionArray = [[NSMutableArray alloc] init];
     rarray1 = [[NSMutableArray alloc] init];
     rarray2 = [[NSMutableArray alloc] init];
-    
+
     selected = FALSE;
     self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.pickerView.showsSelectionIndicator = YES;
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
-    
+
     [backToBuzz setAction:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem = backToBuzz;
 }
@@ -227,6 +226,26 @@ BOOL selected;
         }
     
         [self.navigationController pushViewController:svc animated:YES];
+    } else if ([trip.name isEqual: @"Route"] && ([directionArray count] > 0)) {
+        if (selected == TRUE) {
+            // close existing picker view
+            [self doneAction:self];
+            selected = FALSE;
+        }
+        reminding = FALSE;
+        repeating = FALSE;
+        if (self.pickerView.superview == nil) {
+            [self.view.window addSubview: self.pickerView];
+        }
+        [self.pickerView reloadComponent:0];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 300, [[self view] frame].size.width, 216)];
+        [self.pickerView selectRow:[data.routeId integerValue] inComponent:0 animated:YES];
+        [UIView beginAnimations: nil context: NULL];
+        [UIView setAnimationDuration: 0.25];
+        [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
+        [UIView commitAnimations];
+        self.navigationItem.rightBarButtonItem = doneButton;
+        
     } else if ([trip.name isEqual: @"Remind me"]) {
         if (selected == TRUE) {
             // close existing picker view
@@ -234,6 +253,7 @@ BOOL selected;
             selected = FALSE;
         }
         reminding = TRUE;
+        repeating = FALSE;
         if (self.pickerView.superview == nil) {
             [self.view.window addSubview: self.pickerView];
         }
@@ -253,6 +273,7 @@ BOOL selected;
             selected = FALSE;
         }
         reminding = FALSE;
+        repeating = TRUE;
         if (self.pickerView.superview == nil) {
             
             [self.view.window addSubview: self.pickerView];
@@ -307,9 +328,12 @@ BOOL selected;
     if (reminding == TRUE) {
         data.remindLabel = [reminderArray objectAtIndex:row];
         remindCell.detailTextLabel.text = data.remindLabel;
-    } else {
+    } else if (repeating == TRUE) {
         data.repeatLabel = [repeatArray objectAtIndex:row];
         repeatCell.detailTextLabel.text = data.repeatLabel;
+    } else {
+        data.routeLabel = [directionArray objectAtIndex:row];
+        routeCell.detailTextLabel.text = data.routeLabel;
     }
 }
 
@@ -318,7 +342,10 @@ numberOfRowsInComponent:(NSInteger)component
 {
     if (reminding == TRUE)
         return [reminderArray count];
-    else return [repeatArray count];
+    else if (repeating == TRUE)
+        return [repeatArray count];
+    else
+        return [directionArray count];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:
@@ -351,9 +378,12 @@ numberOfRowsInComponent:(NSInteger)component
     if (reminding == TRUE) {
         returnStr = [NSString stringWithFormat:@"%@",
                      [reminderArray objectAtIndex:row]];
-    } else {
+    } else if (repeating == TRUE) {
         returnStr = [NSString stringWithFormat:@"%@",
                      [repeatArray objectAtIndex:row]];
+    } else {
+        returnStr = [NSString stringWithFormat:@"%@",
+                     [directionArray objectAtIndex:row]];
     }
     
     return returnStr;
