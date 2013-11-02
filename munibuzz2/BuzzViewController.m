@@ -196,7 +196,6 @@ NSInteger collapsedRowHeight = 50;
         button.isOn = TRUE;
         button.alarmOn = TRUE;
         [button setBackground];
-        NSLog(@"turning %ld %ld on", ii, jj);
         NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
         [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:([self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]] * SECPERMIN) alarmID:alarmID];
         if ([data.repeatLabel integerValue] > 0) {
@@ -287,7 +286,6 @@ NSInteger collapsedRowHeight = 50;
         customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
         NSString *newtime = [newTime objectAtIndex:0];
         if (isEdit == TRUE) {
-            NSLog(@"clearing alarms");
             // clear out the alarm from the previous routes
             clearAlarms = TRUE;
             isEdit = FALSE;

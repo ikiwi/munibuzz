@@ -42,8 +42,8 @@ NSString *DATADIR = @"munibuzz";
         dst = src;
     }
     //resetting startlabel & destlabel to indicate obsolete data
-    [dst.startLabel setString:@"location"];
-    [dst.destLabel setString:@"location"];
+    dst.startLabel = [NSMutableString stringWithString:@"location" ];
+    dst.destLabel = [NSMutableString stringWithString:@"location"];
     [Data saveData:dst filename:df];
     totalTrip--;
 }

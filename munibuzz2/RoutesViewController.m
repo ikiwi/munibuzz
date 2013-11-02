@@ -89,7 +89,7 @@ BOOL selected;
         useDefaultSwitch = FALSE;
     } else {
         useDefaultSwitch = TRUE;
-        [data.useDefault setString:@"YES"];
+        data.useDefault = [NSMutableString stringWithString:@"YES"];
     }
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
@@ -174,10 +174,11 @@ BOOL selected;
     if (sender == useDefaultCell.accessoryView) {
         [sender setOn:!useDefaultSwitch animated:YES];
         useDefaultSwitch = !useDefaultSwitch;
-        if ([data.useDefault isEqual:@"YES"])
-            [data.useDefault setString:@"NO"];
-        else
-            [data.useDefault setString:@"YES"];
+        if ([data.useDefault isEqual:@"YES"]) {
+            data.useDefault = [NSMutableString stringWithString:@"NO"];
+        } else {
+            data.useDefault = [NSMutableString stringWithString:@"YES"];
+        }
     }
 }
 
