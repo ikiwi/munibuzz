@@ -140,17 +140,23 @@ NSInteger collapsedRowHeight = 50;
 - (NSInteger)getReminderMinutes:(NSInteger)alarmTime
 {
     NSInteger reminder;
+#ifdef USEDEFAULT
     if ([data.useDefault isEqualToString:@"YES"]) {
         reminder = [data.remind_default_label integerValue];
     } else {
+#endif
         reminder = [data.remindLabel integerValue];
+#ifdef USEDEFAULT
     }
+#endif
     if ((alarmTime - reminder) <= 0) {
         NSLog(@"alarm cannot be set");
     }
     return (alarmTime - reminder);
 }
 
+#ifdef REPEAT
+#ifdef USEDEFAULT
 - (NSInteger)getRepeatMinutes:(NSInteger)alarmTime
 {
     NSInteger repeat;
@@ -164,6 +170,8 @@ NSInteger collapsedRowHeight = 50;
     }
     return (alarmTime - repeat);
 }
+#endif
+#endif
 
 
 - (void)setAlarm:(id)sender
@@ -201,6 +209,7 @@ NSInteger collapsedRowHeight = 50;
         if (minute > 0) {
             [self setAlarmInternal:button.alarm ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
         }
+#ifdef REPEAT
         if ([data.repeatLabel integerValue] > 0) {
             button.alarm2On = TRUE;
             alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
@@ -209,6 +218,7 @@ NSInteger collapsedRowHeight = 50;
                 [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
             }
         }
+#endif
     }
 }
 
@@ -234,24 +244,31 @@ NSInteger collapsedRowHeight = 50;
     NSScanner *theScanner = [NSScanner scannerWithString:str];
     NSInteger ii = 0;
     NSInteger jj = 0;
+#ifdef REPEAT
     NSInteger repeat;
+#endif
     [theScanner scanInteger:&ii];
     [theScanner scanString:@"-" intoString:NULL];
     [theScanner scanInteger:&jj];
+#ifdef REPEAT
     [theScanner scanString:@"-" intoString:NULL];
     [theScanner scanInteger:&repeat];
+#endif
     if (ii < 0 || ii > 5 || jj < 0 || jj > 5) {
         NSLog(@"turning off alarm failed %ld %ld", ii, jj);
         return;
     }
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+#ifdef REPEAT
     if ([data.repeatLabel integerValue] == 0) {
+#endif
         // no repeat, turn off everything
-        NSLog(@"turn off alarm %ld", [data.repeatLabel integerValue]);
+        NSLog(@"turn off alarm");
         button.alarmOn = FALSE;
         button.isOn = FALSE;
         [button setBackground];
+#ifdef REPEAT
     } else if (repeat == 2) {
         // this is the repeat alarm, turn off everything
         NSLog(@"turning off repeat");
@@ -262,6 +279,7 @@ NSInteger collapsedRowHeight = 50;
         // has unnotified repeat, just turn off first alarm but keep the indication
         button.alarmOn = FALSE;
     }
+#endif
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -281,8 +299,11 @@ NSInteger collapsedRowHeight = 50;
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
+#ifdef REPEAT
         BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
-
+#else
+        BOOL hasRepeat = FALSE;
+#endif
         newTime = [[self class] refreshTime];
         NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
         [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
@@ -353,6 +374,7 @@ NSInteger collapsedRowHeight = 50;
                 [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                 [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
             }
+#ifdef REPEAT
             if (hasRepeat) {
                 if (button.alarm2On == FALSE) {
                     NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
@@ -364,6 +386,7 @@ NSInteger collapsedRowHeight = 50;
                 }
                 button.alarm2On = TRUE;
             }
+#endif
         }
     }
     [button setBackground];
@@ -431,18 +454,22 @@ NSInteger collapsedRowHeight = 50;
     {
         customButton *button2 = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
         button.alarm = button2.alarm;
-        button.alarm2 = button2.alarm2;
         button.titleLabel.text = button2.titleLabel.text;
         button.isOn = button2.isOn;
         button.alarmOn = button2.alarmOn;
+#ifdef REPEAT
+        button.alarm2 = button2.alarm2;
         button.alarm2On = button2.alarm2On;
+#endif
         [button setBackground];
         button = button2;
     }
     button.alarm = [[UILocalNotification alloc] init];
-    button.alarm2 = [[UILocalNotification alloc] init];
     button.alarmOn = FALSE;
+#ifdef REPEAT
+    button.alarm2 = [[UILocalNotification alloc] init];
     button.alarm2On = FALSE;
+#endif
     button.isOn = FALSE;
     [button setBackground];
 }

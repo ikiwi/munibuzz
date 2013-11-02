@@ -84,11 +84,17 @@ NSString *DATADIR = @"munibuzz";
         self.startStopId = [NSMutableString stringWithString:@"0"];
         self.destLabel = [NSMutableString stringWithString:@"location"];
         self.routeId = [NSMutableString stringWithString:@"0"];
+#ifdef USEDEFAULT
         self.useDefault = [NSMutableString stringWithString:@"YES"];
+#endif
+#ifdef REPEAT
         self.repeatLabel = [NSMutableString stringWithString:@"Never"];
         self.repeat_default_label = [NSMutableString stringWithString:@""];
+#endif
         self.remindLabel = [NSMutableString stringWithString:@"None"];
+#ifdef USEDEFAULT
         self.remind_default_label = [NSMutableString stringWithString:@""];
+#endif
         self.alarm = [NSMutableString stringWithString:@""];
     }
     return self;
@@ -102,11 +108,17 @@ NSString *DATADIR = @"munibuzz";
         self.startStopId = [aDecoder decodeObjectForKey:@"startStopId"];
         self.destLabel = [aDecoder decodeObjectForKey:@"destLabel"];
         self.routeId = [aDecoder decodeObjectForKey:@"routeId"];
+#ifdef USEDEFAUT
         self.useDefault = [aDecoder decodeObjectForKey:@"useDefault"];
+#endif
+#ifdef REPEAT
         self.repeatLabel = [aDecoder decodeObjectForKey:@"repeatLabel"];
         self.repeat_default_label = [aDecoder decodeObjectForKey:@"repeat_default_label"];
+#endif
         self.remindLabel = [aDecoder decodeObjectForKey:@"remindLabel"];
+#ifdef USEDEFAULT
         self.remind_default_label = [aDecoder decodeObjectForKey:@"remind_default_label"];
+#endif
         self.alarm = [aDecoder decodeObjectForKey:@"alarm"];
     }
     return self;
@@ -118,11 +130,17 @@ NSString *DATADIR = @"munibuzz";
     [anEncoder encodeObject:self.startStopId forKey:@"startStopId"];
     [anEncoder encodeObject:self.destLabel forKey:@"destLabel"];
     [anEncoder encodeObject:self.routeId forKey:@"routeId"];
+#ifdef USEDEFAULT
     [anEncoder encodeObject:self.useDefault forKey:@"useDefault"];
+#endif
+#ifdef REPEAT
     [anEncoder encodeObject:self.repeatLabel forKey:@"repeatLabel"];
     [anEncoder encodeObject:self.repeat_default_label forKey:@"repeat_default_label"];
+#endif
     [anEncoder encodeObject:self.remindLabel forKey:@"remindLabel"];
+#ifdef USEDEFAULT
     [anEncoder encodeObject:self.remind_default_label forKey:@"remind_default_label"];
+#endif
 }
 
 + (NSString *)getPathToArchive:(NSString *)filename

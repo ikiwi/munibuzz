@@ -14,11 +14,17 @@
 @property (strong, nonatomic) NSMutableString *startStopId;
 @property (strong, nonatomic) NSMutableString *destLabel;
 @property (strong, nonatomic) NSMutableString *routeId;
+#ifdef USEDEFAULT
 @property (strong, nonatomic) NSMutableString *useDefault;
+#endif
+#ifdef REPEAT
 @property (strong, nonatomic) NSMutableString *repeatLabel;
 @property (strong, nonatomic) NSMutableString *repeat_default_label;
+#endif
 @property (strong, nonatomic) NSMutableString *remindLabel;
+#ifdef USEDEFAULT
 @property (strong, nonatomic) NSMutableString *remind_default_label;
+#endif
 @property (strong, nonatomic) NSMutableString *filename;
 @property (strong, nonatomic) NSMutableString *alarm;
 

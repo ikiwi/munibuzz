@@ -33,10 +33,12 @@ search for the stopId for the matching routeTag and directionTag
 @end
 
 NSArray *reminderArray;
-NSArray *repeatArray;
-UIBarButtonItem *doneButton;
 BOOL reminding;
+#ifdef REPEAT
+NSArray *repeatArray;
 BOOL repeating;
+#endif
+UIBarButtonItem *doneButton;
 BOOL selected;
 @implementation RoutesViewController
 @synthesize tripArray;
@@ -44,8 +46,12 @@ BOOL selected;
 @synthesize destCell;
 @synthesize routeCell;
 @synthesize remindCell;
+#ifdef REPEAT
 @synthesize repeatCell;
+#endif
+#ifdef USEDEFAULT
 @synthesize useDefaultCell;
+#endif
 @synthesize backToBuzz;
 @synthesize saveRoute;
 
@@ -79,20 +85,29 @@ BOOL selected;
                  [Trip tripId:@"End" desc:data.destLabel],
                  [Trip tripId:@"Route" desc:data.routeId], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
+#ifdef USEDEFAULT
                  [Trip tripId:@"Use default" desc:@""],
+#endif
                  [Trip tripId:@"Remind me" desc:data.remindLabel],
-                 [Trip tripId:@"Repeat reminder" desc:data.repeatLabel], nil];
+#ifdef REPEAT
+                 [Trip tripId:@"Repeat reminder" desc:data.repeatLabel],
+#endif
+                 nil];
     
     tripArray = [NSArray arrayWithObjects:subArray1,subArray2,nil];
 
+#ifdef USEDEFAULT
     if ([data.useDefault isEqual:@"NO"]) {
         useDefaultSwitch = FALSE;
     } else {
         useDefaultSwitch = TRUE;
         data.useDefault = [NSMutableString stringWithString:@"YES"];
     }
+#endif
     reminderArray = @[@"None", @"1 min before", @"2 min before", @"3 min before", @"4 min before", @"5 min before", @"6 min before", @"7 min before", @"8 min before", @"9 min before", @"10 min before"];
+#ifdef REPEAT
     repeatArray = [NSMutableArray arrayWithCapacity:[reminderArray count]];
+#endif
     directionArray = [[NSMutableArray alloc] init];
     
     NSString *query = @"SELECT * FROM stops group by title";
@@ -152,18 +167,22 @@ BOOL selected;
     } else if ([trip.name isEqual: @"Route"]) {
         routeCell = cell;
         cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+#ifdef USEDEFAULT
     } else if ([trip.name isEqual: @"Use default"]) {
         UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectMake(0,0,0,0)];
         cell.accessoryView =  switchView;
         useDefaultSwitch == YES? switchView.On = YES : NO;
         useDefaultCell = cell;
         [switchView addTarget:self action:@selector(updateSwitch:) forControlEvents:UIControlEventTouchUpInside];
+#endif
     } else if ([trip.name isEqual: @"Remind me"]) {
         remindCell = cell;
         cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+#ifdef REPEAT
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
         repeatCell = cell;
         cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
+#endif
     }
 
     return cell;
@@ -171,6 +190,7 @@ BOOL selected;
 
 - (void)updateSwitch:(UISwitch*)sender
 {
+#ifdef USEDEFAULT
     if (sender == useDefaultCell.accessoryView) {
         [sender setOn:!useDefaultSwitch animated:YES];
         useDefaultSwitch = !useDefaultSwitch;
@@ -180,6 +200,7 @@ BOOL selected;
             data.useDefault = [NSMutableString stringWithString:@"YES"];
         }
     }
+#endif
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -226,7 +247,9 @@ BOOL selected;
             [StopsTableViewController refreshDirectionArray:rarray1 rarray2:rarray2];
         }
         reminding = FALSE;
+#ifdef REPEAT
         repeating = FALSE;
+#endif
         if ([directionArray count] < 2) {
             //no multiple routes to choose
             return;
@@ -246,7 +269,9 @@ BOOL selected;
     } else if ([trip.name isEqual: @"Remind me"]) {
         selected = TRUE;
         reminding = TRUE;
+#ifdef REPEAT
         repeating = FALSE;
+#endif
         if (self.pickerView.superview == nil) {
             [self.view.window addSubview: self.pickerView];
         }
@@ -259,6 +284,7 @@ BOOL selected;
         [UIView commitAnimations];
         self.navigationItem.rightBarButtonItem = doneButton;
         
+#ifdef REPEAT
     } else if ([trip.name isEqual: @"Repeat reminder"]) {
         selected = TRUE;
         reminding = FALSE;
@@ -285,6 +311,7 @@ BOOL selected;
         [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
         [UIView commitAnimations];
         self.navigationItem.rightBarButtonItem = doneButton;
+#endif
     }
 
 }
@@ -295,7 +322,9 @@ BOOL selected;
     destCell.detailTextLabel.text = data.destLabel;
     routeCell.detailTextLabel.text = data.routeId;
     remindCell.detailTextLabel.text = data.remindLabel;
+#ifdef REPEAT
     repeatCell.detailTextLabel.text = data.repeatLabel;
+#endif
     doneButton = [[UIBarButtonItem alloc]
                   initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                   target:self
@@ -317,9 +346,11 @@ BOOL selected;
     if (reminding == TRUE) {
         data.remindLabel = [reminderArray objectAtIndex:row];
         remindCell.detailTextLabel.text = data.remindLabel;
+#ifdef REPEAT
     } else if (repeating == TRUE) {
         data.repeatLabel = [repeatArray objectAtIndex:row];
         repeatCell.detailTextLabel.text = data.repeatLabel;
+#endif
     } else {
         data.routeId = [directionArray objectAtIndex:row];
         data.routeId = [directionArray objectAtIndex:row];
@@ -330,12 +361,15 @@ BOOL selected;
 - (NSInteger)pickerView:(UIPickerView *)pickerView
 numberOfRowsInComponent:(NSInteger)component
 {
-    if (reminding == TRUE)
+    if (reminding == TRUE) {
         return [reminderArray count];
-    else if (repeating == TRUE)
+#ifdef REPEAT
+    } else if (repeating == TRUE) {
         return [repeatArray count];
-    else
+#endif
+    } else {
         return [directionArray count];
+    }
 }
 
 - (NSInteger)numberOfComponentsInPickerView:
@@ -368,9 +402,11 @@ numberOfRowsInComponent:(NSInteger)component
     if (reminding == TRUE) {
         returnStr = [NSString stringWithFormat:@"%@",
                      [reminderArray objectAtIndex:row]];
+#ifdef REPEAT
     } else if (repeating == TRUE) {
         returnStr = [NSString stringWithFormat:@"%@",
                      [repeatArray objectAtIndex:row]];
+#endif
     } else {
         returnStr = [NSString stringWithFormat:@"%@",
                      [directionArray objectAtIndex:row]];
@@ -397,10 +433,12 @@ numberOfRowsInComponent:(NSInteger)component
         isEdit = TRUE;
     }
 
+#ifdef REPEAT
     //reset repeat if it's larger than reminder
     if ([data.repeatLabel integerValue] >= [data.remindLabel integerValue]) {
         data.repeatLabel = [reminderArray objectAtIndex:0];
     }
+#endif
     [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
 }

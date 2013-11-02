@@ -24,8 +24,12 @@ NSMutableArray *directionArray;
 @property (strong,nonatomic) UITableViewCell *destCell;
 @property (strong,nonatomic) UITableViewCell *routeCell;
 @property (strong,nonatomic) UITableViewCell *remindCell;
+#ifdef REPEAT
 @property (strong,nonatomic) UITableViewCell *repeatCell;
+#endif
+#ifdef USEDEFAULT
 @property (strong,nonatomic) UITableViewCell *useDefaultCell;
+#endif
 @property (nonatomic, retain) UIBarButtonItem *reminderDoneButton;
 @property (nonatomic, retain) UIPickerView *pickerView;
 @property (nonatomic, retain) UIBarButtonItem *repeatDoneButton;
