@@ -126,8 +126,11 @@
             if ([rarray1 count] > 0 && [directionArray count] > 0) {
                 [data.startStopTag setString:[[rarray1 objectAtIndex:0] sTag]];
                 [data.startStopId setString:[[rarray1 objectAtIndex:0] sId]];
-                [data.routeId setString:[directionArray objectAtIndex:0]];
-                [data.routeLabel setString:[[rarray1 objectAtIndex:0] rId]];
+                [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
+            } else {
+                [data.startStopTag setString:@""];
+                [data.startStopId setString:@""];
+                [data.routeId setString:@""];
             }
         }
     }
@@ -135,8 +138,11 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+//input:
 //rarray1 contains all possible route directions for start stop
 //rarray2 contains all possible route directions for end stop
+//output:
+//DirectionArray contains all possible routes for start and end stops
 + (void)refreshDirectionArray:(NSMutableArray*)rarray1 rarray2:(NSMutableArray*)rarray2
 {
     [directionArray removeAllObjects];

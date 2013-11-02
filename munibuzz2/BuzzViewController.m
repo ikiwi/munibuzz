@@ -367,7 +367,7 @@ NSInteger collapsedRowHeight = 50;
 
 + (NSMutableArray*)refreshTime
 {
-    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeLabel, data.startStopTag]];
+    NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     
     NSHTTPURLResponse *response = nil;
@@ -454,7 +454,7 @@ NSInteger collapsedRowHeight = 50;
     data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
-    cell.routeId.text = data.routeLabel;
+    cell.routeId.text = data.routeId;
     [cell insertSubview:cell.startLabel atIndex:STARTLABELTAG];
     [cell insertSubview:cell.destLabel atIndex:DESTLABELTAG];
     [cell insertSubview:cell.routeId atIndex:ROUTEIDTAG];

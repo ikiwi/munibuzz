@@ -78,7 +78,7 @@ BOOL selected;
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"End" desc:data.destLabel],
-                 [Trip tripId:@"Route" desc:data.routeLabel],
+                 [Trip tripId:@"Route" desc:data.routeId],
                  [Trip tripId:@"Include return journey" desc:@""], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
                  [Trip tripId:@"Use default" desc:@""],
@@ -309,7 +309,7 @@ BOOL selected;
 {
     startCell.detailTextLabel.text = data.startLabel;
     destCell.detailTextLabel.text = data.destLabel;
-    routeCell.detailTextLabel.text = data.routeLabel;
+    routeCell.detailTextLabel.text = data.routeId;
     remindCell.detailTextLabel.text = data.remindLabel;
     repeatCell.detailTextLabel.text = data.repeatLabel;
     doneButton = [[UIBarButtonItem alloc]
@@ -338,7 +338,7 @@ BOOL selected;
         repeatCell.detailTextLabel.text = data.repeatLabel;
     } else {
         data.routeId = [directionArray objectAtIndex:row];
-        data.routeLabel = [directionArray objectAtIndex:row];
+        data.routeId = [directionArray objectAtIndex:row];
         routeCell.detailTextLabel.text = data.routeId;
     }
 }
@@ -402,7 +402,7 @@ numberOfRowsInComponent:(NSInteger)component
         totalTrip++;
     } else if (![oldData.startLabel isEqual:data.startLabel]
         || ![oldData.destLabel isEqual:data.destLabel]
-        || ![oldData.routeLabel isEqual:data.routeLabel])
+        || ![oldData.routeId isEqual:data.routeId])
     {
         // isEdit flag indicates to buzz view controller
         // whether alarms need to be reset. e.g.
