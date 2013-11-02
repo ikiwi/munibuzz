@@ -313,7 +313,7 @@ NSInteger collapsedRowHeight = 50;
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
             // to make the button retrievable, set tag to the schedule #
             // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
-            // and y ranges from 0 to 4 (max alarms)
+            // and y ranges from 0 to 4 (max alarms per row is 5)
             [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat clearAlarms:clearAlarms newtime:newtime];
 
         }
@@ -329,7 +329,7 @@ NSInteger collapsedRowHeight = 50;
          clearAlarms:(BOOL)clearAlarms
              newtime:(NSString*)newtime
 {
-    button.tag = ii*100;
+    button.tag = ii*100+jj;
     if (button.isOn == TRUE) {
         if (button.alarmOn) {
             [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
@@ -488,7 +488,6 @@ NSInteger collapsedRowHeight = 50;
     {
         [Data removeData:indexPath.row];
         [buzzTableView reloadData];
-//        [buzzTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
