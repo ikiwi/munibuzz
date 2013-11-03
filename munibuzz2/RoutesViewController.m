@@ -275,7 +275,12 @@ BOOL selected;
         }
         [self.pickerView reloadComponent:0];
         [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
-        [self.pickerView selectRow:[data.routeId integerValue] inComponent:0 animated:YES];
+        NSInteger idx;
+        for (idx=0; idx < [directionArray count]; idx++) {
+            if ([[directionArray objectAtIndex:idx] isEqualToString:data.routeId])
+                break;
+        }
+        [self.pickerView selectRow:idx inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];
         [UIView setAnimationCurve: UIViewAnimationCurveEaseInOut];
@@ -386,6 +391,37 @@ numberOfRowsInComponent:(NSInteger)component
     } else {
         return [directionArray count];
     }
+}
+
+- (UIView *)pickerView:(UIPickerView *)pickerView
+            viewForRow:(NSInteger)row
+          forComponent:(NSInteger)component
+           reusingView:(UIView *)view
+{
+    UILabel *pickerLabel = (UILabel *)view;
+    
+    if (pickerLabel == nil) {
+        //set label size
+        CGRect frame = CGRectMake(0.0, 0.0, 70, 30);
+        
+        pickerLabel = [[UILabel alloc] initWithFrame:frame] ;
+        
+        [pickerLabel setTextAlignment:NSTextAlignmentCenter];
+        
+        [pickerLabel setBackgroundColor:[UIColor clearColor]];
+        //here you can play with fonts
+        [pickerLabel setFont:[UIFont fontWithName:@"System" size:20.0]];
+        
+    }
+    //set datasource
+    if (reminding == TRUE) {
+        [pickerLabel setText:[reminderArray objectAtIndex:row]];
+    } else {
+        [pickerLabel setText:[directionArray objectAtIndex:row]];
+    }
+    
+    return pickerLabel;
+    
 }
 
 - (NSInteger)numberOfComponentsInPickerView:

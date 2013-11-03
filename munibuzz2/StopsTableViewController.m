@@ -108,37 +108,39 @@
     
     if ([self.operation  isEqual: @"End"]) {
         data.destLabel = [NSMutableString stringWithString:stop.title];
-
-/*        if (![data.startLabel isEqual:@"location"]) {
-            //start has already been set, we have both stops info, now calculate the routes
+        
+        if (![data.startLabel isEqual:@"location"]) {
+            //editing an existing entry.  Start has already been set
+            // since we have both stops info, now calculate the routes
             [rarray1 removeAllObjects];
             [rarray2 removeAllObjects];
             
-            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.destLabel];
+            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid,route having title=\"%@\"", data.destLabel];
             [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
  
-            queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.destLabel];
-            [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
+            queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid,route having title=\"%@\"", data.startLabel];
+            [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
             
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
             if ([directionArray count] == 0) {
                 data.routeId = [NSMutableString stringWithString:@"-"];
             } else {
-                data.routeId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] rId]];
+                data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
             }
         }
-*/
+
     } else if ([self.operation  isEqual: @"Start"]) {
         data.startLabel = [NSMutableString stringWithString:stop.title];
         if (![data.destLabel isEqualToString:data.startLabel]) {
             [rarray1 removeAllObjects];
             
-            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.startLabel];
+            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid,route having title=\"%@\"", data.startLabel];
             [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
             
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
+            //change the start stop info
             if ([rarray1 count] > 0) {
                 data.startStopTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sTag]];
                 data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
@@ -186,6 +188,8 @@
             }
         }
     }
+    //remove duplicates, i.e. 38 has 3 inbound routes: 38_IB1, 38_IB2, and 38_IB3
+    [directionArray setArray:[[NSSet setWithArray:directionArray] allObjects]];
 }
 
 @end

@@ -81,24 +81,33 @@ UIBarButtonItem *editButton;
 {
     if(self.editing)
     {
-        [buzzTableView setRowHeight:defaultRowHeight];
-        [super setEditing:NO animated:NO];
-        [buzzTableView setEditing:NO animated:NO];
-        [buzzTableView reloadData];
-        [self.navigationItem.leftBarButtonItem setTitle:@"Edit"];
-        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+        [self exitEditingMode];
     }
     else
     {
-        [buzzTableView setRowHeight:collapsedRowHeight];
-        [super setEditing:YES animated:YES];
-        [buzzTableView setEditing:YES animated:YES];
-        [buzzTableView reloadData];
-        [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
-        [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+        [self enterEditingMode];
     }
 }
 
+- (void)exitEditingMode
+{
+    [buzzTableView setRowHeight:defaultRowHeight];
+    [super setEditing:NO animated:NO];
+    [buzzTableView setEditing:NO animated:NO];
+    [buzzTableView reloadData];
+    [self.navigationItem.leftBarButtonItem setTitle:@"Edit"];
+    [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStylePlain];
+}
+
+- (void)enterEditingMode
+{
+    [buzzTableView setRowHeight:collapsedRowHeight];
+    [super setEditing:YES animated:YES];
+    [buzzTableView setEditing:YES animated:YES];
+    [buzzTableView reloadData];
+    [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
+    [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -121,7 +130,11 @@ UIBarButtonItem *editButton;
         [self refresh];
         [buzzTableView endUpdates];
      }
-        
+    
+    if (self.editing) {
+        [self exitEditingMode];
+    }
+    
     [buzzTableView reloadData];
 }
 
@@ -154,10 +167,7 @@ UIBarButtonItem *editButton;
 #ifdef USEDEFAULT
     }
 #endif
-/*    if ((alarmTime - reminder) <= 0) {
-        NSLog(@"alarm cannot be set");
-    }
-*/
+
     return (alarmTime - reminder);
 }
 
