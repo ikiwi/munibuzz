@@ -149,9 +149,10 @@ NSInteger collapsedRowHeight = 50;
 #ifdef USEDEFAULT
     }
 #endif
-    if ((alarmTime - reminder) <= 0) {
+/*    if ((alarmTime - reminder) <= 0) {
         NSLog(@"alarm cannot be set");
     }
+*/
     return (alarmTime - reminder);
 }
 
@@ -297,6 +298,7 @@ NSInteger collapsedRowHeight = 50;
 - (void)refresh
 {
     BOOL clearAlarms = FALSE;
+    [self showAllEvents];
 
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
@@ -356,23 +358,30 @@ NSInteger collapsedRowHeight = 50;
          clearAlarms:(BOOL)clearAlarms
              newtime:(NSString*)newtime
 {
+    NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
+    if (reminder <= 0 && clearAlarms == FALSE) {
+        return;
+    }
     button.tag = ii*100+jj;
     if (button.isOn == TRUE) {
         if (button.alarmOn) {
             [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
         }
+#ifdef REPEAT
         if (button.alarm2On) {
             [[UIApplication sharedApplication] cancelLocalNotification:button.alarm2];
             if (!hasRepeat)
                 button.alarm2On = FALSE;
         }
+#endif
         if (clearAlarms == TRUE) {
             button.isOn = FALSE;
             button.alarmOn = FALSE;
+#ifdef REPEAT
             button.alarm2On = FALSE;
+#endif
         } else {
             if (button.alarmOn) {
-                NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
                 [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                 [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
             }

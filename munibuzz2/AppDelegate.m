@@ -48,7 +48,7 @@ NSInteger MAXTRIPS=20;
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
     [BuzzViewController turnOffAlarm:notification];
-    
+
     [alert show];
 }
 
