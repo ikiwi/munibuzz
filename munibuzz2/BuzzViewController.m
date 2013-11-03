@@ -25,6 +25,7 @@ NSInteger SECPERMIN = 60;
 NSArray *newTime;
 NSInteger defaultRowHeight = 114;
 NSInteger collapsedRowHeight = 50;
+UIBarButtonItem *editButton;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize scrollView;
@@ -51,8 +52,8 @@ NSInteger collapsedRowHeight = 50;
     self.rowTimer = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
     newTime = [[NSArray alloc] init];
     buzzList = [NSMutableArray new];
-    UIBarButtonItem *editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
-    [self.navigationItem setLeftBarButtonItem:editButton];
+    editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
+    self.navigationItem.leftBarButtonItem = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     [scrollView addSubview:buzzTableView];
@@ -110,6 +111,10 @@ NSInteger collapsedRowHeight = 50;
 - (void)viewWillAppear:(BOOL)animated
 {
     dataArray = [Data getAll];
+    
+    if (totalTrip > 0) {
+        [self.navigationItem setLeftBarButtonItem:editButton];
+    }
 
     if (canRefresh) {
         [buzzTableView beginUpdates];
@@ -189,13 +194,11 @@ NSInteger collapsedRowHeight = 50;
         button.isOn = FALSE;
         [button setBackground];
         if (button.alarmOn) {
-            NSLog(@"setting alarm off");
             button.alarmOn = FALSE;
             [app cancelLocalNotification:button.alarm];
         }
 #ifdef REPEAT
         if (button.alarm2On) {
-            NSLog(@"setting alarm2 off");
             button.alarm2On = FALSE;
             [app cancelLocalNotification:button.alarm2];
         }
@@ -230,7 +233,6 @@ NSInteger collapsedRowHeight = 50;
 - (void)setAlarmInternal:(UILocalNotification*)alarm ii:(NSInteger)ii jj:(NSInteger)jj seconds:(NSInteger)seconds alarmID:(NSDictionary*)alarmID
 {
     UIApplication *app = [UIApplication sharedApplication];
-    NSLog(@"setting alarm for %ld", seconds);
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
     alarm.alertBody = @"Your muni is arriving.";
     alarm.applicationIconBadgeNumber = 1;
@@ -530,6 +532,9 @@ NSInteger collapsedRowHeight = 50;
     {
         [Data removeData:indexPath.row];
         [buzzTableView reloadData];
+        if (totalTrip == 0) {
+            self.navigationItem.leftBarButtonItem = nil;
+        }
     }
 }
 

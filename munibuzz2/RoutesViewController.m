@@ -81,8 +81,8 @@ BOOL selected;
     }
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
-                 [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"End" desc:data.destLabel],
+                 [Trip tripId:@"Start" desc:data.startLabel],
                  [Trip tripId:@"Route" desc:data.routeId], nil];
     NSArray *subArray2 = [NSArray arrayWithObjects:
 #ifdef USEDEFAULT
@@ -217,17 +217,35 @@ BOOL selected;
         StopsTableViewController *svc = [self.storyboard instantiateViewControllerWithIdentifier:@"stopsTableViewController"];
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
-        if ([trip.name isEqual: @"Start"] || [rarray1 count] == 0) {
+        if ([trip.name isEqual: @"End"] || [rarray1 count] == 0) {
             NSString *query = @"SELECT * FROM stops group by title";
             stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
-        } else if ([trip.name isEqual: @"End"]) {
-            NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by title having direction=\"%@\"", [[rarray1 objectAtIndex:0] dTag] ];
-            for (NSInteger idx=1; idx < [rarray1 count]; idx++) {
-                [queryStr appendString:
-                 [NSString stringWithFormat:@" or direction=\"%@\"", [[rarray1 objectAtIndex:idx] dTag]]];
+        }
+        if ([trip.name isEqual: @"Start"] && [data.destLabel isEqualToString:@"location"] ) {
+            return;
+        }
+        if ([trip.name isEqual: @"Start"]) {
+            [rarray1 removeAllObjects];
+            //get all the potential route directions to the destination stop
+            NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"",data.destLabel];
+            [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
+            
+            // there's no routes available, return immediately
+            if ([rarray1 count] <= 0) {
+                return;
             }
             
-            stopsArray = [[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]];
+            //filter out the stops after destination stops in all route directions
+            NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
+            NSMutableString *queryStr = [[NSMutableString alloc] init];
+            for (NSInteger idx = 0; idx < [rarray1 count]; idx++) {
+                NSLog(@"%ld", idx);
+                [queryStr setString:[NSMutableString stringWithFormat:@"SELECT * FROM route_%@ where key < (SELECT key FROM route_%@ WHERE title=\"%@\")", [[rarray1 objectAtIndex:idx] dTag], [[rarray1 objectAtIndex:idx] dTag], data.destLabel]];
+                [tmpArray addObjectsFromArray:[[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:[[rarray1 objectAtIndex:idx] dTag] route:[[rarray1 objectAtIndex:idx] rId]]];
+                NSLog(@"%ld items", [tmpArray count]);
+            }
+            
+            stopsArray = tmpArray;
         }
     
         [self.navigationController pushViewController:svc animated:YES];
