@@ -125,7 +125,7 @@
             if ([directionArray count] == 0) {
                 data.routeId = [NSMutableString stringWithString:@"-"];
             } else {
-                [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
+                data.routeId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] rId]];
             }
         }
         
@@ -141,10 +141,10 @@
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
             if ([rarray1 count] > 0) {
-                [data.startStopTag setString:[[rarray1 objectAtIndex:0] sTag]];
-                [data.startStopId setString:[[rarray1 objectAtIndex:0] sId]];
+                data.startStopTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sTag]];
+                data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
                 if ([directionArray count] > 0) {
-                    [data.routeId setString:[[rarray1 objectAtIndex:0] rId]];
+                    data.routeId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] rId]];
                 } else {
                     data.routeId = [NSMutableString stringWithString:@"-"];
                 }

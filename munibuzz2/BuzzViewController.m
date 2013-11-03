@@ -182,9 +182,6 @@ NSInteger collapsedRowHeight = 50;
     NSInteger ii = tmp / 100;
     NSInteger jj = tmp % 5;
     
-    if ([[[alarmArray objectAtIndex:ii] objectAtIndex:jj] isEqual:@"-"]) {
-        return;
-    }
     // switch alarm on or off
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
@@ -196,12 +193,17 @@ NSInteger collapsedRowHeight = 50;
             button.alarmOn = FALSE;
             [app cancelLocalNotification:button.alarm];
         }
+#ifdef REPEAT
         if (button.alarm2On) {
             NSLog(@"setting alarm2 off");
             button.alarm2On = FALSE;
             [app cancelLocalNotification:button.alarm2];
         }
+#endif
     } else {
+        if ([[[alarmArray objectAtIndex:ii] objectAtIndex:jj] isEqual:@"-"]) {
+            return;
+        }
         NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
         NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
         if (minute <= 0) {
@@ -298,7 +300,6 @@ NSInteger collapsedRowHeight = 50;
 - (void)refresh
 {
     BOOL clearAlarms = FALSE;
-    [self showAllEvents];
 
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
@@ -336,9 +337,8 @@ NSInteger collapsedRowHeight = 50;
             
             customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
             NSString *newtime = [newTime objectAtIndex:jj];
-            
-            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
 
+            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
             // to make the button retrievable, set tag to the schedule #
             // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
