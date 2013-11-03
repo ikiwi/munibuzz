@@ -132,10 +132,10 @@
     } else if ([self.operation  isEqual: @"Start"]) {
         data.startLabel = [NSMutableString stringWithString:stop.title];
         if (![data.destLabel isEqualToString:data.startLabel]) {
-            [rarray2 removeAllObjects];
+            [rarray1 removeAllObjects];
             
             NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.startLabel];
-            [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
+            [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
             
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
             
@@ -144,9 +144,9 @@
                 data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
             }
             if ([directionArray count] > 0) {
-                data.routeId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] rId]];
+                data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
             } else {
-                    data.routeId = [NSMutableString stringWithString:@"-"];
+                data.routeId = [NSMutableString stringWithString:@"-"];
             }
         }
     }
