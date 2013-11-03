@@ -239,10 +239,8 @@ BOOL selected;
             NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
             NSMutableString *queryStr = [[NSMutableString alloc] init];
             for (NSInteger idx = 0; idx < [rarray1 count]; idx++) {
-                NSLog(@"%ld", idx);
                 [queryStr setString:[NSMutableString stringWithFormat:@"SELECT * FROM route_%@ where key < (SELECT key FROM route_%@ WHERE title=\"%@\")", [[rarray1 objectAtIndex:idx] dTag], [[rarray1 objectAtIndex:idx] dTag], data.destLabel]];
                 [tmpArray addObjectsFromArray:[[RoutesDatabase database] DirectionsInfo:[queryStr UTF8String] direction:[[rarray1 objectAtIndex:idx] dTag] route:[[rarray1 objectAtIndex:idx] rId]]];
-                NSLog(@"%ld items", [tmpArray count]);
             }
             
             stopsArray = tmpArray;

@@ -83,7 +83,7 @@ NSString *DATADIR = @"munibuzz";
         self.startStopTag = [NSMutableString stringWithString:@"0"];
         self.startStopId = [NSMutableString stringWithString:@"0"];
         self.destLabel = [NSMutableString stringWithString:@"location"];
-        self.routeId = [NSMutableString stringWithString:@"0"];
+        self.routeId = [NSMutableString stringWithString:@""];
 #ifdef USEDEFAULT
         self.useDefault = [NSMutableString stringWithString:@"YES"];
 #endif
