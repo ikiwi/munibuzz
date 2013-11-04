@@ -62,7 +62,7 @@ UIBarButtonItem *editButton;
     
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
                                                       target: self
-                                                    selector: @selector(viewWillAppear:)
+                                                    selector: @selector(autoRefresh:)
                                                     userInfo: nil
                                                      repeats: YES];
 }
@@ -128,12 +128,22 @@ UIBarButtonItem *editButton;
         [self.navigationItem setLeftBarButtonItem:editButton];
     }
 
-    if (canRefresh) {
-        [buzzTableView beginUpdates];
-        [self refresh];
-        [buzzTableView endUpdates];
-     }
-    
+    if (checkAlarm == TRUE && (currentTrip < totalTrip)) {
+        // default reminder time has been changed, check if
+        // any of the alarms is affected
+        checkAlarm = FALSE;
+        customCell *cell = [buzzList objectAtIndex:currentTrip];
+        for (NSInteger idx = 0; idx < 5; idx++) {
+            customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
+            if (button.isOn) {
+                NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
+                if (minute < 0) {
+                    [self setAlarmOff: button];
+                }
+            }
+        }
+    }
+
     if (self.editing) {
         [self exitEditingMode];
     }
@@ -141,7 +151,17 @@ UIBarButtonItem *editButton;
     [buzzTableView reloadData];
 }
 
-// alarms testing function
+// automatically refresh MUNI time according to timer
+- (void)autoRefresh:(BOOL)animated
+{
+    if (canRefresh) {
+        [buzzTableView beginUpdates];
+        [self refresh];
+        [buzzTableView endUpdates];
+    }
+}
+
+// alarms testing function, used during debug only
 - (void)showAllEvents
 {
      UIApplication *app = [UIApplication sharedApplication];
@@ -196,7 +216,6 @@ UIBarButtonItem *editButton;
 
 - (void)setAlarm:(id)sender
 {
-    UIApplication *app = [UIApplication sharedApplication];
     NSInteger tmp = ((UIControl*)sender).tag;
     NSInteger ii = tmp / 100;
     NSInteger jj = tmp % 5;
@@ -205,20 +224,9 @@ UIBarButtonItem *editButton;
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
     if (button.isOn) {
-        button.isOn = FALSE;
-        [button setBackground];
-#ifdef REPEAT
-        if (button.alarmOn) {
-            button.alarmOn = FALSE;
-#endif
-            [app cancelLocalNotification:button.alarm];
-#ifdef REPEAT
-        }
-        if (button.alarm2On) {
-            button.alarm2On = FALSE;
-            [app cancelLocalNotification:button.alarm2];
-        }
-#endif
+        
+        [self setAlarmOff:button];
+        
     } else {
         if ([[[alarmArray objectAtIndex:ii] objectAtIndex:jj] isEqual:@"-"]) {
             return;
@@ -242,8 +250,28 @@ UIBarButtonItem *editButton;
         button.alarmOn = TRUE;
 #endif
         button.isOn = TRUE;
-        [button setBackground];
     }
+    [button setBackground];
+}
+
+- (void)setAlarmOff:(customButton*)button
+{
+    UIApplication *app = [UIApplication sharedApplication];
+
+    button.isOn = FALSE;
+    [button setBackground];
+#ifdef REPEAT
+    if (button.alarmOn) {
+        button.alarmOn = FALSE;
+#endif
+        [app cancelLocalNotification:button.alarm];
+#ifdef REPEAT
+    }
+    if (button.alarm2On) {
+        button.alarm2On = FALSE;
+        [app cancelLocalNotification:button.alarm2];
+    }
+#endif
 }
 
 - (void)setAlarmInternal:(UILocalNotification*)alarm
@@ -264,6 +292,7 @@ UIBarButtonItem *editButton;
     [app scheduleLocalNotification:alarm];
 }
 
+// class method called from AppDelegate to turn off a specific alarm after notification is received
 +(void)turnOffAlarm:(UILocalNotification*)oneEvent
 {
     NSDictionary *userInfoCurrent = oneEvent.userInfo;
@@ -475,6 +504,7 @@ UIBarButtonItem *editButton;
     return result;
 }
 
+// this function shifts the alarms in row #ii by one
 + (void)refreshAlarm:(NSInteger)ii
 {
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
@@ -553,8 +583,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
+        customCell *cell = [buzzList objectAtIndex:indexPath.row];
+
+        //deactivate existing alarms
+        for (NSInteger idx=0; idx < 5; idx++) {
+            customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
+            if (button.isOn) {
+                [self setAlarmOff:button];
+            }
+        }
+        
         [Data removeData:indexPath.row];
         [buzzTableView reloadData];
+        
         if (totalTrip == 0) {
             self.navigationItem.leftBarButtonItem = nil;
         }

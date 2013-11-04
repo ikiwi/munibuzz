@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 BOOL isEdit;
+BOOL checkAlarm;
 NSInteger currentTrip;
 NSMutableArray *buzzList;
 UILocalNotification *notification;
@@ -33,6 +34,7 @@ UILocalNotification *notification;
                 seconds:(NSInteger)seconds
                 alarmID:(NSDictionary*)alarmID;
 +(NSArray*)refreshTime;
+- (void)autoRefresh:(BOOL)animated;
 +(void)refreshAlarm:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
 

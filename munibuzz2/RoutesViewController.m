@@ -157,7 +157,8 @@ BOOL selected;
     Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                      reuseIdentifier:CellIdentifier];
     }
     
     cell.textLabel.text = trip.name;
@@ -232,6 +233,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         }
         if ([trip.name isEqual: @"Start"]) {
             [rarray2 removeAllObjects];
+            
             //get all the potential route directions to the destination stop
             NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"",data.destLabel];
             [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
@@ -258,6 +260,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         if (![data.startLabel isEqual:DEFAULTLABEL] && ![data.destLabel isEqual:DEFAULTLABEL]) {
             [rarray1 removeAllObjects];
             [rarray2 removeAllObjects];
+            
             NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.startLabel];
 
             [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
@@ -409,15 +412,10 @@ numberOfRowsInComponent:(NSInteger)component
     if (pickerLabel == nil) {
         //set label size
         CGRect frame = CGRectMake(0.0, 0.0, 70, 30);
-        
         pickerLabel = [[UILabel alloc] initWithFrame:frame] ;
-        
         [pickerLabel setTextAlignment:NSTextAlignmentCenter];
-        
         [pickerLabel setBackgroundColor:[UIColor clearColor]];
-        //here you can play with fonts
         [pickerLabel setFont:[UIFont fontWithName:@"System" size:20.0]];
-        
     }
     //set datasource
     if (reminding == TRUE) {
@@ -427,7 +425,6 @@ numberOfRowsInComponent:(NSInteger)component
     }
     
     return pickerLabel;
-    
 }
 
 - (NSInteger)numberOfComponentsInPickerView:
@@ -490,6 +487,13 @@ numberOfRowsInComponent:(NSInteger)component
         // any other changes does not require the alarms to
         // be reset (isEdit is FALSE)
         isEdit = TRUE;
+    }
+    
+    NSLog(@"%ld  %ld", [oldData.remindLabel integerValue], [data.remindLabel integerValue] );
+    if ([oldData.remindLabel integerValue] < [data.remindLabel integerValue]) {
+        // signal to check existing alarm if reminding time is changed
+        checkAlarm = TRUE;
+        NSLog(@"check reminder");
     }
 
 #ifdef REPEAT
