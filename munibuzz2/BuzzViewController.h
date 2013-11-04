@@ -24,10 +24,14 @@ UILocalNotification *notification;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 @property (strong, nonatomic) NSMutableArray *rowTimer;
 @property BOOL canRefresh;
+
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
--(void)setAlarmInternal:(UILocalNotification*)alarm ii:(NSInteger)ii jj:(NSInteger)jj seconds:(NSInteger)seconds alarmID:(NSDictionary*)alarmID;
--(void)refreshRowAlarms:(id)sender;
+-(void)setAlarmInternal:(UILocalNotification*)alarm
+                     ii:(NSInteger)ii
+                     jj:(NSInteger)jj
+                seconds:(NSInteger)seconds
+                alarmID:(NSDictionary*)alarmID;
 +(NSArray*)refreshTime;
 +(void)refreshAlarm:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;

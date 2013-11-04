@@ -36,7 +36,8 @@ UIBarButtonItem *editButton;
 @synthesize rid;
 @synthesize alarmArray;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -66,7 +67,8 @@ UIBarButtonItem *editButton;
                                                      repeats: YES];
 }
 
-- (IBAction)checkMax:(id)sender {
+- (IBAction)checkMax:(id)sender
+{
     if (totalTrip < MAXTRIPS) {
         self.canRefresh = FALSE;
         RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
@@ -108,6 +110,7 @@ UIBarButtonItem *editButton;
     [self.navigationItem.leftBarButtonItem setTitle:@"Done"];
     [self.navigationItem.leftBarButtonItem setStyle:UIBarButtonItemStyleDone];
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -138,6 +141,7 @@ UIBarButtonItem *editButton;
     [buzzTableView reloadData];
 }
 
+// alarms testing function
 - (void)showAllEvents
 {
      UIApplication *app = [UIApplication sharedApplication];
@@ -203,11 +207,13 @@ UIBarButtonItem *editButton;
     if (button.isOn) {
         button.isOn = FALSE;
         [button setBackground];
+#ifdef REPEAT
         if (button.alarmOn) {
             button.alarmOn = FALSE;
+#endif
             [app cancelLocalNotification:button.alarm];
-        }
 #ifdef REPEAT
+        }
         if (button.alarm2On) {
             button.alarm2On = FALSE;
             [app cancelLocalNotification:button.alarm2];
@@ -233,14 +239,18 @@ UIBarButtonItem *editButton;
             }
             [self setAlarmInternal:button.alarm2 ii:ii jj:jj seconds:(minute * SECPERMIN) alarmID:alarmID];
         }
+        button.alarmOn = TRUE;
 #endif
         button.isOn = TRUE;
-        button.alarmOn = TRUE;
         [button setBackground];
     }
 }
 
-- (void)setAlarmInternal:(UILocalNotification*)alarm ii:(NSInteger)ii jj:(NSInteger)jj seconds:(NSInteger)seconds alarmID:(NSDictionary*)alarmID
+- (void)setAlarmInternal:(UILocalNotification*)alarm
+                      ii:(NSInteger)ii
+                      jj:(NSInteger)jj
+                 seconds:(NSInteger)seconds
+                 alarmID:(NSDictionary*)alarmID
 {
     UIApplication *app = [UIApplication sharedApplication];
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
@@ -279,10 +289,9 @@ UIBarButtonItem *editButton;
     customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
 #ifdef REPEAT
     if ([data.repeatLabel integerValue] == 0) {
-#endif
         // no repeat, turn off everything
-        NSLog(@"turn off alarm");
         button.alarmOn = FALSE;
+#endif
         button.isOn = FALSE;
         [button setBackground];
 #ifdef REPEAT
@@ -304,7 +313,8 @@ UIBarButtonItem *editButton;
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
     return totalTrip;
 }
@@ -376,10 +386,12 @@ UIBarButtonItem *editButton;
     }
     button.tag = ii*100+jj;
     if (button.isOn == TRUE) {
-        if (button.alarmOn) {
-            [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
-        }
 #ifdef REPEAT
+        if (button.alarmOn) {
+#endif
+            [[UIApplication sharedApplication] cancelLocalNotification:button.alarm];
+#ifdef REPEAT
+        }
         if (button.alarm2On) {
             [[UIApplication sharedApplication] cancelLocalNotification:button.alarm2];
             if (!hasRepeat)
@@ -388,16 +400,18 @@ UIBarButtonItem *editButton;
 #endif
         if (clearAlarms == TRUE) {
             button.isOn = FALSE;
-            button.alarmOn = FALSE;
 #ifdef REPEAT
+            button.alarmOn = FALSE;
             button.alarm2On = FALSE;
 #endif
         } else {
+#ifdef REPEAT
             if (button.alarmOn) {
+#endif
                 [button.alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:(reminder * SECPERMIN)]];
                 [[UIApplication sharedApplication] scheduleLocalNotification:button.alarm];
-            }
 #ifdef REPEAT
+            }
             if (hasRepeat) {
                 if (button.alarm2On == FALSE) {
                     NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld-2",ii,jj] forKey:@"id"];
@@ -415,6 +429,7 @@ UIBarButtonItem *editButton;
     [button setBackground];
 }
 
+// this function parses nextbus API
 + (NSMutableArray*)refreshTime
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
@@ -460,14 +475,6 @@ UIBarButtonItem *editButton;
     return result;
 }
 
--(void)refreshRowAlarms:(NSTimer*)sender
-{
-    NSDictionary *dict = [sender userInfo];
-    NSInteger row = [[dict objectForKey:@"row"] integerValue];
-
-    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",row]];
-}
-
 + (void)refreshAlarm:(NSInteger)ii
 {
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
@@ -479,8 +486,8 @@ UIBarButtonItem *editButton;
         button.alarm = button2.alarm;
         button.titleLabel.text = button2.titleLabel.text;
         button.isOn = button2.isOn;
-        button.alarmOn = button2.alarmOn;
 #ifdef REPEAT
+        button.alarmOn = button2.alarmOn;
         button.alarm2 = button2.alarm2;
         button.alarm2On = button2.alarm2On;
 #endif
@@ -488,8 +495,8 @@ UIBarButtonItem *editButton;
         button = button2;
     }
     button.alarm = [[UILocalNotification alloc] init];
-    button.alarmOn = FALSE;
 #ifdef REPEAT
+    button.alarmOn = FALSE;
     button.alarm2 = [[UILocalNotification alloc] init];
     button.alarm2On = FALSE;
 #endif
@@ -497,7 +504,9 @@ UIBarButtonItem *editButton;
     [button setBackground];
 }
 
-- (customCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (customCell *)tableView:(UITableView *)tableView
+    cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *CellIdentifier = @"buzzCell";
     customCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -523,9 +532,11 @@ UIBarButtonItem *editButton;
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
+    RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:
+                                 @"routesController"];
     isEdit = TRUE;
     currentTrip = indexPath.row;
     [self.navigationController pushViewController:rvc animated:YES];
@@ -536,7 +547,9 @@ UIBarButtonItem *editButton;
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {

@@ -55,7 +55,8 @@ BOOL selected;
 @synthesize backToBuzz;
 @synthesize saveRoute;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithNibName:(NSString *)nibNameOrNil
+               bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -139,13 +140,17 @@ BOOL selected;
     return [tripArray count];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
     // Return the number of rows in the section.
     // If you're serving data from an array, return the length of the array:
     return [[tripArray objectAtIndex:section] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -203,7 +208,8 @@ BOOL selected;
 #endif
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     
@@ -221,7 +227,7 @@ BOOL selected;
             NSString *query = @"SELECT * FROM stops group by title";
             stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
         }
-        if ([trip.name isEqual: @"Start"] && [data.destLabel isEqualToString:@"location"] ) {
+        if ([trip.name isEqual: @"Start"] && [data.destLabel isEqualToString:DEFAULTLABEL] ) {
             return;
         }
         if ([trip.name isEqual: @"Start"]) {
@@ -249,7 +255,7 @@ BOOL selected;
         
     } else if ([trip.name isEqual: @"Route"]) {
         selected = TRUE;
-        if (![data.startLabel isEqual:@"location"] && ![data.destLabel isEqual:@"location"]) {
+        if (![data.startLabel isEqual:DEFAULTLABEL] && ![data.destLabel isEqual:DEFAULTLABEL]) {
             [rarray1 removeAllObjects];
             [rarray2 removeAllObjects];
             NSMutableString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"", data.startLabel];
@@ -467,7 +473,8 @@ numberOfRowsInComponent:(NSInteger)component
     return returnStr;
 }
 
-- (IBAction)savingRoute:(id)sender {
+- (IBAction)savingRoute:(id)sender
+{
     Data *oldData = [Data getData:filename];
     if (currentTrip == totalTrip) {
         // this is a new route, so update the total

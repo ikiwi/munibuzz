@@ -15,10 +15,12 @@
 #import "Stops.h"
 
 NSInteger MAXTRIPS=20;
+NSString *DEFAULTLABEL = @"location";
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     UIApplication* app = [UIApplication sharedApplication];
     NSArray*    oldNotifications = [app scheduledLocalNotifications];
@@ -37,10 +39,9 @@ NSInteger MAXTRIPS=20;
     return YES;
 }
 
-- (void) application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
+- (void) application:(UIApplication *)application
+didReceiveLocalNotification:(UILocalNotification *)notification
 {
-//    alarmNotification = notification;
-    
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"
                           message:notification.alertBody
@@ -52,12 +53,6 @@ NSInteger MAXTRIPS=20;
     [alert show];
 }
 
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     [Data saveAll:dataArray];
@@ -66,10 +61,6 @@ NSInteger MAXTRIPS=20;
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     dataArray = [Data getAll];
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

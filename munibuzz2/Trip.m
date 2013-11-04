@@ -13,7 +13,8 @@
 @synthesize name;
 @synthesize desc;
 
-+ (id)tripId:(NSString *)name desc:(NSString *)desc
++ (id)tripId:(NSString *)name
+        desc:(NSString *)desc
 {
     Trip *newTrip = [[self alloc] init];
     newTrip.name = name;

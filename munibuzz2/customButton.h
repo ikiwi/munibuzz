@@ -9,10 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @interface customButton : UIButton
+
 @property UILocalNotification *alarm;
+#ifdef REPEAT
 @property UILocalNotification *alarm2;
+#endif
 @property BOOL isOn;
+#ifdef REPEAT
 @property BOOL alarmOn;
 @property BOOL alarm2On;
+#endif
+
 -(void)setBackground;
+
 @end

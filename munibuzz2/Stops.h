@@ -10,12 +10,12 @@
 
 @interface Stops : NSObject
 {
-    int _key;
-    NSString *_sTag;
-    NSString *_dTag;
-    NSString *_title;
-    NSString *_sId;
-    NSString *_rId;
+    int _key; // unique key for stops db table
+    NSString *_sTag; // stop tag
+    NSString *_dTag; // direction id
+    NSString *_title; // full name of stop
+    NSString *_sId; // stop id
+    NSString *_rId; // route id
 }
 
 @property (nonatomic,assign) int key;
@@ -25,6 +25,10 @@
 @property (nonatomic, copy) NSString *sId;
 @property (nonatomic, copy) NSString *rId;
 
-+ (id)stopsId:(int)key sTag:(NSString*)sTag title:(NSString*)title sId:(NSString*)sId dTag:(NSString*)dTag rId:(NSString*)rId;
++ (id)stopsId:(int)key
+         sTag:(NSString*)sTag
+        title:(NSString*)title
+          sId:(NSString*)sId dTag:(NSString*)dTag
+          rId:(NSString*)rId;
 
 @end

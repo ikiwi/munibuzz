@@ -15,6 +15,8 @@
 
 + (RoutesDatabase*)database;
 - (NSArray *)RoutesInfo:(const char*)query;
-- (NSArray *)DirectionsInfo:(const char*)query direction:(NSString*)direction route:(NSString*)route;
+- (NSArray *)DirectionsInfo:(const char*)query
+                  direction:(NSString*)direction
+                      route:(NSString*)route;
 
 @end

@@ -17,7 +17,12 @@
 @synthesize sId = _sId;
 @synthesize rId = _rId;
 
-+ (id)stopsId:(int)key sTag:(NSString *)sTag title:(NSString *)title sId:(NSString *)sId dTag:(NSString *)dTag rId:(NSString*)rId
++ (id)stopsId:(int)key
+         sTag:(NSString *)sTag
+        title:(NSString *)title
+          sId:(NSString *)sId
+         dTag:(NSString *)dTag
+          rId:(NSString*)rId
 {
     Stops *newStop = [[self alloc] init];
     newStop.key = key;

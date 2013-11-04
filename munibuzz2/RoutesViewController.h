@@ -19,6 +19,7 @@ NSMutableArray *rarray2;
 NSMutableArray *filteredStopsArray;
 NSMutableArray *directionArray;
 @interface RoutesViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+
 @property (strong,nonatomic) NSArray *tripArray;
 @property (strong,nonatomic) UITableViewCell *startCell;
 @property (strong,nonatomic) UITableViewCell *destCell;
@@ -36,4 +37,5 @@ NSMutableArray *directionArray;
 @property (nonatomic, retain) UIPickerView *repeatPickerView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *saveRoute;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backToBuzz;
+
 @end

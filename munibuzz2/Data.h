@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Data : NSObject <NSCoding>
+
 @property (strong, nonatomic) NSMutableString *startLabel;
 @property (strong, nonatomic) NSMutableString *startStopTag;
 @property (strong, nonatomic) NSMutableString *startStopId;
@@ -36,4 +37,5 @@
 +(Data *)getData:(NSString *)filename;
 +(void)removeData:(NSInteger)slot;
 +(NSMutableArray *)getAll;
+
 @end

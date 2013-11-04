@@ -41,6 +41,7 @@ static RoutesDatabase *_database;
     sqlite3_close(_database);
 }
 
+// sqlite3 query to get data from stops, which has all muni stops
 - (NSArray *)RoutesInfo:(const char*) query {
     sqlite3_stmt *statement;
     NSMutableArray *retval = [[NSMutableArray alloc] init];
@@ -66,7 +67,11 @@ static RoutesDatabase *_database;
     return retval;
 }
 
-- (NSArray *)DirectionsInfo:(const char*) query direction:(NSString*)direction route:(NSString*)route{
+// sqlite3 query api to get data from route_xx_xx, which has ordered stops for each route direction
+- (NSArray *)DirectionsInfo:(const char*) query
+                  direction:(NSString*)direction
+                      route:(NSString*)route
+{
     sqlite3_stmt *statement;
     NSMutableArray *retval = [[NSMutableArray alloc] init];
     

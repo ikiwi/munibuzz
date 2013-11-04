@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Data.h"
+
 NSMutableArray* dataArray;
 NSInteger totalTrip;
 NSInteger MAXTRIPS;
 BOOL useDefaultSwitch;
 UILocalNotification *alarmNotification;
+NSString *DEFAULTLABEL;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

@@ -37,14 +37,18 @@
     [self.tableView reloadData];
 }
 
-- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope {
+- (void)filterContentForSearchText:(NSString*)searchText
+                             scope:(NSString*)scope
+{
     [filteredStopsArray removeAllObjects];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",searchText];
     filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:predicate]];
 }
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller
+shouldReloadTableForSearchString:(NSString *)searchString
+{
     // Tells the table data source to reload when text changes
     [self filterContentForSearchText:searchString scope:
      [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
@@ -52,7 +56,9 @@
     return YES;
 }
 
--(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller
+shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
     // Tells the table data source to reload when scope bar selection changes
     [self filterContentForSearchText:self.searchDisplayController.searchBar.text scope:
      [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
@@ -65,7 +71,8 @@
     [super didReceiveMemoryWarning];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return [filteredStopsArray count];
@@ -74,7 +81,8 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
@@ -97,7 +105,8 @@
 }
 
 /* this function saves the user selected stop info which will be displayed in routes view */
-- (void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
+- (void)tableView:(UITableView *) tableView
+didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
 {
     Stops *stop;
     if (tableView == self.searchDisplayController.searchResultsTableView) {
@@ -109,7 +118,7 @@
     if ([self.operation  isEqual: @"End"]) {
         data.destLabel = [NSMutableString stringWithString:stop.title];
         
-        if (![data.startLabel isEqual:@"location"]) {
+        if (![data.startLabel isEqual:DEFAULTLABEL]) {
             //editing an existing entry.  Start has already been set
             // since we have both stops info, now calculate the routes
             [rarray1 removeAllObjects];
@@ -161,7 +170,8 @@
 //rarray2 contains all possible route directions for end stop
 //output:
 //DirectionArray contains all possible routes for start and end stops
-+ (void)refreshDirectionArray:(NSMutableArray*)rarray1 rarray2:(NSMutableArray*)rarray2
++ (void)refreshDirectionArray:(NSMutableArray*)rarray1
+                      rarray2:(NSMutableArray*)rarray2
 {
     [directionArray removeAllObjects];
     NSMutableString *queryStr = [[NSMutableString alloc] init];

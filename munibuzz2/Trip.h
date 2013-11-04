@@ -17,5 +17,6 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *desc;
 
-+ (id)tripId:(NSString*)name desc:(NSString*)desc;
++ (id)tripId:(NSString*)name
+        desc:(NSString*)desc;
 @end

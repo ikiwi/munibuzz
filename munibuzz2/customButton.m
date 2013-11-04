@@ -18,8 +18,8 @@
         self.titleLabel.text = @"-";
         self.tintColor = [UIColor whiteColor];
         self.alarm = [[UILocalNotification alloc] init];
-        self.alarmOn = FALSE;
 #ifdef REPEAT
+        self.alarmOn = FALSE;
         self.alarm2 = [[UILocalNotification alloc] init];
         self.alarm2On = FALSE;
 #endif

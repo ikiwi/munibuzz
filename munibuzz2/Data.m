@@ -13,7 +13,8 @@ NSString *DATADIR = @"munibuzz";
 
 @implementation Data
 
-+(void)saveData:(Data *)aData filename:(NSString *)filename
++(void)saveData:(Data *)aData
+       filename:(NSString *)filename
 {
     [NSKeyedArchiver archiveRootObject:aData toFile:[Data getPathToArchive:filename]];
 }
@@ -42,17 +43,18 @@ NSString *DATADIR = @"munibuzz";
         dst = src;
     }
     //resetting startlabel & destlabel to indicate obsolete data
-    dst.startLabel = [NSMutableString stringWithString:@"location" ];
-    dst.destLabel = [NSMutableString stringWithString:@"location"];
+    dst.startLabel = [NSMutableString stringWithString:DEFAULTLABEL];
+    dst.destLabel = [NSMutableString stringWithString:DEFAULTLABEL];
     [Data saveData:dst filename:df];
     totalTrip--;
 }
 
 +(Data *)getData:(NSString *)filename
 {
-    Data *retrievedData = (Data*)[NSKeyedUnarchiver unarchiveObjectWithFile:[Data getPathToArchive:filename]];
-    if ([retrievedData.startLabel isEqualToString:@"location"] &&
-        [retrievedData.destLabel isEqualToString:@"location"]) {
+    Data *retrievedData = (Data*)[NSKeyedUnarchiver unarchiveObjectWithFile:
+                                  [Data getPathToArchive:filename]];
+    if ([retrievedData.startLabel isEqualToString:DEFAULTLABEL] &&
+        [retrievedData.destLabel isEqualToString:DEFAULTLABEL]) {
         return nil;
     }
     return retrievedData;
@@ -79,10 +81,10 @@ NSString *DATADIR = @"munibuzz";
 {
     self = [super init];
     if (self) {
-        self.startLabel = [NSMutableString stringWithString:@"location"];
+        self.startLabel = [NSMutableString stringWithString:DEFAULTLABEL];
         self.startStopTag = [NSMutableString stringWithString:@"0"];
         self.startStopId = [NSMutableString stringWithString:@"0"];
-        self.destLabel = [NSMutableString stringWithString:@"location"];
+        self.destLabel = [NSMutableString stringWithString:DEFAULTLABEL];
         self.routeId = [NSMutableString stringWithString:@""];
 #ifdef USEDEFAULT
         self.useDefault = [NSMutableString stringWithString:@"YES"];
@@ -151,8 +153,10 @@ NSString *DATADIR = @"munibuzz";
     NSString *docsDir = [paths objectAtIndex:0];
     NSError *error;
     docsDir = [docsDir stringByAppendingPathComponent:DATADIR];
-    [[NSFileManager defaultManager] createDirectoryAtPath:docsDir withIntermediateDirectories:YES attributes:nil error:&error];
+    [[NSFileManager defaultManager] createDirectoryAtPath:
+     docsDir withIntermediateDirectories:YES attributes:nil error:&error];
     
     return [docsDir stringByAppendingPathComponent:filename];
 }
+
 @end
