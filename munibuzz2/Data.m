@@ -16,6 +16,7 @@ NSString *DATADIR = @"munibuzz";
 +(void)saveData:(Data *)aData
        filename:(NSString *)filename
 {
+    if (aData == nil) return;
     [NSKeyedArchiver archiveRootObject:aData toFile:[Data getPathToArchive:filename]];
 }
 
@@ -66,11 +67,13 @@ NSString *DATADIR = @"munibuzz";
     NSMutableArray *tmpArray;
     NSInteger idx;
     
-    for (idx = 0; idx < totalTrip; idx++)
+    for (idx = 0; idx < MAXTRIPS; idx++)
     {
-        tmp = [Data getData:[NSString stringWithFormat:@"data%ld.model",idx]];
-        if (tmp == nil) break;
+        tmp = [Data getData:[NSString stringWithFormat:@"data%d.model",idx]];
+        if (tmp == nil || [tmp.startLabel isEqual:[NSMutableString stringWithString:DEFAULTLABEL]])
+            break;
         [tmpArray addObject:tmp];
+        NSLog(@"%@", tmp.startLabel);
     }
     totalTrip = idx;
     

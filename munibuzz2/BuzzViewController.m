@@ -128,7 +128,7 @@ UIBarButtonItem *editButton;
         [self.navigationItem setLeftBarButtonItem:editButton];
     }
 
-    if (checkAlarm == TRUE && (currentTrip < totalTrip)) {
+    if (isEdit == TRUE && checkAlarm == TRUE && (currentTrip < totalTrip)) {
         // default reminder time has been changed, check if
         // any of the alarms is affected
         checkAlarm = FALSE;

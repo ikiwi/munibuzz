@@ -489,11 +489,9 @@ numberOfRowsInComponent:(NSInteger)component
         isEdit = TRUE;
     }
     
-    NSLog(@"%ld  %ld", [oldData.remindLabel integerValue], [data.remindLabel integerValue] );
     if ([oldData.remindLabel integerValue] < [data.remindLabel integerValue]) {
         // signal to check existing alarm if reminding time is changed
         checkAlarm = TRUE;
-        NSLog(@"check reminder");
     }
 
 #ifdef REPEAT
@@ -504,6 +502,8 @@ numberOfRowsInComponent:(NSInteger)component
 #endif
     [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
+    NSLog(@"data saved");
+
 }
 
 @end
