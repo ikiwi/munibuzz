@@ -26,18 +26,18 @@ NSString *DATADIR = @"munibuzz";
     for (NSInteger idx = 0; idx < totalTrip; idx++)
     {
         tmp = [aArray objectAtIndex:idx];
-        [Data saveData:tmp filename:[NSString stringWithFormat:@"data%ld.model",idx]];
+        [Data saveData:tmp filename:[NSString stringWithFormat:@"data%d.model",idx]];
     }
 }
 
 +(void)removeData:(NSInteger)slot
 {
     NSString *sf;
-    NSString *df = [NSString stringWithFormat:@"data%ld.model",slot];
+    NSString *df = [NSString stringWithFormat:@"data%d.model",slot];
     Data *src;
     Data *dst = [Data getData:df];
     for (NSInteger idx = slot+1; idx < totalTrip; idx++) {
-        sf = [NSString stringWithFormat:@"data%ld.model",idx];
+        sf = [NSString stringWithFormat:@"data%d.model",idx];
         src = [Data getData:sf];
         [Data saveData:src filename:df];
         df = sf;
@@ -73,7 +73,6 @@ NSString *DATADIR = @"munibuzz";
         if (tmp == nil || [tmp.startLabel isEqual:[NSMutableString stringWithString:DEFAULTLABEL]])
             break;
         [tmpArray addObject:tmp];
-        NSLog(@"%@", tmp.startLabel);
     }
     totalTrip = idx;
     
@@ -88,7 +87,7 @@ NSString *DATADIR = @"munibuzz";
         self.startStopTag = [NSMutableString stringWithString:@"0"];
         self.startStopId = [NSMutableString stringWithString:@"0"];
         self.destLabel = [NSMutableString stringWithString:DEFAULTLABEL];
-        self.routeId = [NSMutableString stringWithString:@""];
+        self.routeId = [NSMutableString stringWithString:@" "];
 #ifdef USEDEFAULT
         self.useDefault = [NSMutableString stringWithString:@"YES"];
 #endif
@@ -159,6 +158,7 @@ NSString *DATADIR = @"munibuzz";
     [[NSFileManager defaultManager] createDirectoryAtPath:
      docsDir withIntermediateDirectories:YES attributes:nil error:&error];
     
+    NSLog(@"%@/%@", docsDir, filename);
     return [docsDir stringByAppendingPathComponent:filename];
 }
 

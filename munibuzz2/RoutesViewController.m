@@ -71,13 +71,15 @@ BOOL selected;
 
     if (isEdit == TRUE) {
         // edit existing trip
-        filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
-        data = [Data getData:filename];
+        filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
+        if (skipGetData == FALSE) {
+            data = [Data getData:filename];
+        }
         isEdit = FALSE;
     } else {
         // new trip
         currentTrip = totalTrip;
-        filename = [NSString stringWithFormat:@"data%ld.model",currentTrip];
+        filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
         data = [[Data alloc] init];
     }
 
@@ -225,6 +227,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
         if ([trip.name isEqual: @"End"]) {
+            NSLog(@"0: start %@ end %@", data.startLabel, data.destLabel);
+
             NSString *query = @"SELECT * FROM stops group by title";
             stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
         }
@@ -232,6 +236,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             return;
         }
         if ([trip.name isEqual: @"Start"]) {
+            NSLog(@"2: start %@ end %@", data.startLabel, data.destLabel);
             [rarray2 removeAllObjects];
             
             //get all the potential route directions to the destination stop
@@ -283,7 +288,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 400, [[self view] frame].size.width, 216)];
         NSInteger idx;
         for (idx=0; idx < [directionArray count]; idx++) {
             if ([[directionArray objectAtIndex:idx] isEqualToString:data.routeId])

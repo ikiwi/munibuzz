@@ -115,30 +115,13 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
     }
     
     if ([self.operation  isEqual: @"End"]) {
+        // setting end will also reset start
         data.destLabel = [NSMutableString stringWithString:stop.title];
+        data.startLabel = [NSMutableString stringWithString:DEFAULTLABEL];
+        skipGetData = TRUE;
         
-        if (![data.startLabel isEqual:DEFAULTLABEL]) {
-            //editing an existing entry.  Start has already been set
-            // since we have both stops info, now calculate the routes
-            [rarray1 removeAllObjects];
-            [rarray2 removeAllObjects];
-            
-            NSString *queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid,route having title=\"%@\"", data.destLabel];
-            [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
- 
-            queryStr = [NSMutableString stringWithFormat:@"SELECT * FROM stops group by direction,stopid,route having title=\"%@\"", data.startLabel];
-            [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
-            
-            [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
-            
-            if ([directionArray count] == 0) {
-                data.routeId = [NSMutableString stringWithString:@"-"];
-            } else {
-                data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
-            }
-        }
-
     } else if ([self.operation  isEqual: @"Start"]) {
+        NSLog(@"3: start %@ end %@", data.startLabel, data.destLabel);
         data.startLabel = [NSMutableString stringWithString:stop.title];
         if (![data.destLabel isEqualToString:data.startLabel]) {
             [rarray1 removeAllObjects];
@@ -147,17 +130,16 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
             [rarray1 setArray:[[RoutesDatabase database] RoutesInfo:[queryStr UTF8String]]];
             
             [self.class refreshDirectionArray:rarray1 rarray2:rarray2];
-            
-            //change the start stop info
-            if ([rarray1 count] > 0) {
-                data.startStopTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sTag]];
-                data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
-            }
-            if ([directionArray count] > 0) {
-                data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
-            } else {
-                data.routeId = [NSMutableString stringWithString:@"-"];
-            }
+        }
+        //change the start stop info
+        if ([rarray1 count] > 0) {
+            data.startStopTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sTag]];
+            data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
+        }
+        if ([directionArray count] > 0) {
+            data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
+        } else {
+            data.routeId = [NSMutableString stringWithString:@"-"];
         }
     }
     

@@ -18,6 +18,7 @@ NSMutableArray *rarray1;
 NSMutableArray *rarray2;
 NSMutableArray *filteredStopsArray;
 NSMutableArray *directionArray;
+BOOL skipGetData;
 @interface RoutesViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 
 @property (strong,nonatomic) NSArray *tripArray;

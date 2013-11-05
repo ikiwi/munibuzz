@@ -61,7 +61,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     dataArray = [Data getAll];
-    NSLog(@"enterforeground %ld trips", totalTrip);
+    NSLog(@"%d trips", totalTrip);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

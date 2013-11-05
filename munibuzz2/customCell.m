@@ -29,7 +29,7 @@
         for (NSInteger idx = 0; idx < 5; idx++)
         {
             customButton *button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
-            button.titleLabel.text = [NSString stringWithFormat:@"%ld", idx];
+            button.titleLabel.text = [NSString stringWithFormat:@"%d", idx];
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
         }
