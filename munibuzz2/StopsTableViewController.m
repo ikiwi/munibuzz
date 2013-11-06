@@ -41,8 +41,13 @@
 {
     [filteredStopsArray removeAllObjects];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",searchText];
-    filteredStopsArray = [NSMutableArray arrayWithArray:[stopsArray filteredArrayUsingPredicate:predicate]];
+    NSArray *keyWordsList = [searchText componentsSeparatedByString:@" "];
+    filteredStopsArray = [NSMutableArray arrayWithArray:stopsArray];
+    NSLog(@"word list %d", [keyWordsList count]);
+    for (NSInteger idx=0; idx<[keyWordsList count]; idx++) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",[keyWordsList objectAtIndex:idx]];
+        filteredStopsArray = [NSMutableArray arrayWithArray:[filteredStopsArray filteredArrayUsingPredicate:predicate]];
+    }
 }
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller

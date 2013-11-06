@@ -74,6 +74,8 @@ BOOL selected;
         filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
         if (skipGetData == FALSE) {
             data = [Data getData:filename];
+        } else {
+            skipGetData = FALSE;
         }
         isEdit = FALSE;
     } else {
