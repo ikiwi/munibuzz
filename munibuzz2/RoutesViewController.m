@@ -126,6 +126,7 @@ BOOL selected;
     self.pickerView = [[UIPickerView alloc] init];
     self.pickerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.pickerView.showsSelectionIndicator = YES;
+    self.pickerView.backgroundColor = [UIColor whiteColor];
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
 
@@ -287,7 +288,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 280, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 295, [[self view] frame].size.width, 216)];
         NSInteger idx;
         for (idx=0; idx < [directionArray count]; idx++) {
             if ([[directionArray objectAtIndex:idx] isEqualToString:data.routeId])
@@ -310,7 +311,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 280, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 295, [[self view] frame].size.width, 216)];
         [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];

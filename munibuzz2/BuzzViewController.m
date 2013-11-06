@@ -207,7 +207,7 @@ UIBarButtonItem *editButton;
     }
 #endif
 
-    return (alarmTime - reminder);
+    return (alarmTime - reminder - 1);
 }
 
 #ifdef REPEAT
