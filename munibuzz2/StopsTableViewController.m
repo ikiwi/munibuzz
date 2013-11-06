@@ -39,14 +39,19 @@
 - (void)filterContentForSearchText:(NSString*)searchText
                              scope:(NSString*)scope
 {
-    [filteredStopsArray removeAllObjects];
+//    [filteredStopsArray removeAllObjects];
     
-    NSArray *keyWordsList = [searchText componentsSeparatedByString:@" "];
+    //save each keyword as a separate object in keyword array
+    NSArray *keywordsList = [searchText componentsSeparatedByString:@" "];
     filteredStopsArray = [NSMutableArray arrayWithArray:stopsArray];
-    NSLog(@"word list %d", [keyWordsList count]);
-    for (NSInteger idx=0; idx<[keyWordsList count]; idx++) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",[keyWordsList objectAtIndex:idx]];
-        filteredStopsArray = [NSMutableArray arrayWithArray:[filteredStopsArray filteredArrayUsingPredicate:predicate]];
+
+    //search stops array for each keyword object
+    for (NSInteger idx=0; idx<[keywordsList count]; idx++) {
+        NSString *keyword = [keywordsList objectAtIndex:idx];
+        if ([keyword isEqual:@""]) {
+            continue;
+        }
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.title contains[c] %@",keyword];        filteredStopsArray = [NSMutableArray arrayWithArray:[filteredStopsArray filteredArrayUsingPredicate:predicate]];
     }
 }
 
@@ -126,7 +131,6 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
         skipGetData = TRUE;
         
     } else if ([self.operation  isEqual: @"Start"]) {
-        NSLog(@"3: start %@ end %@", data.startLabel, data.destLabel);
         data.startLabel = [NSMutableString stringWithString:stop.title];
         if (![data.destLabel isEqualToString:data.startLabel]) {
             [rarray1 removeAllObjects];
@@ -184,7 +188,7 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
             }
         }
     }
-    //remove duplicates, i.e. 38 has 3 inbound routes: 38_IB1, 38_IB2, and 38_IB3
+    // remove duplicates
     [directionArray setArray:[[NSSet setWithArray:directionArray] allObjects]];
 }
 

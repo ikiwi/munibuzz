@@ -83,7 +83,7 @@ static RoutesDatabase *_database;
             NSString *title = [[NSString alloc] initWithUTF8String:titleChars];
             NSString *stopid = [[NSString alloc] initWithUTF8String:stopidChars];
 
-            [retval addObject:[Stops stopsId:key sTag:stopid title:title sId:@"" dTag:direction rId:route]];
+            [retval addObject:[Stops stopsId:key sTag:stopid title:title sId:stopid dTag:direction rId:route]];
         }
         sqlite3_finalize(statement);
     }

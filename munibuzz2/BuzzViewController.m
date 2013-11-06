@@ -228,7 +228,7 @@ UIBarButtonItem *editButton;
         [self setAlarmOff:button];
         
     } else {
-        if ([[[alarmArray objectAtIndex:ii] objectAtIndex:jj] isEqual:@"-"]) {
+        if ([button.titleLabel.text isEqualToString:@"-"]) {
             return;
         }
         NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];
@@ -396,6 +396,7 @@ UIBarButtonItem *editButton;
             // and y ranges from 0 to 4 (max alarms per row is 5)
             [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat clearAlarms:clearAlarms newtime:newtime];
 
+
         }
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;
@@ -410,10 +411,10 @@ UIBarButtonItem *editButton;
              newtime:(NSString*)newtime
 {
     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
+    button.tag = ii*100+jj;
     if (reminder <= 0 && clearAlarms == FALSE) {
         return;
     }
-    button.tag = ii*100+jj;
     if (button.isOn == TRUE) {
 #ifdef REPEAT
         if (button.alarmOn) {

@@ -158,7 +158,6 @@ NSString *DATADIR = @"munibuzz";
     [[NSFileManager defaultManager] createDirectoryAtPath:
      docsDir withIntermediateDirectories:YES attributes:nil error:&error];
     
-    NSLog(@"%@/%@", docsDir, filename);
     return [docsDir stringByAppendingPathComponent:filename];
 }
 

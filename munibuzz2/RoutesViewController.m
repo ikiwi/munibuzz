@@ -229,8 +229,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         Trip *trip = [[self.tripArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
         svc.operation = trip.name;
         if ([trip.name isEqual: @"End"]) {
-            NSLog(@"0: start %@ end %@", data.startLabel, data.destLabel);
-
             NSString *query = @"SELECT * FROM stops group by title";
             stopsArray = [[RoutesDatabase database] RoutesInfo:[query UTF8String]];
         }
@@ -238,11 +236,10 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             return;
         }
         if ([trip.name isEqual: @"Start"]) {
-            NSLog(@"2: start %@ end %@", data.startLabel, data.destLabel);
             [rarray2 removeAllObjects];
             
             //get all the potential route directions to the destination stop
-            NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,stopid having title=\"%@\"",data.destLabel];
+            NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction having title=\"%@\"",data.destLabel];
             [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
             
             // there's no routes available, return immediately
