@@ -8,6 +8,7 @@
 
 #import "customCell.h"
 #import "customButton.h"
+#import "AppDelegate.h"
 
 @implementation customCell
 @synthesize startLabel;
@@ -28,7 +29,13 @@
         NSInteger xx = 0;
         for (NSInteger idx = 0; idx < 5; idx++)
         {
-            customButton *button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
+            customButton *button;
+            if (IS_IPHONE_5) {
+                button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
+            } else {
+                button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,74)];
+                
+            }
             button.titleLabel.text = [NSString stringWithFormat:@"%d", idx];
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;

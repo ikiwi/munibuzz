@@ -35,6 +35,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     dataArray = [Data getAll];
     // Reset the Icon Alert Number back to Zero
     application.applicationIconBadgeNumber = 0;
+
     
     return YES;
 }

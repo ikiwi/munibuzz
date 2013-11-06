@@ -131,6 +131,7 @@ BOOL selected;
 
     [backToBuzz setAction:@selector(backButtonPressed:)];
     self.navigationItem.leftBarButtonItem = backToBuzz;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -239,14 +240,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [rarray2 removeAllObjects];
             
             //get all the potential route directions to the destination stop
-            NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction having title=\"%@\"",data.destLabel];
+            NSString *query = [NSString stringWithFormat:@"SELECT * FROM stops group by direction,title having title=\"%@\"",data.destLabel];
             [rarray2 setArray:[[RoutesDatabase database] RoutesInfo:[query UTF8String]]];
             
             // there's no routes available, return immediately
             if ([rarray2 count] <= 0) {
                 return;
             }
-            
             //filter out the stops after destination stops in all route directions
             NSMutableArray *tmpArray = [[NSMutableArray alloc] init];
             NSMutableString *queryStr = [[NSMutableString alloc] init];
@@ -287,7 +287,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 400, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 280, [[self view] frame].size.width, 216)];
         NSInteger idx;
         for (idx=0; idx < [directionArray count]; idx++) {
             if ([[directionArray objectAtIndex:idx] isEqualToString:data.routeId])
@@ -310,7 +310,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             [self.view.window addSubview: self.pickerView];
         }
         [self.pickerView reloadComponent:0];
-        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 420, [[self view] frame].size.width, 216)];
+        [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 280, [[self view] frame].size.width, 216)];
         [self.pickerView selectRow:[data.remindLabel integerValue] inComponent:0 animated:YES];
         [UIView beginAnimations: nil context: NULL];
         [UIView setAnimationDuration: 0.25];
@@ -363,6 +363,20 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                   initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                   target:self
                   action:@selector(doneAction:)];
+    
+    [self setSaveRouteButton];
+}
+
+- (void)setSaveRouteButton
+{
+    if ([data.destLabel isEqual:DEFAULTLABEL] || [data.startLabel isEqual:DEFAULTLABEL]) {
+        // hide save button if start/end are not set
+        saveRoute.enabled = FALSE;
+        saveRoute.title = @"";
+    } else {
+        saveRoute.enabled = TRUE;
+        saveRoute.title = @"Save";
+    }
 }
 
 - (void)doneAction:(id)sender
@@ -506,8 +520,6 @@ numberOfRowsInComponent:(NSInteger)component
 #endif
     [Data saveData:data filename:filename];
     [self.navigationController popViewControllerAnimated:YES];
-    NSLog(@"data saved");
-
 }
 
 @end

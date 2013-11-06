@@ -22,6 +22,7 @@ UILocalNotification *notification;
 @property (weak, nonatomic) IBOutlet UILabel *slabel;
 @property (weak, nonatomic) IBOutlet UILabel *dlabel;
 @property (weak, nonatomic) IBOutlet UILabel *rid;
+@property (strong, nonatomic) IBOutlet UIButton *addRouteButton;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 @property (strong, nonatomic) NSMutableArray *rowTimer;
 @property BOOL canRefresh;

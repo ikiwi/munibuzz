@@ -35,6 +35,7 @@ UIBarButtonItem *editButton;
 @synthesize dlabel;
 @synthesize rid;
 @synthesize alarmArray;
+@synthesize addRouteButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil
                bundle:(NSBundle *)nibBundleOrNil
@@ -57,6 +58,20 @@ UIBarButtonItem *editButton;
     self.navigationItem.leftBarButtonItem = nil;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
+    //adjust add button for different iPhone version
+    if (IS_IPHONE_5) {
+        [addRouteButton setFrame:CGRectMake(140, 524, 40, 40)];
+        [buzzTableView setFrame:CGRectMake(0,32,320,488)];
+        [scrollView setFrame:CGRectMake(0,32,320,488)];
+        buzzTableView.rowHeight = 114;
+    } else {
+        [addRouteButton setFrame:CGRectMake(140,435,40,40)];
+        [buzzTableView setFrame:CGRectMake(0,32,320,403)];
+        [scrollView setFrame:CGRectMake(0,32,320,403)];
+        buzzTableView.rowHeight = 124;
+    }
+    
+    [self.view addSubview:addRouteButton];
     [scrollView addSubview:buzzTableView];
     [self.view addSubview:scrollView];
     
@@ -166,7 +181,7 @@ UIBarButtonItem *editButton;
 {
      UIApplication *app = [UIApplication sharedApplication];
      NSArray *eventArray = [app scheduledLocalNotifications];
-     NSLog(@"current alarm #: %d", [eventArray count]);
+     NSLog(@"current alarm #: %ld", [eventArray count]);
      for (int i=0; i<[eventArray count]; i++)
      {
          UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
@@ -213,7 +228,6 @@ UIBarButtonItem *editButton;
 #endif
 #endif
 
-
 - (void)setAlarm:(id)sender
 {
     NSInteger tmp = ((UIControl*)sender).tag;
@@ -231,7 +245,7 @@ UIBarButtonItem *editButton;
         if ([button.titleLabel.text isEqualToString:@"-"]) {
             return;
         }
-        NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];
+        NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
         NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
         if (minute <= 0) {
             return;
@@ -311,7 +325,7 @@ UIBarButtonItem *editButton;
     [theScanner scanInteger:&repeat];
 #endif
     if (ii < 0 || ii > 5 || jj < 0 || jj > 5) {
-        NSLog(@"turning off alarm failed %d %d", ii, jj);
+        NSLog(@"turning off alarm failed %ld %ld", ii, jj);
         return;
     }
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
@@ -354,7 +368,7 @@ UIBarButtonItem *editButton;
 
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
-        data = [Data getData:[NSString stringWithFormat:@"data%d.model",ii]];
+        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
 #ifdef REPEAT
         BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
 #else
@@ -491,7 +505,7 @@ UIBarButtonItem *editButton;
         [theScanner scanUpToString:@"\"" intoString:&tmp];
         if ([tmp length] > 0) {
             idx++;
-            [result addObject:[NSString stringWithFormat:@"%d", firstPred]];
+            [result addObject:[NSString stringWithFormat:@"%ld", firstPred]];
         }
         [theScanner scanUpToString:@"minutes" intoString:NULL];
     }
@@ -545,7 +559,7 @@ UIBarButtonItem *editButton;
         cell = [[customCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
 
-    data = [Data getData:[NSString stringWithFormat:@"data%d.model",indexPath.row]];
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
     cell.routeId.text = data.routeId;

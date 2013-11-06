@@ -15,6 +15,7 @@ NSInteger MAXTRIPS;
 BOOL useDefaultSwitch;
 UILocalNotification *alarmNotification;
 NSString *DEFAULTLABEL;
+#define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
