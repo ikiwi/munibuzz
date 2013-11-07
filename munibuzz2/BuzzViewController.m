@@ -21,7 +21,6 @@ NSString *predictionString = @"prediction";
 NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
 NSInteger ROUTEIDTAG = 7;
-NSInteger LINEIDX = 8;
 NSInteger SECPERMIN = 60;
 NSArray *newTime;
 NSInteger defaultRowHeight = 114;
@@ -112,12 +111,6 @@ BOOL initialized = FALSE;
 
 - (void)exitEditingMode
 {
-    for (NSInteger idx = 0; idx < totalTrip; idx++) {
-        customCell *cell = [buzzList objectAtIndex:idx];
-        UILabel *line = [[cell.contentView subviews] objectAtIndex:LINEIDX];
-        [line removeFromSuperview];
-    }
-
     [buzzTableView setRowHeight:defaultRowHeight];
     [super setEditing:NO animated:NO];
     [buzzTableView setEditing:NO animated:NO];
@@ -128,12 +121,6 @@ BOOL initialized = FALSE;
 
 - (void)enterEditingMode
 {
-    for (NSInteger idx = 0; idx < totalTrip; idx++) {
-        customCell *cell = [buzzList objectAtIndex:idx];
-        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(-35,collapsedRowHeight-1,315,1)];
-        [line setBackgroundColor:[UIColor lightGrayColor]];
-        [cell.contentView insertSubview:line atIndex:LINEIDX];
-    }
 
     [buzzTableView setRowHeight:collapsedRowHeight];
     [super setEditing:YES animated:YES];

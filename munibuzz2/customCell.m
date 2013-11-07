@@ -39,6 +39,11 @@
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
         }
+        
+        self.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+        self.layer.shadowOffset = CGSizeMake(0,.5);
+        self.layer.shadowRadius = .5;
+        self.layer.shadowOpacity = .8;
     }
     return self;
 }

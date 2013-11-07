@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+NSInteger LINEIDX;
+NSInteger defaultRowHeight;
+NSInteger collapsedRowHeight;
+
 @interface customCell : UITableViewCell
 
 @property (strong, nonatomic) UILabel *startLabel;
 @property (strong, nonatomic) UILabel *destLabel;
 @property (strong, nonatomic) UILabel *routeId;
+@property (strong, nonatomic) UILabel *line;
 
 @end
