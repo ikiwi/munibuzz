@@ -10,6 +10,7 @@
 
 BOOL isEdit;
 BOOL checkAlarm;
+BOOL canRefresh;
 NSInteger currentTrip;
 NSMutableArray *buzzList;
 UILocalNotification *notification;
@@ -25,7 +26,6 @@ UILocalNotification *notification;
 @property (strong, nonatomic) IBOutlet UIButton *addRouteButton;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 @property (strong, nonatomic) NSMutableArray *rowTimer;
-@property BOOL canRefresh;
 
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;

@@ -72,11 +72,7 @@ BOOL selected;
     if (isEdit == TRUE) {
         // edit existing trip
         filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
-        if (skipGetData == FALSE) {
-            data = [Data getData:filename];
-        } else {
-            skipGetData = FALSE;
-        }
+        data = [Data getData:filename];
         isEdit = FALSE;
     } else {
         // new trip
@@ -84,6 +80,9 @@ BOOL selected;
         filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
         data = [[Data alloc] init];
     }
+    
+    //skip autorefresh in main page since we are on a different page
+    canRefresh = FALSE;
 
     NSArray *subArray1 = [NSArray arrayWithObjects:
                  [Trip tripId:@"End" desc:data.destLabel],

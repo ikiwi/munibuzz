@@ -30,7 +30,6 @@ UIBarButtonItem *editButton;
 @synthesize buzzArray;
 @synthesize scrollView;
 @synthesize buzzTableView;
-@synthesize canRefresh;
 @synthesize slabel;
 @synthesize dlabel;
 @synthesize rid;
@@ -74,7 +73,7 @@ UIBarButtonItem *editButton;
     [self.view addSubview:addRouteButton];
     [scrollView addSubview:buzzTableView];
     [self.view addSubview:scrollView];
-    
+
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
                                                       target: self
                                                     selector: @selector(autoRefresh:)
@@ -85,7 +84,7 @@ UIBarButtonItem *editButton;
 - (IBAction)checkMax:(id)sender
 {
     if (totalTrip < MAXTRIPS) {
-        self.canRefresh = FALSE;
+        canRefresh = FALSE;
         RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
         [self.navigationController pushViewController:rvc animated:YES];
      } else {
@@ -570,7 +569,7 @@ UIBarButtonItem *editButton;
     [buzzList setObject:cell atIndexedSubscript:indexPath.row];
 
     if (indexPath.row == totalTrip-1) {
-        self.canRefresh = TRUE;
+        canRefresh = TRUE;
         [self refresh];
     }
     
