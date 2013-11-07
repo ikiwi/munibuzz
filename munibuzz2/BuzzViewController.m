@@ -48,19 +48,19 @@ BOOL initialized = FALSE;
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
-    self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
-    self.rowTimer = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
-    newTime = [[NSArray alloc] init];
-    buzzList = [NSMutableArray new];
-    editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
-    self.navigationItem.leftBarButtonItem = nil;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
-    
-    //adjust add button for different iPhone version
-    
     if (initialized == FALSE) {
+        [super viewDidLoad];
+        
+        self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
+        self.rowTimer = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
+        newTime = [[NSArray alloc] init];
+        buzzList = [NSMutableArray new];
+        editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
+        self.navigationItem.leftBarButtonItem = nil;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
+        
+        //adjust add button for different iPhone version
+        
         if (IS_IPHONE_5) {
             [addRouteButton setFrame:CGRectMake(140, 524, 40, 40)];
             [buzzTableView setFrame:CGRectMake(0,32,320,488)];
@@ -146,20 +146,23 @@ BOOL initialized = FALSE;
         [self.navigationItem setLeftBarButtonItem:editButton];
     }
 
-    if (isEdit == TRUE && checkAlarm == TRUE) {
-        // default reminder time has been changed, check if
-        // any of the alarms is affected
-        checkAlarm = FALSE;
-        customCell *cell = [buzzList objectAtIndex:currentTrip];
-        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",currentTrip]];
-        for (NSInteger idx = 0; idx < 5; idx++) {
-            customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
-            if (button.isOn) {
-                NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
-                if (minute < 0) {
-                    NSLog(@"set alarm off");
+    if (isEdit == TRUE) {
+        [self refresh];
+        if (checkAlarm == TRUE) {
+            // default reminder time has been changed, check if
+            // any of the alarms is affected
+            checkAlarm = FALSE;
+            customCell *cell = [buzzList objectAtIndex:currentTrip];
+            data = [Data getData:[NSString stringWithFormat:@"data%ld.model",currentTrip]];
+            for (NSInteger idx = 0; idx < 5; idx++) {
+                customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
+                if (button.isOn) {
+                    NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
+                    if (minute < 0) {
+                        NSLog(@"set alarm off");
 
-                    [self setAlarmOff: button];
+                        [self setAlarmOff: button];
+                    }
                 }
             }
         }

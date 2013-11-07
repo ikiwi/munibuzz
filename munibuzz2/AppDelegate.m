@@ -44,7 +44,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 didReceiveLocalNotification:(UILocalNotification *)notification
 {
     AudioServicesPlaySystemSound (1304);
-    NSLog(@"buzz!");
+
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"
                           message:notification.alertBody
