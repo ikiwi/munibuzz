@@ -63,12 +63,12 @@ BOOL initialized = FALSE;
         
         if (IS_IPHONE_5) {
             [addRouteButton setFrame:CGRectMake(140, 524, 40, 40)];
-            [buzzTableView setFrame:CGRectMake(0,32,320,488)];
+            [buzzTableView setFrame:CGRectMake(0,32,320,448)];
             [scrollView setFrame:CGRectMake(0,32,320,488)];
             buzzTableView.rowHeight = 114;
         } else {
             [addRouteButton setFrame:CGRectMake(140,435,40,40)];
-            [buzzTableView setFrame:CGRectMake(0,32,320,403)];
+            [buzzTableView setFrame:CGRectMake(0,32,320,363)];
             [scrollView setFrame:CGRectMake(0,32,320,403)];
             buzzTableView.rowHeight = 124;
         }
@@ -160,8 +160,6 @@ BOOL initialized = FALSE;
                 if (button.isOn) {
                     NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
                     if (minute < 0) {
-                        NSLog(@"set alarm off");
-
                         [self setAlarmOff: button];
                     }
                 }
@@ -625,6 +623,10 @@ BOOL initialized = FALSE;
         canRefresh = TRUE;
         if (initialized == FALSE) {
             initialized = TRUE;
+            [self refresh];
+        }
+        if (refreshNow == TRUE) {
+            refreshNow = FALSE;
             [self refresh];
         }
     }

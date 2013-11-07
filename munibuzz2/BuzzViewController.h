@@ -12,6 +12,7 @@ BOOL isEdit;
 BOOL checkAlarm;
 BOOL clearAlarms;
 BOOL canRefresh;
+BOOL refreshNow;
 NSInteger currentTrip;
 NSMutableArray *buzzList;
 UILocalNotification *notification;

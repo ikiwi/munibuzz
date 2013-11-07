@@ -504,6 +504,7 @@ numberOfRowsInComponent:(NSInteger)component
     if (currentTrip == totalTrip) {
         // this is a new route, so update the total
         totalTrip++;
+        refreshNow = TRUE;
     } else {
         if ([oldData.remindLabel integerValue] < [data.remindLabel integerValue]) {
             // signal to check existing alarm if reminding time is changed
