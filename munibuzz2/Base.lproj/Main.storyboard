@@ -120,10 +120,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" restorationIdentifier="rid" text="rid" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TXb-Kt-Aue" userLabel="rid">
-                                                    <rect key="frame" x="5" y="5" width="42" height="21"/>
+                                                    <rect key="frame" x="3" y="5" width="40" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                                                    <color key="textColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -368,7 +368,6 @@
         <!--settingsController-->
         <scene sceneID="DBm-Sg-Eoj">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BsP-jQ-Hvx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="settingsController" id="jWf-Ps-pg5" userLabel="settingsController" customClass="SettingsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lNZ-zy-zEe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
@@ -377,6 +376,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Settings" id="sMg-19-FSY"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BsP-jQ-Hvx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1219" y="1846"/>
         </scene>

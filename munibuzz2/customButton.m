@@ -14,9 +14,10 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor whiteColor];
         self.titleLabel.text = @"-";
-        self.tintColor = [UIColor whiteColor];
+        self.titleLabel.frame = CGRectMake(30, 0, 25, 25);
+        [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:20.0]];
         self.alarm = [[UILocalNotification alloc] init];
 #ifdef REPEAT
@@ -31,9 +32,9 @@
 - (void)setBackground
 {
     if (self.isOn) {
-        [self setBackgroundColor:[UIColor orangeColor]];
+        [self setBackgroundImage:[UIImage imageNamed:@"alarmset.png"] forState:UIControlStateNormal];
     } else {
-        [self setBackgroundColor:[UIColor redColor]];
+        [self setBackgroundImage:[UIImage imageNamed:@"alarmunset.png"] forState:UIControlStateNormal];
     }
 }
 

@@ -130,8 +130,8 @@ BOOL initialized = FALSE;
 {
     for (NSInteger idx = 0; idx < totalTrip; idx++) {
         customCell *cell = [buzzList objectAtIndex:idx];
-        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0,collapsedRowHeight-1,320,1)];
-        [line setBackgroundColor:[UIColor grayColor]];
+        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(-35,collapsedRowHeight-1,315,1)];
+        [line setBackgroundColor:[UIColor lightGrayColor]];
         [cell.contentView insertSubview:line atIndex:LINEIDX];
     }
 
