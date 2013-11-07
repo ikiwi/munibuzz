@@ -17,6 +17,7 @@
         self.backgroundColor = [UIColor redColor];
         self.titleLabel.text = @"-";
         self.tintColor = [UIColor whiteColor];
+        [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:20.0]];
         self.alarm = [[UILocalNotification alloc] init];
 #ifdef REPEAT
         self.alarmOn = FALSE;
