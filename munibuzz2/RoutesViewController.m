@@ -40,6 +40,7 @@ BOOL repeating;
 #endif
 UIBarButtonItem *doneButton;
 BOOL selected;
+NSString *DELETEROUTE = @"                    Delete Route";
 @implementation RoutesViewController
 @synthesize tripArray;
 @synthesize startCell;
@@ -69,11 +70,15 @@ BOOL selected;
 {
     [super viewDidLoad];
 
+    NSArray *subArray3 = nil;
     if (isEdit == TRUE) {
         // edit existing trip
         filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
         data = [Data getData:filename];
         isEdit = FALSE;
+        subArray3 = [NSArray arrayWithObjects:
+                              [Trip tripId:DELETEROUTE desc:@""],
+                              nil];
     } else {
         // new trip
         currentTrip = totalTrip;
@@ -98,7 +103,7 @@ BOOL selected;
 #endif
                  nil];
     
-    tripArray = [NSArray arrayWithObjects:subArray1,subArray2,nil];
+    tripArray = [NSArray arrayWithObjects:subArray1,subArray2,subArray3,nil];
 
 #ifdef USEDEFAULT
     if ([data.useDefault isEqual:@"NO"]) {
@@ -194,6 +199,8 @@ BOOL selected;
         repeatCell = cell;
         cell.accessoryType =  UITableViewCellAccessoryDisclosureIndicator;
 #endif
+    } else if ([trip.name isEqual:DELETEROUTE]) {
+        cell.textLabel.textColor = [UIColor redColor];
     }
 
     return cell;
@@ -346,6 +353,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [UIView commitAnimations];
         self.navigationItem.rightBarButtonItem = doneButton;
 #endif
+    } else if ([trip.name isEqual:DELETEROUTE]) {
+        [Data removeData:currentTrip];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 
 }
