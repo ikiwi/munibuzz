@@ -17,6 +17,7 @@
 
 NSInteger MAXTRIPS=20;
 NSString *DEFAULTLABEL = @"location";
+NSInteger alarmCount;
 
 @implementation AppDelegate
 
@@ -57,11 +58,16 @@ didReceiveLocalNotification:(UILocalNotification *)notification
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *eventArray = [app scheduledLocalNotifications];
+    alarmCount = [eventArray count];
     [Data saveAll:dataArray];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    [BuzzViewController recalAlarms:alarmCount];
+
     dataArray = [Data getAll];
 }
 

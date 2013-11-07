@@ -39,5 +39,6 @@ UILocalNotification *notification;
 - (void)autoRefresh:(BOOL)animated;
 +(void)refreshAlarm:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
++(void)recalAlarms:(NSInteger)alarmCount;
 
 @end

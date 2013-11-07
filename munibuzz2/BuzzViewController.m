@@ -365,6 +365,45 @@ BOOL initialized = FALSE;
 #endif
 }
 
++(void) recalAlarms:(NSInteger)alarmCount
+{
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *eventArray = [app scheduledLocalNotifications];
+    if (alarmCount != [eventArray count]) {
+        app.applicationIconBadgeNumber = 0;
+
+        // alarm has been triggered when the app was running in background
+        // what this means is that the notification did not go through
+        // didReceiveLocalNotification.  This causes a discrepancy in alarm
+        // count.  To fix this, we'll turn off all the alarm indicators,
+        // and turn on one by one the buttons that has pending notifications
+        for (int ii = 0; ii < totalTrip; ii++) {
+            for (int jj = 0; jj < 5; jj++) {
+                customCell *cell = [buzzList objectAtIndex:ii];
+                customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+                button.isOn = FALSE;
+                [button setBackground];
+            }
+        }
+        for (int i = 0; i < [eventArray count]; i++)
+        {
+            UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
+            NSDictionary *userInfoCurrent = oneEvent.userInfo;
+            NSString *slot = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
+            NSScanner *theScanner = [NSScanner scannerWithString:slot];
+            NSInteger ii = 0;
+            NSInteger jj = 0;
+            [theScanner scanInteger:&ii];
+            [theScanner scanString:@"-" intoString:NULL];
+            [theScanner scanInteger:&jj];
+            customCell *cell = [buzzList objectAtIndex:ii];
+            customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+            button.isOn = TRUE;
+            [button setBackground];
+        }
+    }
+}
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
