@@ -490,6 +490,7 @@ BOOL initialized = FALSE;
     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
     button.tag = ii*100+jj;
     if (reminder <= 0 && clearAlarms == FALSE) {
+        [button setBackground];
         return;
     }
     if (button.isOn == TRUE) {

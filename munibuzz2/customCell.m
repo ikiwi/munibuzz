@@ -18,9 +18,13 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.startLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,5,200,20)];
-        self.destLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,25,200,20)];
-        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(25,7,30,15)];
+        NSInteger offset = 0;
+        if (!IS_IPHONE_5) {
+            offset = 5;
+        }
+        self.startLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,5+offset,200,20)];
+        self.destLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,25+offset,200,20)];
+        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(25,7+offset,30,15)];
         [self.routeId setTextAlignment:NSTextAlignmentRight];
         self.startLabel.textColor = [UIColor redColor];
         self.startLabel.backgroundColor = [UIColor whiteColor];
@@ -30,12 +34,7 @@
         for (NSInteger idx = 0; idx < 5; idx++)
         {
             customButton *button;
-            if (IS_IPHONE_5) {
-                button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
-            } else {
-                button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,74)];
-                
-            }
+            button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
             button.titleLabel.text = [NSString stringWithFormat:@"%d", idx];
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
