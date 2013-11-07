@@ -494,24 +494,27 @@ numberOfRowsInComponent:(NSInteger)component
     if (currentTrip == totalTrip) {
         // this is a new route, so update the total
         totalTrip++;
-    } else if (![oldData.startLabel isEqual:data.startLabel]
+    } else {
+        if ([oldData.remindLabel integerValue] < [data.remindLabel integerValue]) {
+            // signal to check existing alarm if reminding time is changed
+            checkAlarm = TRUE;
+            isEdit = TRUE;
+        }
+        if (![oldData.startLabel isEqual:data.startLabel]
         || ![oldData.destLabel isEqual:data.destLabel]
         || ![oldData.routeId isEqual:data.routeId])
-    {
-        // isEdit flag indicates to buzz view controller
-        // whether alarms need to be reset. e.g.
-        // isEdit is TRUE will cause alarms to be reset
-        // since start/end/route changes create a new route,
-        // any other changes does not require the alarms to
-        // be reset (isEdit is FALSE)
-        isEdit = TRUE;
+        {
+            // isEdit flag indicates to buzz view controller
+            // whether alarms need to be reset. e.g.
+            // isEdit is TRUE will cause alarms to be reset
+            // since start/end/route changes create a new route,
+            // any other changes does not require the alarms to
+            // be reset (isEdit is FALSE)
+            clearAlarms = TRUE;
+            isEdit = TRUE;
+        }
     }
     
-    if ([oldData.remindLabel integerValue] < [data.remindLabel integerValue]) {
-        // signal to check existing alarm if reminding time is changed
-        checkAlarm = TRUE;
-    }
-
 #ifdef REPEAT
     //reset repeat if it's larger than reminder
     if ([data.repeatLabel integerValue] >= [data.remindLabel integerValue]) {

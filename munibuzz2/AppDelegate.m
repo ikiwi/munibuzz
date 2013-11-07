@@ -13,6 +13,7 @@
 #import "customButton.h"
 #import "RoutesDatabase.h"
 #import "Stops.h"
+#import <AudioToolbox/AudioToolbox.h>
 
 NSInteger MAXTRIPS=20;
 NSString *DEFAULTLABEL = @"location";
@@ -35,7 +36,6 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
     dataArray = [Data getAll];
     // Reset the Icon Alert Number back to Zero
     application.applicationIconBadgeNumber = 0;
-
     
     return YES;
 }
@@ -43,15 +43,16 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 - (void) application:(UIApplication *)application
 didReceiveLocalNotification:(UILocalNotification *)notification
 {
+    AudioServicesPlaySystemSound (1304);
+    NSLog(@"buzz!");
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:@"muniBuzz:"
                           message:notification.alertBody
                           delegate:self
                           cancelButtonTitle:@"OK" otherButtonTitles:nil];
 
-    [BuzzViewController turnOffAlarm:notification];
-
     [alert show];
+    [BuzzViewController turnOffAlarm:notification];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -62,7 +63,6 @@ didReceiveLocalNotification:(UILocalNotification *)notification
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     dataArray = [Data getAll];
-    NSLog(@"%d trips", totalTrip);
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

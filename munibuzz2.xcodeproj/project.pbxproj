@@ -29,6 +29,7 @@
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
+		A6CA55C5182B38C200F0A883 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CA55C4182B38C200F0A883 /* AudioToolbox.framework */; };
 		A6DCD581180F2EE5002677D1 /* customButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DCD580180F2EE5002677D1 /* customButton.m */; };
 		A6F4848F180D0CEC00523012 /* StopsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4848E180D0CEC00523012 /* StopsTableViewController.m */; };
 		A6F6935D18220BC3009C8D17 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -77,6 +78,7 @@
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
 		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		A6CA55C4182B38C200F0A883 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		A6DCD57F180F2EE5002677D1 /* customButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customButton.h; sourceTree = "<group>"; };
 		A6DCD580180F2EE5002677D1 /* customButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customButton.m; sourceTree = "<group>"; };
 		A6F4848D180D0CEC00523012 /* StopsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopsTableViewController.h; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6CA55C5182B38C200F0A883 /* AudioToolbox.framework in Frameworks */,
 				A62AE3E418220ECE00CC18A2 /* libsqlite3.dylib in Frameworks */,
 				A698ED9A1808918A00482EC5 /* CoreGraphics.framework in Frameworks */,
 				A698ED9C1808918A00482EC5 /* UIKit.framework in Frameworks */,
@@ -132,6 +135,7 @@
 		A698ED961808918A00482EC5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A6CA55C4182B38C200F0A883 /* AudioToolbox.framework */,
 				A6F6935C18220BC3009C8D17 /* libsqlite3.dylib */,
 				A698ED971808918A00482EC5 /* Foundation.framework */,
 				A698ED991808918A00482EC5 /* CoreGraphics.framework */,

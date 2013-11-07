@@ -10,6 +10,7 @@
 
 BOOL isEdit;
 BOOL checkAlarm;
+BOOL clearAlarms;
 BOOL canRefresh;
 NSInteger currentTrip;
 NSMutableArray *buzzList;

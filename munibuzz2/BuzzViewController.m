@@ -26,6 +26,7 @@ NSArray *newTime;
 NSInteger defaultRowHeight = 114;
 NSInteger collapsedRowHeight = 50;
 UIBarButtonItem *editButton;
+BOOL initialized = FALSE;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize scrollView;
@@ -58,27 +59,30 @@ UIBarButtonItem *editButton;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
     
     //adjust add button for different iPhone version
-    if (IS_IPHONE_5) {
-        [addRouteButton setFrame:CGRectMake(140, 524, 40, 40)];
-        [buzzTableView setFrame:CGRectMake(0,32,320,488)];
-        [scrollView setFrame:CGRectMake(0,32,320,488)];
-        buzzTableView.rowHeight = 114;
-    } else {
-        [addRouteButton setFrame:CGRectMake(140,435,40,40)];
-        [buzzTableView setFrame:CGRectMake(0,32,320,403)];
-        [scrollView setFrame:CGRectMake(0,32,320,403)];
-        buzzTableView.rowHeight = 124;
-    }
     
-    [self.view addSubview:addRouteButton];
-    [scrollView addSubview:buzzTableView];
-    [self.view addSubview:scrollView];
-
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
-                                                      target: self
-                                                    selector: @selector(autoRefresh:)
-                                                    userInfo: nil
-                                                     repeats: YES];
+    if (initialized == FALSE) {
+        if (IS_IPHONE_5) {
+            [addRouteButton setFrame:CGRectMake(140, 524, 40, 40)];
+            [buzzTableView setFrame:CGRectMake(0,32,320,488)];
+            [scrollView setFrame:CGRectMake(0,32,320,488)];
+            buzzTableView.rowHeight = 114;
+        } else {
+            [addRouteButton setFrame:CGRectMake(140,435,40,40)];
+            [buzzTableView setFrame:CGRectMake(0,32,320,403)];
+            [scrollView setFrame:CGRectMake(0,32,320,403)];
+            buzzTableView.rowHeight = 124;
+        }
+        [self.view addSubview:addRouteButton];
+        [scrollView addSubview:buzzTableView];
+        [self.view addSubview:scrollView];
+        
+    
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
+                                                          target: self
+                                                        selector: @selector(autoRefresh:)
+                                                        userInfo: nil
+                                                         repeats: YES];
+    }
 }
 
 - (IBAction)checkMax:(id)sender
@@ -142,16 +146,19 @@ UIBarButtonItem *editButton;
         [self.navigationItem setLeftBarButtonItem:editButton];
     }
 
-    if (isEdit == TRUE && checkAlarm == TRUE && (currentTrip < totalTrip)) {
+    if (isEdit == TRUE && checkAlarm == TRUE) {
         // default reminder time has been changed, check if
         // any of the alarms is affected
         checkAlarm = FALSE;
         customCell *cell = [buzzList objectAtIndex:currentTrip];
+        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",currentTrip]];
         for (NSInteger idx = 0; idx < 5; idx++) {
             customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
             if (button.isOn) {
                 NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
                 if (minute < 0) {
+                    NSLog(@"set alarm off");
+
                     [self setAlarmOff: button];
                 }
             }
@@ -206,7 +213,7 @@ UIBarButtonItem *editButton;
     }
 #endif
 
-    return (alarmTime - reminder - 1);
+    return (alarmTime - reminder);
 }
 
 #ifdef REPEAT
@@ -236,8 +243,9 @@ UIBarButtonItem *editButton;
     // switch alarm on or off
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
+    
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
     if (button.isOn) {
-        
         [self setAlarmOff:button];
         
     } else {
@@ -271,6 +279,7 @@ UIBarButtonItem *editButton;
 {
     UIApplication *app = [UIApplication sharedApplication];
 
+    NSLog(@"setalarmoff");
     button.isOn = FALSE;
     [button setBackground];
 #ifdef REPEAT
@@ -297,7 +306,7 @@ UIBarButtonItem *editButton;
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
     alarm.alertBody = @"Your muni is arriving.";
     alarm.applicationIconBadgeNumber = 1;
-    alarm.soundName = UILocalNotificationDefaultSoundName;
+    alarm.soundName = @"/System/Library/Audio/UISounds/alarm.caf";
     alarm.alertAction = @"View details";
     alarm.hasAction = YES;
     alarm.userInfo = alarmID;
@@ -308,6 +317,8 @@ UIBarButtonItem *editButton;
 // class method called from AppDelegate to turn off a specific alarm after notification is received
 +(void)turnOffAlarm:(UILocalNotification*)oneEvent
 {
+    NSLog(@"turning off alarm");
+
     NSDictionary *userInfoCurrent = oneEvent.userInfo;
     NSString *str = [NSString stringWithFormat:@"%@",[userInfoCurrent valueForKey:@"id"]];
     NSScanner *theScanner = [NSScanner scannerWithString:str];
@@ -324,7 +335,7 @@ UIBarButtonItem *editButton;
     [theScanner scanInteger:&repeat];
 #endif
     if (ii < 0 || ii > 5 || jj < 0 || jj > 5) {
-        NSLog(@"turning off alarm failed %ld %ld", ii, jj);
+        NSLog(@"turning off alarm failed %d %d", ii, jj);
         return;
     }
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
@@ -336,6 +347,7 @@ UIBarButtonItem *editButton;
 #endif
         button.isOn = FALSE;
         [button setBackground];
+        NSLog(@"turn off alarm");
 #ifdef REPEAT
     } else if (repeat == 2) {
         // this is the repeat alarm, turn off everything
@@ -363,8 +375,6 @@ UIBarButtonItem *editButton;
 
 - (void)refresh
 {
-    BOOL clearAlarms = FALSE;
-
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
@@ -383,7 +393,6 @@ UIBarButtonItem *editButton;
         NSString *newtime = [newTime objectAtIndex:0];
         if (isEdit == TRUE) {
             // clear out the alarm from the previous routes
-            clearAlarms = TRUE;
             isEdit = FALSE;
         } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
             // muni has arrived and predictions queue has shifted, now we can shift the alarms
@@ -394,7 +403,7 @@ UIBarButtonItem *editButton;
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
         // and y ranges from 0 to 4 (max alarms)
-        [self refreshEach:button ii:ii jj:0 hasRepeat:hasRepeat clearAlarms:clearAlarms newtime:newtime];
+        [self refreshEach:button ii:ii jj:0 hasRepeat:hasRepeat newtime:newtime];
         // for the rest, refresh everything except alarm
         for (NSInteger jj = 1; jj < 5; jj++)
         {
@@ -407,20 +416,20 @@ UIBarButtonItem *editButton;
             // to make the button retrievable, set tag to the schedule #
             // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
             // and y ranges from 0 to 4 (max alarms per row is 5)
-            [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat clearAlarms:clearAlarms newtime:newtime];
+            [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat newtime:newtime];
 
 
         }
         cell.startLabel.text = data.startLabel;
         cell.destLabel.text = data.destLabel;
     }
+    clearAlarms = FALSE;
 }
 
 - (void) refreshEach:(customButton*) button
                   ii:(NSInteger)ii
                   jj:(NSInteger)jj
            hasRepeat:(BOOL)hasRepeat
-         clearAlarms:(BOOL)clearAlarms
              newtime:(NSString*)newtime
 {
     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
@@ -570,7 +579,10 @@ UIBarButtonItem *editButton;
 
     if (indexPath.row == totalTrip-1) {
         canRefresh = TRUE;
-        [self refresh];
+        if (initialized == FALSE) {
+            initialized = TRUE;
+            [self refresh];
+        }
     }
     
     return cell;
