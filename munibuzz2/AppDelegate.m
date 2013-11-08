@@ -67,7 +67,7 @@ didReceiveLocalNotification:(UILocalNotification *)notification
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [BuzzViewController recalAlarms:alarmCount];
-
+    
     dataArray = [Data getAll];
 }
 

@@ -144,9 +144,11 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
         if ([rarray1 count] > 0) {
             data.startStopTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sTag]];
             data.startStopId = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] sId]];
+            data.dirTag = [NSMutableString stringWithString:[[rarray1 objectAtIndex:0] dTag]];
         }
         if ([directionArray count] > 0) {
-            data.routeId = [NSMutableString stringWithString:[directionArray objectAtIndex:0]];
+            data.routeId = [NSMutableString stringWithString:[[directionArray objectAtIndex:0] valueForKey:@"rId"]];
+            data.dirTag = [NSMutableString stringWithString:[[directionArray objectAtIndex:0] valueForKey:@"dTag"]];
         } else {
             data.routeId = [NSMutableString stringWithString:@"-"];
         }
@@ -182,7 +184,8 @@ didSelectRowAtIndexPath:(NSIndexPath *__strong)indexPath
                     stop1 = [tmp1 objectAtIndex:0];
                     stop2 = [tmp2 objectAtIndex:0];
                     if (stop1.key < stop2.key) {
-                        [directionArray addObject:stop1.rId];
+                        NSDictionary *stopID = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:stop1.rId,stop1.dTag,nil] forKeys:[NSArray arrayWithObjects:@"rId",@"dTag",nil]];
+                        [directionArray addObject:stopID];
                     }
                 }
             }

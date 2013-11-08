@@ -88,6 +88,7 @@ NSString *DATADIR = @"munibuzz";
         self.startStopId = [NSMutableString stringWithString:@"0"];
         self.destLabel = [NSMutableString stringWithString:DEFAULTLABEL];
         self.routeId = [NSMutableString stringWithString:@" "];
+        self.dirTag = [NSMutableString stringWithString:@" "];
 #ifdef USEDEFAULT
         self.useDefault = [NSMutableString stringWithString:@"YES"];
 #endif
@@ -112,6 +113,7 @@ NSString *DATADIR = @"munibuzz";
         self.startStopId = [aDecoder decodeObjectForKey:@"startStopId"];
         self.destLabel = [aDecoder decodeObjectForKey:@"destLabel"];
         self.routeId = [aDecoder decodeObjectForKey:@"routeId"];
+        self.dirTag = [aDecoder decodeObjectForKey:@"dirTag"];
 #ifdef USEDEFAUT
         self.useDefault = [aDecoder decodeObjectForKey:@"useDefault"];
 #endif
@@ -134,6 +136,7 @@ NSString *DATADIR = @"munibuzz";
     [anEncoder encodeObject:self.startStopId forKey:@"startStopId"];
     [anEncoder encodeObject:self.destLabel forKey:@"destLabel"];
     [anEncoder encodeObject:self.routeId forKey:@"routeId"];
+    [anEncoder encodeObject:self.dirTag forKey:@"dirTag"];
 #ifdef USEDEFAULT
     [anEncoder encodeObject:self.useDefault forKey:@"useDefault"];
 #endif

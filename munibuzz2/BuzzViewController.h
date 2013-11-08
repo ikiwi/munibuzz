@@ -29,8 +29,11 @@ UILocalNotification *notification;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 @property (strong, nonatomic) NSMutableArray *rowTimer;
 
+- (void)touchesBegan:(NSSet *)touches
+           withEvent:(UIEvent *)event;
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
+-(void)setAlarm:(id)sender force:(BOOL)force;
 -(void)setAlarmInternal:(UILocalNotification*)alarm
                      ii:(NSInteger)ii
                      jj:(NSInteger)jj
@@ -41,5 +44,6 @@ UILocalNotification *notification;
 +(void)refreshAlarm:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
 +(void)recalAlarms:(NSInteger)alarmCount;
++(void)adjustAlarmsInRow:(NSInteger)ii;
 
 @end

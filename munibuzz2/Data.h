@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSMutableString *startStopId;
 @property (strong, nonatomic) NSMutableString *destLabel;
 @property (strong, nonatomic) NSMutableString *routeId;
+@property (strong, nonatomic) NSMutableString *dirTag;
 #ifdef USEDEFAULT
 @property (strong, nonatomic) NSMutableString *useDefault;
 #endif
