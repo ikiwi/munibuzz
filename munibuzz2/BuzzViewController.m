@@ -659,11 +659,8 @@ BOOL initialized = FALSE;
 
     if (indexPath.row == totalTrip-1) {
         canRefresh = TRUE;
-        if (initialized == FALSE) {
+        if (initialized == FALSE || refreshNow == TRUE) {
             initialized = TRUE;
-            [self refresh];
-        }
-        if (refreshNow == TRUE) {
             refreshNow = FALSE;
             [self refresh];
         }
@@ -717,7 +714,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     for (NSInteger ii = row; ii < totalTrip; ii++) {
         customCell *cell1 = [buzzList objectAtIndex:ii];
-        NSLog(@"row=%d total=%d %@", row, totalTrip, cell1.startLabel);
         
         if (ii+1 == totalTrip) {
             //this is the last item, just clear alarms
@@ -734,7 +730,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                 [button1 removeFromSuperview];
                 [button2 removeFromSuperview];
                 if (button2.isOn == TRUE) {
-                    //change alarmID since the row # has been changed
+                    // update alarmID with new row #
                     UIApplication *app = [UIApplication sharedApplication];
                     [app cancelLocalNotification:button2.alarm];
                     button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];
