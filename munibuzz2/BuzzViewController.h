@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Data.h"
 
 BOOL isEdit;
 BOOL checkAlarm;
@@ -39,9 +40,10 @@ UILocalNotification *notification;
                      jj:(NSInteger)jj
                 seconds:(NSInteger)seconds
                 alarmID:(NSDictionary*)alarmID;
-+(NSArray*)refreshTime;
+- (NSMutableArray*)nextbusAPI;
+- (NSMutableArray*)nextbusAPIWithData:(Data*)data;
 - (void)autoRefresh:(BOOL)animated;
-+(void)refreshAlarm:(NSInteger)index;
++(void)refreshAlarmInRow:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
 +(void)recalAlarms:(NSInteger)alarmCount;
 +(void)adjustAlarmsInRow:(NSInteger)ii;

@@ -458,7 +458,7 @@ BOOL initialized = FALSE;
 #else
         BOOL hasRepeat = FALSE;
 #endif
-        newTime = [[self class] refreshTime];
+        newTime = [self nextbusAPI];
         NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
         [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
         customCell *cell = [buzzList objectAtIndex:ii];
@@ -471,7 +471,7 @@ BOOL initialized = FALSE;
             isEdit = FALSE;
         } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
             // muni has arrived and predictions queue has shifted, now we can shift the alarms
-            [[self class] refreshAlarm:ii];
+            [[self class] refreshAlarmInRow:ii];
         }
         [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
@@ -558,7 +558,17 @@ BOOL initialized = FALSE;
 }
 
 // this function parses nextbus API
-+ (NSMutableArray*)refreshTime
+// input: none
+// output: new time array based on current data object
+- (NSMutableArray*)nextbusAPI
+{
+    return [self nextbusAPIWithData:data];
+}
+
+// this function parses nextbus API
+// input: data object
+// output: new time array
+- (NSMutableArray*)nextbusAPIWithData:(Data*)data
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -607,7 +617,7 @@ BOOL initialized = FALSE;
 }
 
 // this function shifts the alarms in row #ii by one
-+ (void)refreshAlarm:(NSInteger)ii
++ (void)refreshAlarmInRow:(NSInteger)ii
 {
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
 
