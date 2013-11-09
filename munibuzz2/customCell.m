@@ -31,11 +31,11 @@
         self.destLabel.textColor = [UIColor redColor];
         self.destLabel.backgroundColor = [UIColor whiteColor];
         NSInteger xx = 0;
-        for (NSInteger idx = 0; idx < 5; idx++)
+        for (int idx = 0; idx < 5; idx++)
         {
             customButton *button;
             button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
-            button.titleLabel.text = [NSString stringWithFormat:@"%d", idx];
+            button.titleLabel.text = @"0";
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
         }

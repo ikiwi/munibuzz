@@ -14,11 +14,12 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.isOn = FALSE;
+        [self setBackground];
         self.titleLabel.text = @"-";
         self.titleLabel.frame = CGRectMake(30, 0, 25, 25);
         [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:20.0]];
+//        [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:20.0]];
         self.alarm = [[UILocalNotification alloc] init];
 #ifdef REPEAT
         self.alarmOn = FALSE;
