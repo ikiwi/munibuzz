@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 #import "Data.h"
 #import "customCell.h"
-#import <pthread.h>
+#include <pthread.h>
 
 @interface BuzzViewController ()
 @end
@@ -23,7 +23,6 @@ NSInteger STARTLABELTAG = 5;
 NSInteger DESTLABELTAG = 6;
 NSInteger ROUTEIDTAG = 7;
 NSInteger SECPERMIN = 60;
-NSArray *newTime;
 NSInteger defaultRowHeight = 114;
 NSInteger collapsedRowHeight = 50;
 UIBarButtonItem *editButton;
@@ -53,12 +52,11 @@ BOOL initialized = FALSE;
     if (initialized == FALSE) {
         [super viewDidLoad];
         
-        pthread_mutex_init(&timeLock, NULL);
+        pthread_mutex_init(&timeLock,NULL);
         
         self.view.userInteractionEnabled = YES;
         self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
         self.rowTimer = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
-        newTime = [[NSArray alloc] init];
         buzzList = [NSMutableArray new];
         editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
         self.navigationItem.leftBarButtonItem = nil;
@@ -81,13 +79,13 @@ BOOL initialized = FALSE;
         [scrollView addSubview:buzzTableView];
         [self.view addSubview:scrollView];
         
+//        [self autoRefresh:YES];
     
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
                                                           target: self
                                                         selector: @selector(autoRefresh:)
                                                         userInfo: nil
                                                          repeats: YES];
-
     }
 }
 
@@ -154,7 +152,11 @@ BOOL initialized = FALSE;
     }
 
     if (isEdit == TRUE) {
-        [self refresh];
+        for (NSInteger ii = 0; ii < totalTrip; ii++)
+        {
+            [self getTimeAndUpdateRow:ii];
+        }
+        clearAlarms = FALSE;
         if (checkAlarm == TRUE) {
             // default reminder time has been changed, check if
             // any of the alarms is affected
@@ -180,7 +182,8 @@ BOOL initialized = FALSE;
     [buzzTableView reloadData];
 }
 
-// automatically refresh MUNI time according to timer
+// dispatch background threads to get updated MUNI time
+// called by timer
 - (void)autoRefresh:(BOOL)animated
 {
     if (canRefresh) {
@@ -199,19 +202,19 @@ BOOL initialized = FALSE;
 - (void)getTimeAndUpdateRow:(NSInteger)row
 {
     //get current MUNI schedule
-//    NSMutableArray *result = [self nextbusAPIWithData:[Data getData:[NSString stringWithFormat:@"data%ld.model",row]]];
+    NSMutableArray *result = [self nextbusAPIWithData:[Data getData:[NSString stringWithFormat:@"data%ld.model",row]]];
     
     //display new time
     [buzzTableView beginUpdates];
-    [self refresh];
+    [self updateButtonsInRow:row newTime:result];
     [buzzTableView endUpdates];
     
-    //    pthread_mutex_lock(&timeLock);
-    //    refreshCount = __sync_fetch_and_add(&refreshCount, 1);
-    //    pthread_mutex_unlock(&timeLock);
+//    pthread_mutex_lock(&timeLock);
+//    refreshCount = __sync_fetch_and_add(&refreshCount, 1);
+//    pthread_mutex_unlock(&timeLock);
 }
 
-// alarms testing function, used during debug only
+// debug-only test function
 - (void)showAllEvents
 {
      UIApplication *app = [UIApplication sharedApplication];
@@ -400,6 +403,7 @@ BOOL initialized = FALSE;
     UIApplication *app = [UIApplication sharedApplication];
     NSArray *eventArray = [app scheduledLocalNotifications];
     if (alarmCount != [eventArray count]) {
+        NSLog(@"recalculating");
         app.applicationIconBadgeNumber = 0;
 
         // alarm has been triggered when the app was running in background
@@ -445,67 +449,59 @@ BOOL initialized = FALSE;
     return totalTrip;
 }
 
-- (void)refresh
+- (void)updateButtonsInRow:(NSInteger)row newTime:(NSArray*)newTime
 {
-    for (NSInteger ii = 0; ii < totalTrip; ii++)
-    {
-        if (canRefresh == FALSE) {
-            break;
-        }
-        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",row]];
+    NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
+    [alarmArray setObject:alarmSubarray atIndexedSubscript:row];
+    customCell *cell = [buzzList objectAtIndex:row];
 #ifdef REPEAT
-        BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
+    BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
 #else
-        BOOL hasRepeat = FALSE;
+    BOOL hasRepeat = FALSE;
 #endif
-        newTime = [[self class] refreshTime];
-        NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
-        [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
-        customCell *cell = [buzzList objectAtIndex:ii];
+
+    // for the first button, refresh everything
+    customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
+    NSString *newtime = [newTime objectAtIndex:0];
+    if (isEdit == TRUE) {
+        // clear out the alarm from the previous routes
+        isEdit = FALSE;
+    } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
+        // muni has arrived and predictions queue has shifted, now we can shift the alarms
+        [[self class] refreshAlarmInRow:row];
+    }
+    [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
+    // to make the button retrievable, set tag to the schedule #
+    // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
+    // and y ranges from 0 to 4 (max alarms)
+    [self updateAlarmForButton:button ii:row jj:0 hasRepeat:hasRepeat newtime:newtime];
+    // for the rest, refresh everything except alarm
+    for (NSInteger jj = 1; jj < 5; jj++)
+    {
         
-        // for the first button, refresh everything
-        customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
-        NSString *newtime = [newTime objectAtIndex:0];
-        if (isEdit == TRUE) {
-            // clear out the alarm from the previous routes
-            isEdit = FALSE;
-        } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
-            // muni has arrived and predictions queue has shifted, now we can shift the alarms
-            [[self class] refreshAlarm:ii];
-        }
+        customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+        NSString *newtime = [newTime objectAtIndex:jj];
+
         [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
-        // and y ranges from 0 to 4 (max alarms)
-        [self refreshEach:button ii:ii jj:0 hasRepeat:hasRepeat newtime:newtime];
-        // for the rest, refresh everything except alarm
-        for (NSInteger jj = 1; jj < 5; jj++)
-        {
-            
-            customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
-            NSString *newtime = [newTime objectAtIndex:jj];
-
-            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
-            // to make the button retrievable, set tag to the schedule #
-            // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
-            // and y ranges from 0 to 4 (max alarms per row is 5)
-            [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat newtime:newtime];
-
-
-        }
-        cell.startLabel.text = data.startLabel;
-        cell.destLabel.text = data.destLabel;
+        // and y ranges from 0 to 4 (max alarms per row is 5)
+        [self updateAlarmForButton:button ii:row jj:jj hasRepeat:hasRepeat newtime:newtime];
+        
+        
     }
-    clearAlarms = FALSE;
+    cell.startLabel.text = data.startLabel;
+    cell.destLabel.text = data.destLabel;
 }
 
-- (void) refreshEach:(customButton*) button
-                  ii:(NSInteger)ii
-                  jj:(NSInteger)jj
-           hasRepeat:(BOOL)hasRepeat
-             newtime:(NSString*)newtime
+- (void) updateAlarmForButton:(customButton*) button
+                           ii:(NSInteger)ii
+                           jj:(NSInteger)jj
+                    hasRepeat:(BOOL)hasRepeat
+                      newtime:(NSString*)newtime
 {
     NSInteger reminder = [self getReminderMinutes:[newtime integerValue]];
     button.tag = ii*100+jj;
@@ -558,7 +554,17 @@ BOOL initialized = FALSE;
 }
 
 // this function parses nextbus API
-+ (NSMutableArray*)refreshTime
+// input: none
+// output: new time array based on current data object
+- (NSMutableArray*)nextbusAPI
+{
+    return [self nextbusAPIWithData:data];
+}
+
+// this function parses nextbus API
+// input: data object
+// output: new time array
+- (NSMutableArray*)nextbusAPIWithData:(Data*)data
 {
     NSURL *url = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://webservices.nextbus.com/service/publicXMLFeed?command=predictions&a=sf-muni&r=%@&s=%@",data.routeId, data.startStopTag]];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
@@ -607,7 +613,7 @@ BOOL initialized = FALSE;
 }
 
 // this function shifts the alarms in row #ii by one
-+ (void)refreshAlarm:(NSInteger)ii
++ (void)refreshAlarmInRow:(NSInteger)ii
 {
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
 
@@ -659,13 +665,14 @@ BOOL initialized = FALSE;
 
     if (indexPath.row == totalTrip-1) {
         canRefresh = TRUE;
-        if (initialized == FALSE) {
+        if (initialized == FALSE || refreshNow == TRUE) {
             initialized = TRUE;
-            [self refresh];
-        }
-        if (refreshNow == TRUE) {
+            // refresh once after a new route has been added
             refreshNow = FALSE;
-            [self refresh];
+            for (NSInteger ii = 0; ii < totalTrip; ii++)
+            {
+                [self getTimeAndUpdateRow:ii];
+            }
         }
     }
     
@@ -717,7 +724,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     for (NSInteger ii = row; ii < totalTrip; ii++) {
         customCell *cell1 = [buzzList objectAtIndex:ii];
-        NSLog(@"row=%d total=%d %@", row, totalTrip, cell1.startLabel);
         
         if (ii+1 == totalTrip) {
             //this is the last item, just clear alarms
@@ -728,15 +734,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         } else {
             customCell *cell2 = [buzzList objectAtIndex:ii+1];
             for (NSInteger jj = 0; jj < 5; jj++) {
+                // swap buttons
                 customButton *button1 = [[cell1.contentView subviews] objectAtIndex:jj];
                 customButton *button2 = [[cell2.contentView subviews] objectAtIndex:jj];
+                [button1 removeFromSuperview];
+                [button2 removeFromSuperview];
                 if (button2.isOn == TRUE) {
-                    //change alarmID since the row # has been changed
+                    // update alarmID with new row #
                     UIApplication *app = [UIApplication sharedApplication];
                     [app cancelLocalNotification:button2.alarm];
                     button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];
                     [app scheduleLocalNotification:button2.alarm];
                 }
+                [button1 setBackground];
                 [cell1.contentView insertSubview:button2 atIndex:jj];
                 [cell2.contentView insertSubview:button1 atIndex:jj];
             }
