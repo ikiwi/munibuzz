@@ -13,7 +13,6 @@
 #import "AppDelegate.h"
 #import "Data.h"
 #import "customCell.h"
-#import <pthread.h>
 
 @interface BuzzViewController ()
 @end
@@ -27,7 +26,6 @@ NSArray *newTime;
 NSInteger defaultRowHeight = 114;
 NSInteger collapsedRowHeight = 50;
 UIBarButtonItem *editButton;
-static pthread_mutex_t timeLock;
 BOOL initialized = FALSE;
 @implementation BuzzViewController
 @synthesize buzzArray;
@@ -52,8 +50,6 @@ BOOL initialized = FALSE;
 {
     if (initialized == FALSE) {
         [super viewDidLoad];
-        
-        pthread_mutex_init(&timeLock, NULL);
         
         self.view.userInteractionEnabled = YES;
         self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
@@ -81,11 +77,11 @@ BOOL initialized = FALSE;
         [self.view addSubview:scrollView];
         
     
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval: 20
-                                                          target: self
-                                                        selector: @selector(autoRefresh:)
-                                                        userInfo: nil
-                                                         repeats: YES];
+        [NSTimer scheduledTimerWithTimeInterval: 20
+                                         target: self
+                                       selector: @selector(autoRefresh:)
+                                       userInfo: nil
+                                        repeats: YES];
 
     }
 }
@@ -197,17 +193,9 @@ BOOL initialized = FALSE;
 // output: new time array
 - (void)getTimeAndUpdateRow:(NSInteger)row
 {
-    //get current MUNI schedule
-//    NSMutableArray *result = [self nextbusAPIWithData:[Data getData:[NSString stringWithFormat:@"data%ld.model",row]]];
-    
-    //display new time
     [buzzTableView beginUpdates];
     [self refresh];
     [buzzTableView endUpdates];
-    
-    //    pthread_mutex_lock(&timeLock);
-    //    refreshCount = __sync_fetch_and_add(&refreshCount, 1);
-    //    pthread_mutex_unlock(&timeLock);
 }
 
 // alarms testing function, used during debug only
@@ -448,16 +436,13 @@ BOOL initialized = FALSE;
 {
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
-        if (canRefresh == FALSE) {
-            break;
-        }
         data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
 #ifdef REPEAT
         BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
 #else
         BOOL hasRepeat = FALSE;
 #endif
-        newTime = [self nextbusAPI];
+        newTime = [self nextbusAPIWithData:data];
         NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
         [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
         customCell *cell = [buzzList objectAtIndex:ii];
@@ -554,14 +539,6 @@ BOOL initialized = FALSE;
         }
     }
     [button setBackground];
-}
-
-// this function parses nextbus API
-// input: none
-// output: new time array based on current data object
-- (NSMutableArray*)nextbusAPI
-{
-    return [self nextbusAPIWithData:data];
 }
 
 // this function parses nextbus API
