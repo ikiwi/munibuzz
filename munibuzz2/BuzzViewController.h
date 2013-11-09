@@ -18,7 +18,10 @@ NSInteger currentTrip;
 NSMutableArray *buzzList;
 UILocalNotification *notification;
 
-@interface BuzzViewController : UIViewController
+@interface BuzzViewController : UIViewController {
+    NSMutableArray *buzzArray;
+    NSMutableArray *alarmArray;
+}
 
 @property (strong, nonatomic) NSMutableArray *buzzArray;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -28,7 +31,6 @@ UILocalNotification *notification;
 @property (weak, nonatomic) IBOutlet UILabel *rid;
 @property (strong, nonatomic) IBOutlet UIButton *addRouteButton;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
-@property (strong, nonatomic) NSMutableArray *rowTimer;
 
 - (void)touchesBegan:(NSSet *)touches
            withEvent:(UIEvent *)event;

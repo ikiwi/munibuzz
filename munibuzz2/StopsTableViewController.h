@@ -10,8 +10,11 @@
 #import "RoutesViewController.h"
 
 @interface StopsTableViewController : UITableViewController  <UISearchBarDelegate, UISearchDisplayDelegate>
+{
+    NSString *operation;
+}
 
-@property NSString *operation;
+@property (strong, nonatomic) NSString *operation;
 @property IBOutlet UISearchBar *stopsSearchBar;
 
 +(void)refreshDirectionArray:(NSArray*)rarray1

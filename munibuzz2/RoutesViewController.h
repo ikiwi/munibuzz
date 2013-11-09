@@ -20,6 +20,24 @@ NSMutableArray *filteredStopsArray;
 NSMutableArray *directionArray;
 BOOL skipGetData;
 @interface RoutesViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
+{
+    NSArray *tripArray;
+    UITableViewCell *startCell;
+    UITableViewCell *destCell;
+    UITableViewCell *routeCell;
+    UITableViewCell *remindCell;
+#ifdef REPEAT
+    UITableViewCell *repeatCell;
+#endif
+#ifdef USEDEFAULT
+    UITableViewCell *useDefaultCell;
+#endif
+    UIBarButtonItem *reminderDoneButton;
+    UIPickerView *pickerView;
+    UIBarButtonItem *repeatDoneButton;
+    UIPickerView *repeatPickerView;
+
+}
 
 @property (strong,nonatomic) NSArray *tripArray;
 @property (strong,nonatomic) UITableViewCell *startCell;

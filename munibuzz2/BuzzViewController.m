@@ -57,7 +57,6 @@ BOOL initialized = FALSE;
         
         self.view.userInteractionEnabled = YES;
         self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
-        self.rowTimer = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
         newTime = [[NSArray alloc] init];
         buzzList = [NSMutableArray new];
         editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];

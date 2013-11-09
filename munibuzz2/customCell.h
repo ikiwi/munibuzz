@@ -12,7 +12,12 @@ NSInteger LINEIDX;
 NSInteger defaultRowHeight;
 NSInteger collapsedRowHeight;
 
-@interface customCell : UITableViewCell
+@interface customCell : UITableViewCell {
+    UILabel *startLabel;
+    UILabel *destLabel;
+    UILabel *routeId;
+    UILabel *line;
+}
 
 @property (strong, nonatomic) UILabel *startLabel;
 @property (strong, nonatomic) UILabel *destLabel;
