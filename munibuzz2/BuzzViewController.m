@@ -728,8 +728,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         } else {
             customCell *cell2 = [buzzList objectAtIndex:ii+1];
             for (NSInteger jj = 0; jj < 5; jj++) {
+                //swap buttons
                 customButton *button1 = [[cell1.contentView subviews] objectAtIndex:jj];
                 customButton *button2 = [[cell2.contentView subviews] objectAtIndex:jj];
+                [button1 removeFromSuperview];
+                [button2 removeFromSuperview];
                 if (button2.isOn == TRUE) {
                     //change alarmID since the row # has been changed
                     UIApplication *app = [UIApplication sharedApplication];
