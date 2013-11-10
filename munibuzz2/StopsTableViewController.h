@@ -11,7 +11,7 @@
 
 @interface StopsTableViewController : UITableViewController  <UISearchBarDelegate, UISearchDisplayDelegate>
 {
-    NSString *operation;
+    NSString *_operation;
 }
 
 @property (strong, nonatomic) NSString *operation;

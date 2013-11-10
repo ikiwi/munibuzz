@@ -14,13 +14,13 @@ BOOL checkAlarm;
 BOOL clearAlarms;
 BOOL canRefresh;
 BOOL refreshNow;
+NSInteger routeToDelete;
 NSInteger currentTrip;
-NSMutableArray *buzzList;
 UILocalNotification *notification;
 
 @interface BuzzViewController : UIViewController {
-    NSMutableArray *buzzArray;
-    NSMutableArray *alarmArray;
+    NSMutableArray *_buzzArray;
+    NSMutableArray *_alarmArray;
 }
 
 @property (strong, nonatomic) NSMutableArray *buzzArray;
@@ -32,8 +32,6 @@ UILocalNotification *notification;
 @property (strong, nonatomic) IBOutlet UIButton *addRouteButton;
 @property (strong, nonatomic) NSMutableArray *alarmArray;
 
-- (void)touchesBegan:(NSSet *)touches
-           withEvent:(UIEvent *)event;
 -(void)addOrDeleteRows:(id)sender;
 -(void)setAlarm:(id)sender;
 -(void)setAlarm:(id)sender force:(BOOL)force;
@@ -42,12 +40,11 @@ UILocalNotification *notification;
                      jj:(NSInteger)jj
                 seconds:(NSInteger)seconds
                 alarmID:(NSDictionary*)alarmID;
-- (NSMutableArray*)nextbusAPI;
 - (NSMutableArray*)nextbusAPIWithData:(Data*)data;
 - (void)autoRefresh:(BOOL)animated;
 +(void)refreshAlarmInRow:(NSInteger)index;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
 +(void)recalAlarms:(NSInteger)alarmCount;
-+(void)adjustAlarmsInRow:(NSInteger)ii;
+-(void)adjustAlarmsInRow:(NSInteger)ii;
 
 @end

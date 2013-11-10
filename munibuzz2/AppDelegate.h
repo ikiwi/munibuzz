@@ -19,7 +19,7 @@ NSString *DEFAULTLABEL;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 {
-    UIWindow *window;
+    UIWindow *_window;
 }
 
 @property (strong, nonatomic) UIWindow *window;

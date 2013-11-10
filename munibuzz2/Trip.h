@@ -10,8 +10,8 @@
 
 @interface Trip : NSObject
 {
-    NSString *name;
-    NSString *desc;
+    NSString *_name;
+    NSString *_desc;
 }
 
 @property (nonatomic, copy) NSString *name;

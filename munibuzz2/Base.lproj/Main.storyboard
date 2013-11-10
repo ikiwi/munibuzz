@@ -56,7 +56,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Ynf-42-eru">
             <objects>
-                <navigationController definesPresentationContext="YES" id="5TW-gq-zUz" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="NavigationController" definesPresentationContext="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="5TW-gq-zUz" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dZ6-0w-Q7D">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -359,27 +359,12 @@
                     <connections>
                         <outlet property="backToBuzz" destination="5na-0u-U4V" id="gr9-rP-lCo"/>
                         <outlet property="saveRoute" destination="BlU-dU-yXk" id="qpE-ew-kzR"/>
-                        <segue destination="cfJ-wN-d6c" kind="push" id="W3I-DI-Hce"/>
+                        <segue destination="cfJ-wN-d6c" kind="push" identifier="searchStops" id="W3I-DI-Hce"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2FU-da-1eE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1219" y="1157"/>
-        </scene>
-        <!--settingsController-->
-        <scene sceneID="DBm-Sg-Eoj">
-            <objects>
-                <viewController storyboardIdentifier="settingsController" id="jWf-Ps-pg5" userLabel="settingsController" customClass="SettingsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="lNZ-zy-zEe">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Settings" id="sMg-19-FSY"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BsP-jQ-Hvx" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1219" y="1846"/>
         </scene>
     </scenes>
     <color key="tintColor" red="1" green="0.1107803562" blue="0.3439587905" alpha="1" colorSpace="calibratedRGB"/>

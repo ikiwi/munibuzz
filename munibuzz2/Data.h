@@ -8,14 +8,32 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Data : NSObject <NSCoding>
+@interface Data : NSObject <NSCoding> {
+    NSMutableString *_startLabel;
+    NSMutableString *_startStopTag;
+    NSMutableString *_startStopId;
+    NSMutableString *_destLabel;
+    NSMutableString *_routeId;
+#ifdef USEDEFAULT
+    NSMutableString *_useDefault;
+#endif
+#ifdef REPEAT
+    NSMutableString *_repeatLabel;
+    NSMutableString *_repeat_default_label;
+#endif
+    NSMutableString *_remindLabel;
+#ifdef USEDEFAULT
+    NSMutableString *_remind_default_label;
+#endif
+    NSMutableString *_filename;
+    NSMutableString *_alarm;
+}
 
 @property (strong, nonatomic) NSMutableString *startLabel;
 @property (strong, nonatomic) NSMutableString *startStopTag;
 @property (strong, nonatomic) NSMutableString *startStopId;
 @property (strong, nonatomic) NSMutableString *destLabel;
 @property (strong, nonatomic) NSMutableString *routeId;
-@property (strong, nonatomic) NSMutableString *dirTag;
 #ifdef USEDEFAULT
 @property (strong, nonatomic) NSMutableString *useDefault;
 #endif

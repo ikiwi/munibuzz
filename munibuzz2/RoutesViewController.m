@@ -73,7 +73,7 @@ NSString *DELETEROUTE = @"                    Delete Route";
     NSArray *subArray3 = nil;
     if (isEdit == TRUE) {
         // edit existing trip
-        filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
+        filename = [NSString stringWithFormat:@"data%ld.model",(long)currentTrip];
         data = [Data getData:filename];
         isEdit = FALSE;
         subArray3 = [NSArray arrayWithObjects:
@@ -82,7 +82,7 @@ NSString *DELETEROUTE = @"                    Delete Route";
     } else {
         // new trip
         currentTrip = totalTrip;
-        filename = [NSString stringWithFormat:@"data%d.model",currentTrip];
+        filename = [NSString stringWithFormat:@"data%ld.model",(long)currentTrip];
         data = [[Data alloc] init];
     }
     
@@ -297,7 +297,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.pickerView setFrame: CGRectMake([[self view] frame].origin.x, [[self view] frame].origin.y + 295, [[self view] frame].size.width, 216)];
         NSInteger idx;
         for (idx=0; idx < [directionArray count]; idx++) {
-            if ([[[directionArray objectAtIndex:idx] valueForKey:@"rId"] isEqualToString:data.routeId])
+            if ([[directionArray objectAtIndex:idx]isEqualToString:data.routeId])
                 break;
         }
         [self.pickerView selectRow:idx inComponent:0 animated:YES];
@@ -354,7 +354,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         self.navigationItem.rightBarButtonItem = doneButton;
 #endif
     } else if ([trip.name isEqual:DELETEROUTE]) {
-        [BuzzViewController adjustAlarmsInRow:currentTrip];
+        routeToDelete = currentTrip;
 
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -411,8 +411,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         repeatCell.detailTextLabel.text = data.repeatLabel;
 #endif
     } else {
-        data.routeId = [[directionArray objectAtIndex:row] valueForKey:@"rId"];
-        data.dirTag = [[directionArray objectAtIndex:row] valueForKey:@"dTag"];
+        data.routeId = [directionArray objectAtIndex:row];
         routeCell.detailTextLabel.text = data.routeId;
     }
 }
@@ -450,7 +449,7 @@ numberOfRowsInComponent:(NSInteger)component
     if (reminding == TRUE) {
         [pickerLabel setText:[reminderArray objectAtIndex:row]];
     } else {
-        [pickerLabel setText:[[directionArray objectAtIndex:row] valueForKey:@"rId"]];
+        [pickerLabel setText:[directionArray objectAtIndex:row]];
     }
     
     return pickerLabel;
@@ -493,7 +492,7 @@ numberOfRowsInComponent:(NSInteger)component
 #endif
     } else {
         returnStr = [NSString stringWithFormat:@"%@",
-                     [[directionArray objectAtIndex:row] valueForKey:@"rId"]];
+                     [directionArray objectAtIndex:row]];
     }
     
     return returnStr;

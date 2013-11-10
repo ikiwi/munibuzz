@@ -35,7 +35,7 @@
         {
             customButton *button;
             button = [[customButton alloc] initWithFrame:CGRectMake(xx,50,64,64)];
-            button.titleLabel.text = @"0";
+            button.titleLabel.text = @"-";
             [self.contentView insertSubview:button atIndex:idx];
             xx += 64;
         }

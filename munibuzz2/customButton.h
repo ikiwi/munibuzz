@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface customButton : UIButton
+@interface customButton : UIButton {
+    UILocalNotification *_alarm;
+#ifdef REPEAT
+    UILocalNotification *_alarm2;
+#endif
+    BOOL _isOn;
+#ifdef REPEAT
+    BOOL _alarmOn;
+    BOOL _alarm2On;
+#endif
+}
 
 @property UILocalNotification *alarm;
 #ifdef REPEAT

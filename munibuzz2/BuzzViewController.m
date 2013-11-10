@@ -26,6 +26,7 @@ NSArray *newTime;
 NSInteger defaultRowHeight = 114;
 NSInteger collapsedRowHeight = 50;
 UIBarButtonItem *editButton;
+NSMutableArray *buzzList;
 BOOL initialized = FALSE;
 @implementation BuzzViewController
 @synthesize buzzArray;
@@ -50,11 +51,11 @@ BOOL initialized = FALSE;
 {
     if (initialized == FALSE) {
         [super viewDidLoad];
-        
+        routeToDelete = -1;
         self.view.userInteractionEnabled = YES;
         self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
         newTime = [[NSArray alloc] init];
-        buzzList = [NSMutableArray new];
+        buzzList = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
         editButton = [[UIBarButtonItem alloc]initWithTitle:@"Edit" style: UIBarButtonItemStyleBordered target:self action:@selector(addOrDeleteRows:)];
         self.navigationItem.leftBarButtonItem = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(enteringForeground) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -148,6 +149,11 @@ BOOL initialized = FALSE;
         [self.navigationItem setLeftBarButtonItem:editButton];
     }
 
+    if (routeToDelete > -1) {
+        [self adjustAlarmsInRow:routeToDelete];
+        routeToDelete = -1;
+    }
+    
     if (isEdit == TRUE) {
         [self refresh];
         if (checkAlarm == TRUE) {
@@ -155,7 +161,7 @@ BOOL initialized = FALSE;
             // any of the alarms is affected
             checkAlarm = FALSE;
             customCell *cell = [buzzList objectAtIndex:currentTrip];
-            data = [Data getData:[NSString stringWithFormat:@"data%ld.model",currentTrip]];
+            data = [Data getData:[NSString stringWithFormat:@"data%ld.model",(long)currentTrip]];
             for (NSInteger idx = 0; idx < 5; idx++) {
                 customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
                 if (button.isOn) {
@@ -167,10 +173,13 @@ BOOL initialized = FALSE;
             }
         }
     }
-
+    
     if (self.editing) {
         [self exitEditingMode];
     }
+    
+    // fixed bug when cell stays selected
+//    [buzzTableView deselectRowAtIndexPath:[buzzTableView indexPathForSelectedRow] animated:animated];
     
     [buzzTableView reloadData];
 }
@@ -182,8 +191,8 @@ BOOL initialized = FALSE;
         for (NSInteger ii=0; ii<totalTrip; ii++) {
             dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [self getTimeAndUpdateRow:ii];
-                dispatch_async( dispatch_get_main_queue(), ^{
-                });
+//                dispatch_async( dispatch_get_main_queue(), ^{
+//                });
             });
         }
     }
@@ -194,7 +203,7 @@ BOOL initialized = FALSE;
 - (void)getTimeAndUpdateRow:(NSInteger)row
 {
     [buzzTableView beginUpdates];
-    [self refresh];
+    [self refreshRow:row];
     [buzzTableView endUpdates];
 }
 
@@ -203,7 +212,7 @@ BOOL initialized = FALSE;
 {
      UIApplication *app = [UIApplication sharedApplication];
      NSArray *eventArray = [app scheduledLocalNotifications];
-     NSLog(@"current alarm #: %ld", [eventArray count]);
+     NSLog(@"current alarm #: %ld", (unsigned long)[eventArray count]);
      for (int i=0; i<[eventArray count]; i++)
      {
          UILocalNotification* oneEvent = [eventArray objectAtIndex:i];
@@ -265,7 +274,7 @@ BOOL initialized = FALSE;
     customCell *cell = [buzzList objectAtIndex:ii];
     customButton *button = [[cell.contentView subviews] objectAtIndex:jj];
     
-    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",(long)ii]];
     if (button.isOn) {
         [self.class setAlarmOff:button];
         
@@ -273,7 +282,7 @@ BOOL initialized = FALSE;
         if ([button.titleLabel.text isEqualToString:@"-"]) {
             return;
         }
-        NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",ii,jj] forKey:@"id"];
+        NSDictionary *alarmID = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",(long)ii,(long)jj] forKey:@"id"];
         NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:ii] objectAtIndex:jj] integerValue]];
         if (minute <= 0 && force == FALSE) {
             return;
@@ -322,6 +331,7 @@ BOOL initialized = FALSE;
                  seconds:(NSInteger)seconds
                  alarmID:(NSDictionary*)alarmID
 {
+    NSLog(@"setting alarm at ii %d jj %d", ii, jj);
     UIApplication *app = [UIApplication sharedApplication];
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
     alarm.alertBody = @"Your muni is arriving.";
@@ -355,7 +365,7 @@ BOOL initialized = FALSE;
     [theScanner scanInteger:&repeat];
 #endif
     if (ii < 0 || ii > 5 || jj < 0 || jj > 5) {
-        NSLog(@"turning off alarm failed %d %d", ii, jj);
+        NSLog(@"turning off alarm failed %ld %ld", (long)ii, (long)jj);
         return;
     }
     UITableViewCell *cell = [buzzList objectAtIndex:ii];
@@ -436,53 +446,58 @@ BOOL initialized = FALSE;
 {
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
-        data = [Data getData:[NSString stringWithFormat:@"data%ld.model",ii]];
+        [self refreshRow:ii];
+    }
+    clearAlarms = FALSE;
+}
+
+-(void)refreshRow:(NSInteger)ii
+{
+    Data *data = [Data getData:[NSString stringWithFormat:@"data%ld.model",(long)ii]];
 #ifdef REPEAT
-        BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
+    BOOL hasRepeat = ([data.repeatLabel integerValue] > 0) ? TRUE : FALSE;
 #else
-        BOOL hasRepeat = FALSE;
+    BOOL hasRepeat = FALSE;
 #endif
-        newTime = [self nextbusAPIWithData:data];
-        NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
-        [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
-        customCell *cell = [buzzList objectAtIndex:ii];
+    newTime = [self nextbusAPIWithData:data];
+    NSArray *alarmSubarray = [[NSArray alloc] initWithArray:newTime];
+    [alarmArray setObject:alarmSubarray atIndexedSubscript:ii];
+    customCell *cell = [buzzList objectAtIndex:ii];
+    
+    // for the first button, refresh everything
+    customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
+    NSString *newtime = [newTime objectAtIndex:0];
+    if (isEdit == TRUE) {
+        // clear out the alarm from the previous routes
+        isEdit = FALSE;
+    } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
+        // muni has arrived and predictions queue has shifted, now we can shift the alarms
+        [[self class] refreshAlarmInRow:ii];
+    }
+    [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
+    [button setBackground];
+    // to make the button retrievable, set tag to the schedule #
+    // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
+    // and y ranges from 0 to 4 (max alarms)
+    [self refreshEach:button ii:ii jj:0 hasRepeat:hasRepeat newtime:newtime];
+    // for the rest, refresh everything except alarm
+    for (NSInteger jj = 1; jj < 5; jj++)
+    {
+        customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
+        NSString *newtime = [newTime objectAtIndex:jj];
         
-        // for the first button, refresh everything
-        customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:0];
-        NSString *newtime = [newTime objectAtIndex:0];
-        if (isEdit == TRUE) {
-            // clear out the alarm from the previous routes
-            isEdit = FALSE;
-        } else if ([button.titleLabel.text isEqualToString:@"0"] && (![newtime isEqualToString:@"0"])) {
-            // muni has arrived and predictions queue has shifted, now we can shift the alarms
-            [[self class] refreshAlarmInRow:ii];
-        }
         [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
-        // and y ranges from 0 to 4 (max alarms)
-        [self refreshEach:button ii:ii jj:0 hasRepeat:hasRepeat newtime:newtime];
-        // for the rest, refresh everything except alarm
-        for (NSInteger jj = 1; jj < 5; jj++)
-        {
-            
-            customButton *button = (customButton*)[[cell.contentView subviews] objectAtIndex:jj];
-            NSString *newtime = [newTime objectAtIndex:jj];
-
-            [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
-            [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
-            // to make the button retrievable, set tag to the schedule #
-            // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
-            // and y ranges from 0 to 4 (max alarms per row is 5)
-            [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat newtime:newtime];
-
-
-        }
-        cell.startLabel.text = data.startLabel;
-        cell.destLabel.text = data.destLabel;
+        // and y ranges from 0 to 4 (max alarms per row is 5)
+        [self refreshEach:button ii:ii jj:jj hasRepeat:hasRepeat newtime:newtime];
+        
+        [button setBackground];
     }
-    clearAlarms = FALSE;
+    cell.startLabel.text = data.startLabel;
+    cell.destLabel.text = data.destLabel;
 }
 
 - (void) refreshEach:(customButton*) button
@@ -555,7 +570,6 @@ BOOL initialized = FALSE;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
     
-    NSMutableArray *pred = [[NSMutableArray alloc] init];
     NSScanner *theScanner = [NSScanner scannerWithString:responseString];
     NSInteger idx = 0;
     NSString *tmp;
@@ -565,20 +579,24 @@ BOOL initialized = FALSE;
     [theScanner scanUpToString:predictionString intoString:NULL];
     [theScanner scanString:predictionString intoString:NULL];
     [theScanner scanUpToString:@"minutes" intoString:NULL];
+    NSInteger firstPred = 0;
+    NSString *dirTag = nil;
     while ([theScanner isAtEnd] == NO) {
         [theScanner scanString:@"minutes=\"" intoString:NULL];
-        NSInteger firstPred = 0;
         [theScanner scanInteger:&firstPred];
-        [pred setObject:pred atIndexedSubscript:idx];
         [theScanner scanUpToString:@"dirTag=\"" intoString:NULL];
         [theScanner scanString:@"dirTag=\"" intoString:NULL];
         [theScanner scanUpToString:@"\"" intoString:&tmp];
+        if (dirTag == nil) {
+            dirTag = tmp;
+        }
         if ([tmp length] > 0) {
-            if (![tmp isEqual:data.dirTag]) {
-                continue;
-            }
+            // outbound and inbound stop have different id
+            // so if the dirTag is different, that means there
+            // are multiple lines in the same direction.
+            // we'll just pick one.
             idx++;
-            [result addObject:[NSString stringWithFormat:@"%ld", firstPred]];
+            [result addObject:[NSString stringWithFormat:@"%ld", (long)firstPred]];
         }
         [theScanner scanUpToString:@"minutes" intoString:NULL];
     }
@@ -632,7 +650,7 @@ BOOL initialized = FALSE;
         cell = [[customCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
     }
 
-    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",indexPath.row]];
+    data = [Data getData:[NSString stringWithFormat:@"data%ld.model",(long)indexPath.row]];
     cell.startLabel.text = data.startLabel;
     cell.destLabel.text = data.destLabel;
     cell.routeId.text = data.routeId;
@@ -676,18 +694,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
-        customCell *cell = [buzzList objectAtIndex:indexPath.row];
+        [self adjustAlarmsInRow:indexPath.row];
 
-        //deactivate existing alarms
-        for (NSInteger idx=0; idx < 5; idx++) {
-            customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
-            if (button.isOn) {
-                [self.class setAlarmOff:button];
-            }
-        }
-
-        [self.class adjustAlarmsInRow:indexPath.row];
-        
         [buzzTableView reloadData];
         
         if (totalTrip == 0) {
@@ -696,7 +704,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-+ (void)adjustAlarmsInRow:(NSInteger)row
+- (void)adjustAlarmsInRow:(NSInteger)row
 {
     for (NSInteger ii = row; ii < totalTrip; ii++) {
         customCell *cell1 = [buzzList objectAtIndex:ii];
@@ -704,19 +712,16 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         if (ii+1 == totalTrip) {
             //this is the last item, just clear alarms
             for (NSInteger jj = 0; jj < 5; jj++) {
-                [self setAlarmOff:[[cell1.contentView subviews] objectAtIndex:jj]];
+                [self.class setAlarmOff:[[cell1.contentView subviews] objectAtIndex:jj]];
             }
             break;
         } else {
             customCell *cell2 = [buzzList objectAtIndex:ii+1];
             for (NSInteger jj = 0; jj < 5; jj++) {
-                //swap buttons
                 customButton *button1 = [[cell1.contentView subviews] objectAtIndex:jj];
                 customButton *button2 = [[cell2.contentView subviews] objectAtIndex:jj];
-                [button1 removeFromSuperview];
-                [button2 removeFromSuperview];
                 if (button2.isOn == TRUE) {
-                    // update alarmID with new row #
+                    //change alarmID since the row # has been changed
                     UIApplication *app = [UIApplication sharedApplication];
                     [app cancelLocalNotification:button2.alarm];
                     button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];

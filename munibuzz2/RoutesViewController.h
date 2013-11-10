@@ -21,21 +21,19 @@ NSMutableArray *directionArray;
 BOOL skipGetData;
 @interface RoutesViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 {
-    NSArray *tripArray;
-    UITableViewCell *startCell;
-    UITableViewCell *destCell;
-    UITableViewCell *routeCell;
-    UITableViewCell *remindCell;
+    NSArray *_tripArray;
+    UITableViewCell *_startCell;
+    UITableViewCell *_destCell;
+    UITableViewCell *_routeCell;
+    UITableViewCell *_remindCell;
 #ifdef REPEAT
-    UITableViewCell *repeatCell;
+    UITableViewCell *_repeatCell;
+    UIPickerView *_repeatPickerView;
 #endif
 #ifdef USEDEFAULT
-    UITableViewCell *useDefaultCell;
+    UITableViewCell *_useDefaultCell;
 #endif
-    UIBarButtonItem *reminderDoneButton;
-    UIPickerView *pickerView;
-    UIBarButtonItem *repeatDoneButton;
-    UIPickerView *repeatPickerView;
+    UIPickerView *_pickerView;
 
 }
 
@@ -46,14 +44,12 @@ BOOL skipGetData;
 @property (strong,nonatomic) UITableViewCell *remindCell;
 #ifdef REPEAT
 @property (strong,nonatomic) UITableViewCell *repeatCell;
+@property (nonatomic, retain) UIPickerView *repeatPickerView;
 #endif
 #ifdef USEDEFAULT
 @property (strong,nonatomic) UITableViewCell *useDefaultCell;
 #endif
-@property (nonatomic, retain) UIBarButtonItem *reminderDoneButton;
 @property (nonatomic, retain) UIPickerView *pickerView;
-@property (nonatomic, retain) UIBarButtonItem *repeatDoneButton;
-@property (nonatomic, retain) UIPickerView *repeatPickerView;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *saveRoute;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backToBuzz;
 
