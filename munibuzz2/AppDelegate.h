@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Data.h"
+#import "BuzzViewController.h"
 
 NSMutableArray* dataArray;
 NSInteger totalTrip;
 NSInteger MAXTRIPS;
 BOOL useDefaultSwitch;
+BuzzViewController *buzz;
 UILocalNotification *alarmNotification;
 NSString *DEFAULTLABEL;
 #define IS_IPHONE_5 ( fabs( ( double )[ [ UIScreen mainScreen ] bounds ].size.height - ( double )568 ) < DBL_EPSILON )

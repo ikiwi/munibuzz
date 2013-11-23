@@ -46,5 +46,6 @@ UILocalNotification *notification;
 +(void)turnOffAlarm:(UILocalNotification*)notification;
 +(void)recalAlarms:(NSInteger)alarmCount;
 -(void)adjustAlarmsInRow:(NSInteger)ii;
+- (void)refresh;
 
 @end

@@ -27,6 +27,7 @@
 		A698EDB91808918A00482EC5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A698ED9B1808918A00482EC5 /* UIKit.framework */; };
 		A698EDC11808918A00482EC5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A698EDBF1808918A00482EC5 /* InfoPlist.strings */; };
 		A698EDC31808918A00482EC5 /* munibuzz2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A698EDC21808918A00482EC5 /* munibuzz2Tests.m */; };
+		A69FBEED1840B34A00DA82F5 /* ios_7_illuminate.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A69FBEEC1840B34A00DA82F5 /* ios_7_illuminate.mp3 */; };
 		A6A5088A180E2A0700D6DA5C /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = A6A50889180E2A0700D6DA5C /* Data.m */; };
 		A6CA55C5182B38C200F0A883 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6CA55C4182B38C200F0A883 /* AudioToolbox.framework */; };
 		A6CA55CB182B7DA900F0A883 /* data.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = A6CA55CA182B7DA900F0A883 /* data.sqlite3 */; };
@@ -77,6 +78,7 @@
 		A698EDBE1808918A00482EC5 /* munibuzz2Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "munibuzz2Tests-Info.plist"; sourceTree = "<group>"; };
 		A698EDC01808918A00482EC5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A698EDC21808918A00482EC5 /* munibuzz2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = munibuzz2Tests.m; sourceTree = "<group>"; };
+		A69FBEEC1840B34A00DA82F5 /* ios_7_illuminate.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = ios_7_illuminate.mp3; path = resources/ios_7_illuminate.mp3; sourceTree = "<group>"; };
 		A6A50888180E2A0700D6DA5C /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		A6A50889180E2A0700D6DA5C /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		A6CA55C4182B38C200F0A883 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -212,6 +214,7 @@
 		A6D351E6182213A600A9A3A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A69FBEEC1840B34A00DA82F5 /* ios_7_illuminate.mp3 */,
 				A6CA55CA182B7DA900F0A883 /* data.sqlite3 */,
 				A6CA55CC182B87C000F0A883 /* alarmunset.png */,
 				A6CA55CE182B87E000F0A883 /* alarmset.png */,
@@ -295,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A69FBEED1840B34A00DA82F5 /* ios_7_illuminate.mp3 in Resources */,
 				A698EDB01808918A00482EC5 /* Images.xcassets in Resources */,
 				A6CA55CD182B87C000F0A883 /* alarmunset.png in Resources */,
 				A6CA55CB182B7DA900F0A883 /* data.sqlite3 in Resources */,

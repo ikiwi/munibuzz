@@ -19,7 +19,7 @@
         self.titleLabel.text = @"-";
         self.titleLabel.frame = CGRectMake(30, 0, 25, 25);
         [self setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-//        [self.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:20.0]];
+        self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
         self.alarm = [[UILocalNotification alloc] init];
 #ifdef REPEAT
         self.alarmOn = FALSE;

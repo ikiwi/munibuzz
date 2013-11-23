@@ -73,6 +73,7 @@ NSString *DELETEROUTE = @"                    Delete Route";
     NSArray *subArray3 = nil;
     if (isEdit == TRUE) {
         // edit existing trip
+        self.title = @"Edit Buzz";
         filename = [NSString stringWithFormat:@"data%ld.model",(long)currentTrip];
         data = [Data getData:filename];
         isEdit = FALSE;
@@ -81,6 +82,7 @@ NSString *DELETEROUTE = @"                    Delete Route";
                               nil];
     } else {
         // new trip
+        self.title = @"Add Buzz";
         currentTrip = totalTrip;
         filename = [NSString stringWithFormat:@"data%ld.model",(long)currentTrip];
         data = [[Data alloc] init];

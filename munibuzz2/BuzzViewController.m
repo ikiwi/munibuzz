@@ -28,6 +28,7 @@ NSInteger collapsedRowHeight = 50;
 UIBarButtonItem *editButton;
 NSMutableArray *buzzList;
 BOOL initialized = FALSE;
+dispatch_queue_t taskQ;
 @implementation BuzzViewController
 @synthesize buzzArray;
 @synthesize scrollView;
@@ -52,6 +53,8 @@ BOOL initialized = FALSE;
     if (initialized == FALSE) {
         [super viewDidLoad];
         routeToDelete = -1;
+        buzz = self;
+        taskQ = dispatch_queue_create("munibuzz", DISPATCH_QUEUE_SERIAL);
         self.view.userInteractionEnabled = YES;
         self.alarmArray = [[NSMutableArray alloc] initWithCapacity:MAXTRIPS];
         newTime = [[NSArray alloc] init];
@@ -189,7 +192,7 @@ BOOL initialized = FALSE;
 {
     if (canRefresh) {
         for (NSInteger ii=0; ii<totalTrip; ii++) {
-            dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(taskQ, ^(void) {
                 [self getTimeAndUpdateRow:ii];
 //                dispatch_async( dispatch_get_main_queue(), ^{
 //                });
@@ -331,12 +334,11 @@ BOOL initialized = FALSE;
                  seconds:(NSInteger)seconds
                  alarmID:(NSDictionary*)alarmID
 {
-    NSLog(@"setting alarm at ii %d jj %d", ii, jj);
     UIApplication *app = [UIApplication sharedApplication];
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
     alarm.alertBody = @"Your muni is arriving.";
     alarm.applicationIconBadgeNumber = 1;
-    alarm.soundName = @"/System/Library/Audio/UISounds/alarm.caf";
+    alarm.soundName = @"resources/ios_7_illuminate.mp3";
     alarm.alertAction = @"View details";
     alarm.hasAction = YES;
     alarm.userInfo = alarmID;
@@ -444,6 +446,7 @@ BOOL initialized = FALSE;
 
 - (void)refresh
 {
+    NSLog(@"refreshing");
     for (NSInteger ii = 0; ii < totalTrip; ii++)
     {
         [self refreshRow:ii];
@@ -488,6 +491,7 @@ BOOL initialized = FALSE;
         NSString *newtime = [newTime objectAtIndex:jj];
         
         [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
+        NSLog(@"setting time to %@", newtime);
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
@@ -724,7 +728,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     //change alarmID since the row # has been changed
                     UIApplication *app = [UIApplication sharedApplication];
                     [app cancelLocalNotification:button2.alarm];
-                    button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%d-%d",ii,jj] forKey:@"id"];
+                    button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",(long)ii,(long)jj] forKey:@"id"];
                     [app scheduleLocalNotification:button2.alarm];
                 }
                 [cell1.contentView insertSubview:button2 atIndex:jj];

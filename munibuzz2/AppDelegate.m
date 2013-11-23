@@ -69,6 +69,9 @@ didReceiveLocalNotification:(UILocalNotification *)notification
     [BuzzViewController recalAlarms:alarmCount];
     
     dataArray = [Data getAll];
+
+    [buzz refresh];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

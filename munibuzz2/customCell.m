@@ -24,12 +24,15 @@
         }
         self.startLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,5+offset,200,20)];
         self.destLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,25+offset,200,20)];
-        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(25,7+offset,30,15)];
-        [self.routeId setTextAlignment:NSTextAlignmentRight];
+        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(16,18+offset,30,16)];
+        [self.routeId setTextAlignment:NSTextAlignmentCenter];
+        self.routeId.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
         self.startLabel.textColor = [UIColor redColor];
         self.startLabel.backgroundColor = [UIColor whiteColor];
+        self.startLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
         self.destLabel.textColor = [UIColor redColor];
         self.destLabel.backgroundColor = [UIColor whiteColor];
+        self.destLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
         NSInteger xx = 0;
         for (int idx = 0; idx < 5; idx++)
         {
