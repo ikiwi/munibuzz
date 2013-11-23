@@ -23,8 +23,8 @@ NSInteger DESTLABELTAG = 6;
 NSInteger ROUTEIDTAG = 7;
 NSInteger SECPERMIN = 60;
 NSArray *newTime;
-NSInteger defaultRowHeight = 114;
-NSInteger collapsedRowHeight = 50;
+NSInteger defaultRowHeight;
+NSInteger collapsedRowHeight;
 UIBarButtonItem *editButton;
 NSMutableArray *buzzList;
 BOOL initialized = FALSE;
@@ -70,11 +70,15 @@ dispatch_queue_t taskQ;
             [buzzTableView setFrame:CGRectMake(0,32,320,457)];
             [scrollView setFrame:CGRectMake(0,32,320,497)];
             buzzTableView.rowHeight = 114;
+            defaultRowHeight = 114;
+            collapsedRowHeight = 54;
         } else {
             [addRouteButton setFrame:CGRectMake(140,435,40,40)];
             [buzzTableView setFrame:CGRectMake(0,32,320,367)];
             [scrollView setFrame:CGRectMake(0,32,320,407)];
             buzzTableView.rowHeight = 124;
+            defaultRowHeight = 124;
+            collapsedRowHeight = 54;
         }
         [self.view addSubview:addRouteButton];
         [scrollView addSubview:buzzTableView];

@@ -24,7 +24,7 @@
         }
         self.startLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,5+offset,200,20)];
         self.destLabel = [[UILabel alloc] initWithFrame:CGRectMake(55,25+offset,200,20)];
-        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(16,18+offset,30,16)];
+        self.routeId = [[UILabel alloc] initWithFrame:CGRectMake(14,17+offset,40,16)];
         [self.routeId setTextAlignment:NSTextAlignmentCenter];
         self.routeId.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:20];
         self.startLabel.textColor = [UIColor redColor];
