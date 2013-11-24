@@ -71,14 +71,14 @@ dispatch_queue_t taskQ;
             [scrollView setFrame:CGRectMake(0,32,320,497)];
             buzzTableView.rowHeight = 114;
             defaultRowHeight = 114;
-            collapsedRowHeight = 54;
+            collapsedRowHeight = 53;
         } else {
             [addRouteButton setFrame:CGRectMake(140,435,40,40)];
             [buzzTableView setFrame:CGRectMake(0,32,320,367)];
             [scrollView setFrame:CGRectMake(0,32,320,407)];
             buzzTableView.rowHeight = 124;
             defaultRowHeight = 124;
-            collapsedRowHeight = 54;
+            collapsedRowHeight = 53;
         }
         [self.view addSubview:addRouteButton];
         [scrollView addSubview:buzzTableView];
@@ -101,8 +101,7 @@ dispatch_queue_t taskQ;
         RoutesViewController *rvc = [self.storyboard instantiateViewControllerWithIdentifier:@"routesController"];
         [self.navigationController pushViewController:rvc animated:YES];
      } else {
-             NSLog(@"max trip reached!");
-
+        NSLog(@"max trip reached!");
      }
 }
 
@@ -161,6 +160,8 @@ dispatch_queue_t taskQ;
         routeToDelete = -1;
     }
     
+    [self showAllEvents];
+    
     if (isEdit == TRUE) {
         [self refresh];
         if (checkAlarm == TRUE) {
@@ -173,7 +174,7 @@ dispatch_queue_t taskQ;
                 customButton *button = [[cell.contentView subviews] objectAtIndex:idx];
                 if (button.isOn) {
                     NSInteger minute = [self getReminderMinutes:[[[alarmArray objectAtIndex:currentTrip] objectAtIndex:idx] integerValue]];
-                    if (minute < 0) {
+                    if (minute <= 0) {
                         [self.class setAlarmOff: button];
                     }
                 }
@@ -198,8 +199,6 @@ dispatch_queue_t taskQ;
         for (NSInteger ii=0; ii<totalTrip; ii++) {
             dispatch_async(taskQ, ^(void) {
                 [self getTimeAndUpdateRow:ii];
-//                dispatch_async( dispatch_get_main_queue(), ^{
-//                });
             });
         }
     }
@@ -342,7 +341,7 @@ dispatch_queue_t taskQ;
     [alarm setFireDate:[NSDate dateWithTimeIntervalSinceNow:seconds]];
     alarm.alertBody = @"Your muni is arriving.";
     alarm.applicationIconBadgeNumber = 1;
-    alarm.soundName = @"resources/ios_7_illuminate.mp3";
+    alarm.soundName = @"ios_7_illuminate.mp3";
     alarm.alertAction = @"View details";
     alarm.hasAction = YES;
     alarm.userInfo = alarmID;
@@ -495,7 +494,6 @@ dispatch_queue_t taskQ;
         NSString *newtime = [newTime objectAtIndex:jj];
         
         [button setTitle:[NSString stringWithFormat:@"%@",newtime] forState:UIControlStateNormal];
-        NSLog(@"setting time to %@", newtime);
         [button addTarget:self action:@selector(setAlarm:) forControlEvents:UIControlEventTouchUpInside];
         // to make the button retrievable, set tag to the schedule #
         // decimal number: xx0y, where xx ranges from 0 to 19 (max trips)
@@ -533,7 +531,7 @@ dispatch_queue_t taskQ;
                 button.alarm2On = FALSE;
         }
 #endif
-        if (clearAlarms == TRUE) {
+        if (clearAlarms == TRUE && ii == currentTrip) {
             button.isOn = FALSE;
 #ifdef REPEAT
             button.alarmOn = FALSE;
@@ -706,6 +704,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
         [buzzTableView reloadData];
         
+        [buzz refresh];
+        
         if (totalTrip == 0) {
             self.navigationItem.leftBarButtonItem = nil;
         }
@@ -729,11 +729,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                 customButton *button1 = [[cell1.contentView subviews] objectAtIndex:jj];
                 customButton *button2 = [[cell2.contentView subviews] objectAtIndex:jj];
                 if (button2.isOn == TRUE) {
-                    //change alarmID since the row # has been changed
-                    UIApplication *app = [UIApplication sharedApplication];
-                    [app cancelLocalNotification:button2.alarm];
-                    button2.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",(long)ii,(long)jj] forKey:@"id"];
-                    [app scheduleLocalNotification:button2.alarm];
+                    [self.class setAlarmID:button2 ii:ii jj:jj];
                 }
                 [cell1.contentView insertSubview:button2 atIndex:jj];
                 [cell2.contentView insertSubview:button1 atIndex:jj];
@@ -741,6 +737,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         }
     }
     [Data removeData:row];
+}
+
++ (void)setAlarmID:(customButton*)button ii:(NSInteger)ii jj:(NSInteger)jj
+{
+    //change alarmID since the row # has been changed
+    UIApplication *app = [UIApplication sharedApplication];
+    [app cancelLocalNotification:button.alarm];
+    button.alarm.userInfo = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%ld-%ld",(long)ii,(long)jj] forKey:@"id"];
+    [app scheduleLocalNotification:button.alarm];
 }
 
 @end
