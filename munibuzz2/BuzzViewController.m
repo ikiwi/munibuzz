@@ -71,14 +71,14 @@ dispatch_queue_t taskQ;
             [scrollView setFrame:CGRectMake(0,32,320,497)];
             buzzTableView.rowHeight = 114;
             defaultRowHeight = 114;
-            collapsedRowHeight = 53;
+            collapsedRowHeight = 54;
         } else {
             [addRouteButton setFrame:CGRectMake(140,435,40,40)];
             [buzzTableView setFrame:CGRectMake(0,32,320,367)];
             [scrollView setFrame:CGRectMake(0,32,320,407)];
             buzzTableView.rowHeight = 124;
             defaultRowHeight = 124;
-            collapsedRowHeight = 53;
+            collapsedRowHeight = 54;
         }
         [self.view addSubview:addRouteButton];
         [scrollView addSubview:buzzTableView];
